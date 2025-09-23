@@ -22,8 +22,8 @@ export default function LoginForm() {
 
     try {
       await login({ email, password });
-    } catch (error) {
-      console.error("Login failed:", error);
+    } catch {
+      // Error is handled by the auth context
     } finally {
       setIsLoading(false);
     }
@@ -50,7 +50,7 @@ export default function LoginForm() {
       <div className="login-form__header">
         <h1 className="login-form__title">Bem-Vindo de volta!</h1>
         <p className="login-form__subtitle">
-          Bem-vindo ao RentControl, sua plataforma de gestão de aluguéis e
+          Bem-vindo ao Exclusive Homes, sua plataforma de gestão de aluguéis e
           imóveis
         </p>
       </div>
@@ -80,7 +80,12 @@ export default function LoginForm() {
           </div>
         )}
 
-        <Button type="submit" variant="primary" loading={isLoading} className="login-form__submit-btn">
+        <Button
+          type="submit"
+          variant="primary"
+          loading={isLoading}
+          className="login-form__submit-btn"
+        >
           {isLoading ? "Entrando..." : "Entrar"}
         </Button>
 

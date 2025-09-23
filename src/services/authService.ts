@@ -68,13 +68,19 @@ export const authService = {
         throw new Error("Todos os campos são obrigatórios");
       }
 
+      // Validação de email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(credentials.email)) {
+        throw new Error("Email inválido");
+      }
+
       if (credentials.password.length < 6) {
         throw new Error("A senha deve ter pelo menos 6 caracteres");
       }
 
       const userCredential = await createUserWithEmailAndPassword(
         auth,
-        credentials.email,
+        credentials.email.trim(),
         credentials.password
       );
 
@@ -82,17 +88,47 @@ export const authService = {
 
       const userData: User = {
         uid: firebaseUser.uid,
-        email: credentials.email,
-        name: credentials.name,
+        email: credentials.email.trim(),
+        name: credentials.name.trim(),
         phone: credentials.phone || "",
+        role: credentials.role || "admin", // Role padrão para admin
         createdAt: new Date(),
         updatedAt: new Date(),
-        role: credentials.role || "user", // Role padrão se não especificado
       };
 
       await setDoc(doc(db, "users", firebaseUser.uid), userData);
+
       return userData;
     } catch (error) {
+      // Tratamento específico para diferentes tipos de erro
+      if (error instanceof Error) {
+        if (error.message.includes("auth/email-already-in-use")) {
+          // Tentar fazer login com as credenciais fornecidas
+          try {
+            const loginResult = await this.login({
+              email: credentials.email,
+              password: credentials.password,
+            });
+
+            return loginResult;
+          } catch {
+            throw new Error(
+              "Este email já está em uso. Verifique suas credenciais ou use outro email."
+            );
+          }
+        } else if (error.message.includes("auth/weak-password")) {
+          throw new Error(
+            "A senha é muito fraca. Use pelo menos 6 caracteres."
+          );
+        } else if (error.message.includes("auth/invalid-email")) {
+          throw new Error("Email inválido. Verifique o formato do email.");
+        } else if (error.message.includes("auth/operation-not-allowed")) {
+          throw new Error("Operação não permitida. Contate o administrador.");
+        } else {
+          throw new Error(error.message);
+        }
+      }
+
       const message = getFirebaseErrorMessage(error as string | FirebaseError);
       throw new Error(message);
     }
@@ -101,30 +137,21 @@ export const authService = {
   observeAuthState(callback: (user: User | null) => void): Unsubscribe {
     try {
       return onAuthStateChanged(auth, async (firebaseUser) => {
-        console.log(
-          "🔄 Auth state changed:",
-          firebaseUser ? firebaseUser.uid : "null"
-        );
-
         if (firebaseUser) {
           // Usuário está logado, busca dados completos no Firestore
           try {
             const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
             if (userDoc.exists()) {
               const userData = userDoc.data() as User;
-              console.log("✅ Usuário autenticado:", userData);
               callback(userData);
             } else {
-              console.log("❌ Usuário não encontrado no Firestore");
               callback(null); // Usuário não encontrado no Firestore
             }
-          } catch (error) {
-            console.error("❌ Erro ao buscar dados do usuário:", error);
+          } catch {
             callback(null);
           }
         } else {
           // Usuário não está logado
-          console.log("🚪 Usuário deslogado");
           callback(null);
         }
       });

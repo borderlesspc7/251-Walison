@@ -6,7 +6,7 @@ import InputField from "../../../components/ui/InputField/InputField";
 import { Button } from "../../../components/ui/Button/Button";
 import type { RegisterCredentials } from "../../../types/user";
 import { useAuth } from "../../../hooks/useAuth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { paths } from "../../../routes/paths";
 import "./Form.css";
 
@@ -22,6 +22,7 @@ type FormErrors = Partial<Record<keyof FormData, string>>;
 
 export const UserRegisterForm: React.FC = () => {
   const { register } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     displayName: "",
     email: "",
@@ -32,6 +33,7 @@ export const UserRegisterForm: React.FC = () => {
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string>("");
 
   const formatCPF = (value: string) => {
     // Remove all non-numeric characters
@@ -111,6 +113,7 @@ export const UserRegisterForm: React.FC = () => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
+    setSubmitError("");
 
     try {
       const payload: RegisterCredentials = {
@@ -129,8 +132,17 @@ export const UserRegisterForm: React.FC = () => {
         cpf: "",
         phone: "",
       });
+
+      // Redirecionar para login após registro bem-sucedido
+      setTimeout(() => {
+        navigate(paths.login);
+      }, 1000);
     } catch (error) {
-      console.error("Erro ao registrar usuário:", error);
+      if (error instanceof Error) {
+        setSubmitError(error.message);
+      } else {
+        setSubmitError("Erro inesperado ao registrar usuário");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -140,7 +152,7 @@ export const UserRegisterForm: React.FC = () => {
     <div className="user-register-form">
       <div className="user-register-form__header">
         <h1 className="user-register-form__title">
-          Cadastro de Usuário - RentControl
+          Cadastro de Usuário - Exclusive Homes
         </h1>
         <p className="user-register-form__subtitle">
           Preencha os dados abaixo para cadastrar um novo usuário no sistema de
@@ -198,6 +210,12 @@ export const UserRegisterForm: React.FC = () => {
             placeholder="(00) 00000-0000"
           />
         </div>
+
+        {submitError && (
+          <div className="user-register-form__error">
+            <p>{submitError}</p>
+          </div>
+        )}
 
         <div className="user-register-form__actions">
           <Button

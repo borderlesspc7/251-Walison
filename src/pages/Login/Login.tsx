@@ -86,7 +86,7 @@ export default function LoginPage() {
                   </text>
                 </svg>
               </div>
-              <h2 className="login-page__brand-name">RentControl</h2>
+              <h2 className="login-page__brand-name">Exclusive Homes</h2>
             </div>
 
             <div className="login-page__brand-description">

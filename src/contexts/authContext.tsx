@@ -59,6 +59,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setError(message);
       setLoading(false);
       setUser(null);
+      // Re-lançar o erro para que o formulário possa capturá-lo
+      throw error;
     }
   };
 

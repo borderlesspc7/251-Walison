@@ -221,6 +221,24 @@
   box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.1);
 }
 
+.user-register-form__error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  color: #dc2626;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-register-form__error p {
+  margin: 0;
+  font-weight: 500;
+}
+
 .user-register-form__divider {
   display: flex;
   align-items: center;
