@@ -19,9 +19,16 @@ export interface LoginCredentials {
   password: string;
 }
 
+export type UserRole =
+  | "admin"
+  | "corretor"
+  | "proprietario"
+  | "inquilino"
+  | "financeiro";
+
 export interface RegisterCredentials extends LoginCredentials {
   name: string;
   confirmPassword?: string;
   phone?: string;
-  role?: "admin" | "user";
+  role?: UserRole;
 }

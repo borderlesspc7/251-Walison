@@ -1,0 +1,65 @@
+.register-user-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  position: relative;
+}
+
+.register-user-page__main {
+  min-height: 100%;
+  padding: 32px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.register-user-page__content {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .register-user-page__main {
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 64px;
+    padding: 16px;
+    min-height: calc(100vh - 64px);
+  }
+
+  .register-user-page__content {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-user-page__main {
+    padding: 8px;
+  }
+}
+
+/* Smooth transitions */
+.register-user-page__main {
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Loading states */
+.register-user-page--loading .register-user-page__content {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Focus management for accessibility */
+.register-user-page__main:focus-within {
+  outline: none;
+}
+
+/* Print styles */
+@media print {
+  .register-user-page__main {
+    margin-left: 0;
+    margin-top: 0;
+    padding: 20px;
+  }
+}
