@@ -35,10 +35,24 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  position: relative;
+  z-index: 1000;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .sidebar-toggle:hover {
   background: #f1f5f9;
+}
+
+.sidebar-toggle svg {
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+.sidebar-toggle:hover svg {
+  color: #334155;
 }
 
 .hamburger {

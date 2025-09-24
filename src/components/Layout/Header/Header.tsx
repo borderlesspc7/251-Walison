@@ -7,6 +7,7 @@ import {
   FiUser,
   FiLogOut,
   FiChevronDown,
+  FiMenu,
 } from "react-icons/fi";
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
@@ -16,10 +17,7 @@ interface HeaderProps {
   sidebarCollapsed: boolean;
 }
 
-export const Header: React.FC<HeaderProps> = ({
-  onToggleSidebar,
-  sidebarCollapsed,
-}) => {
+export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   const { user, logout } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const navigate = useNavigate();
@@ -38,15 +36,10 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="header-left">
         <Button
           variant="ghost"
-          className="sidebar-togle"
+          className="sidebar-toggle"
           onClick={onToggleSidebar}
         >
-          <div
-            className={`hamburguer ${sidebarCollapsed ? "collapsed" : ""}`}
-          ></div>
-          <span></span>
-          <span></span>
-          <span></span>
+          <FiMenu size={20} />
         </Button>
       </div>
 

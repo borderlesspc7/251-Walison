@@ -43,10 +43,14 @@
 }
 
 .logo-image img {
-  width: 50%;
-  height: 40%;
+  width: 80%;
+  height: auto;
   object-fit: contain;
   align-self: center;
+  max-width: 100%;
+  max-height: 100px;
+  min-height: 80px;
+  margin-left: 3rem;
 }
 
 .logo-text {
