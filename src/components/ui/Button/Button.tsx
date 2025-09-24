@@ -1,42 +1,47 @@
-import type { ButtonHTMLAttributes } from "react";
-import React from "react";
+"use client";
+
+import type React from "react";
 import "./Button.css";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps {
   children: React.ReactNode;
-  type?: "button" | "submit" | "reset";
-  variant?: "primary" | "secondary";
-  onClick?: () => void;
+  variant?: "primary" | "secondary" | "ghost" | "danger";
+  size?: "small" | "medium" | "large";
+  fullWidth?: boolean;
   disabled?: boolean;
+  type?: "button" | "submit" | "reset";
   className?: string;
-  loading?: boolean;
+  onClick?: () => void;
 }
 
-export default function Button({
+export const Button: React.FC<ButtonProps> = ({
   children,
-  type = "button",
   variant = "primary",
-  onClick,
+  size = "medium",
+  fullWidth = false,
   disabled = false,
+  type = "button",
   className = "",
-  loading = false,
-  ...props
-}: ButtonProps) {
+  onClick,
+}) => {
+  const buttonClassName = [
+    "button",
+    `button--${variant}`,
+    size !== "medium" && `button--${size}`,
+    fullWidth && "button--full",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <button
       type={type}
+      className={buttonClassName}
+      disabled={disabled}
       onClick={onClick}
-      disabled={disabled || loading}
-      className={`btn btn--${variant} ${className}`}
-      {...props}
     >
-      {loading ? (
-        <span className="loading loading-spinner loading-sm"></span>
-      ) : (
-        children
-      )}
+      {children}
     </button>
   );
-}
-
-export { Button };
+};

@@ -3,6 +3,7 @@ import { paths } from "./paths";
 import { ProtectedRoute } from "./ProtectedRoute";
 import LoginPage from "../pages/Login/Login";
 import { RegisterPage } from "../pages/Register/Register";
+import { Layout } from "../components/Layout/Layout";
 
 export const AppRoutes = () => {
   function Menu() {
@@ -19,7 +20,9 @@ export const AppRoutes = () => {
           path={paths.menu}
           element={
             <ProtectedRoute>
-              <Menu />
+              <Layout>
+                <Menu />
+              </Layout>
             </ProtectedRoute>
           }
         />
