@@ -1,0 +1,207 @@
+.client-modal .modal-body {
+  padding: 0;
+}
+
+.client-form {
+  position: relative;
+}
+
+.form-sections {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.form-section {
+  margin-bottom: 32px;
+}
+
+.form-section:last-child {
+  margin-bottom: 0;
+}
+
+.form-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-row:last-child {
+  margin-bottom: 0;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  flex: 1 1 100%;
+}
+
+.form-group.flex-2 {
+  flex: 2;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-textarea:disabled {
+  background-color: #f9fafb;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.form-textarea::placeholder {
+  color: #9ca3af;
+}
+
+.form-actions {
+  padding: 20px 24px;
+  border-top: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.error-message {
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 0.875rem;
+  border: 1px solid #fecaca;
+}
+
+/* Loading overlay para o modal */
+.client-form .loading-spinner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 10;
+  border-radius: 12px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .form-sections {
+    padding: 16px;
+    max-height: 60vh;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-group,
+  .form-group.flex-2 {
+    flex: 1;
+  }
+
+  .form-actions {
+    padding: 16px;
+    flex-direction: column-reverse;
+  }
+
+  .form-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .form-section h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .client-modal .modal-content {
+    margin: 10px;
+  }
+
+  .form-sections {
+    padding: 12px;
+    max-height: 50vh;
+  }
+
+  .form-actions {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .form-section {
+    margin-bottom: 24px;
+  }
+
+  .form-section h3 {
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+}
+
+/* Melhorias visuais */
+.form-section:nth-child(odd) {
+  background-color: rgba(249, 250, 251, 0.5);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.form-section:nth-child(odd) h3 {
+  margin-top: -4px;
+}
+
+/* Estados de loading nos botões */
+.form-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Estilo para campos obrigatórios */
+.form-label::after {
+  content: "";
+}
+
+.form-group [required] + .form-label::after,
+.form-label[data-required]::after {
+  content: " *";
+  color: #dc2626;
+}

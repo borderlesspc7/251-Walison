@@ -4,6 +4,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import LoginPage from "../pages/Login/Login";
 import { RegisterPage } from "../pages/Register/Register";
 import { Layout } from "../components/Layout/Layout";
+import { ClientManagement } from "../pages/Client/ClientManagement";
 
 export const AppRoutes = () => {
   function Menu() {
@@ -22,6 +23,16 @@ export const AppRoutes = () => {
             <ProtectedRoute>
               <Layout>
                 <Menu />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.clients}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ClientManagement />
               </Layout>
             </ProtectedRoute>
           }

@@ -1,0 +1,161 @@
+.client-stats {
+  margin-bottom: 32px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.stat-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 2px;
+}
+
+.stat-description {
+  font-size: 0.75rem;
+  color: #6b7280;
+  line-height: 1.3;
+}
+
+/* Cores dos cards */
+.stat-card-blue .stat-icon {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.stat-card-blue .stat-value {
+  color: #1d4ed8;
+}
+
+.stat-card-green .stat-icon {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.stat-card-green .stat-value {
+  color: #166534;
+}
+
+.stat-card-yellow .stat-icon {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.stat-card-yellow .stat-value {
+  color: #d97706;
+}
+
+.stat-card-purple .stat-icon {
+  background-color: #f3e8ff;
+  color: #7c3aed;
+}
+
+.stat-card-purple .stat-value {
+  color: #7c3aed;
+}
+
+.stat-card-indigo .stat-icon {
+  background-color: #e0e7ff;
+  color: #4338ca;
+}
+
+.stat-card-indigo .stat-value {
+  color: #4338ca;
+}
+
+.stat-card-gray .stat-icon {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.stat-card-gray .stat-value {
+  color: #6b7280;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .stat-card {
+    padding: 16px;
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .stat-icon {
+    font-size: 1.5rem;
+    width: 50px;
+    height: 50px;
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .stat-title {
+    font-size: 0.8rem;
+  }
+
+  .stat-description {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    flex-direction: row;
+    text-align: left;
+  }
+}

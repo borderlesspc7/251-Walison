@@ -43,7 +43,7 @@ const defaultMenuItems: MenuItem[] = [
         id: "clientes",
         label: "Clientes",
         icon: FiUsers,
-        path: "/clientes",
+        path: "/clients",
       },
       {
         id: "proprietarios",
