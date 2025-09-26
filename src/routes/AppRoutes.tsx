@@ -5,6 +5,7 @@ import LoginPage from "../pages/Login/Login";
 import { RegisterPage } from "../pages/Register/Register";
 import { Layout } from "../components/Layout/Layout";
 import { ClientManagement } from "../pages/Client/ClientManagement";
+import { OwnerManagement } from "../pages/Owner/OwnerManagement";
 
 export const AppRoutes = () => {
   function Menu() {
@@ -33,6 +34,16 @@ export const AppRoutes = () => {
             <ProtectedRoute>
               <Layout>
                 <ClientManagement />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.owners}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <OwnerManagement />
               </Layout>
             </ProtectedRoute>
           }

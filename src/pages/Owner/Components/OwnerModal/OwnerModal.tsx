@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from "react";
 import type {
-  Client,
-  CreateClientData,
-  ClientStatus,
+  Owner,
+  CreateOwnerData,
+  OwnerStatus,
   MaritalStatus,
-} from "../../../types/client";
-import { clientService } from "../../../services/clientService";
-import { Modal } from "../../../components/ui/Modal/Modal";
-import InputField from "../../../components/ui/InputField/InputField";
-import { SelectField } from "../../../components/ui/SelectField/SelectField";
-import { Button } from "../../../components/ui/Button/Button";
-import { LoadingSpinner } from "../../../components/ui/LoadingSpinner/LoadingSpinner";
-import "./ClientModal.css";
+  AccountType,
+} from "../../../../types/owner";
+import { ownerService } from "../../../../services/ownerService";
+import { Modal } from "../../../../components/ui/Modal/Modal";
+import InputField from "../../../../components/ui/InputField/InputField";
+import { SelectField } from "../../../../components/ui/SelectField/SelectField";
+import { Button } from "../../../../components/ui/Button/Button";
+import { LoadingSpinner } from "../../../../components/ui/LoadingSpinner/LoadingSpinner";
+import "./OwnerModal.css";
 
-interface ClientModalProps {
+interface OwnerModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onDelete: () => void;
   onSave: () => void;
-  client?: Client | null;
+  owner?: Owner;
   mode: "create" | "edit" | "view";
 }
 
-const initialFormData: CreateClientData = {
+const initialFormData: CreateOwnerData = {
   name: "",
   cpf: "",
-  birthDate: new Date(),
-  instagram: "",
   address: {
     street: "",
     number: "",
@@ -38,18 +38,25 @@ const initialFormData: CreateClientData = {
   profession: "",
   maritalStatus: "single",
   phone: "",
-  email: "",
+  bankData: {
+    bank: "",
+    agency: "",
+    account: "",
+    accountType: "checking",
+  },
+  pix: "",
+  commission: 0,
   status: "active",
 };
 
-export const ClientModal: React.FC<ClientModalProps> = ({
+export const OwnerModal: React.FC<OwnerModalProps> = ({
   isOpen,
   onClose,
   onSave,
-  client,
+  owner,
   mode,
 }) => {
-  const [formData, setFormData] = useState<CreateClientData>(initialFormData);
+  const [formData, setFormData] = useState<CreateOwnerData>(initialFormData);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -57,36 +64,40 @@ export const ClientModal: React.FC<ClientModalProps> = ({
   const isEditing = mode === "edit";
   const isCreating = mode === "create";
 
-  // Resetar form quando modal abrir/fechar
   useEffect(() => {
     if (isOpen) {
-      if (client && (isEditing || mode === "view")) {
+      if (owner && (isEditing || mode === "view")) {
         setFormData({
-          name: client.name,
-          cpf: client.cpf,
-          birthDate: client.birthDate,
-          instagram: client.instagram,
+          name: owner.name,
+          cpf: owner.cpf,
           address: {
-            street: client.address.street,
-            number: client.address.number,
-            complement: client.address.complement || "",
-            neighborhood: client.address.neighborhood,
-            city: client.address.city,
-            state: client.address.state,
-            zipCode: client.address.zipCode,
+            street: owner.address.street,
+            number: owner.address.number,
+            complement: owner.address.complement || "",
+            neighborhood: owner.address.neighborhood,
+            city: owner.address.city,
+            state: owner.address.state,
+            zipCode: owner.address.zipCode,
           },
-          profession: client.profession,
-          maritalStatus: client.maritalStatus,
-          phone: client.phone,
-          email: client.email,
-          status: client.status,
+          profession: owner.profession,
+          maritalStatus: owner.maritalStatus,
+          phone: owner.phone,
+          bankData: {
+            bank: owner.bankData.bank,
+            agency: owner.bankData.agency,
+            account: owner.bankData.account,
+            accountType: owner.bankData.accountType,
+          },
+          pix: owner.pix,
+          commission: owner.commission,
+          status: owner.status,
         });
       } else {
         setFormData(initialFormData);
       }
       setErrors({});
     }
-  }, [isOpen, client, isEditing, mode]);
+  }, [isOpen, owner, isEditing, mode]);
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -100,14 +111,6 @@ export const ClientModal: React.FC<ClientModalProps> = ({
       newErrors.cpf = "CPF é obrigatório";
     }
 
-    if (!formData.instagram.trim()) {
-      newErrors.instagram = "Instagram é obrigatório";
-    }
-
-    if (!formData.birthDate) {
-      newErrors.birthDate = "Data de nascimento é obrigatória";
-    }
-
     if (!formData.profession.trim()) {
       newErrors.profession = "Profissão é obrigatória";
     }
@@ -116,10 +119,12 @@ export const ClientModal: React.FC<ClientModalProps> = ({
       newErrors.phone = "Telefone é obrigatório";
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = "Email é obrigatório";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Email inválido";
+    if (!formData.pix.trim()) {
+      newErrors.pix = "PIX é obrigatório";
+    }
+
+    if (formData.commission <= 0) {
+      newErrors.commission = "Comissão deve ser maior que zero";
     }
 
     // Validações de endereço
@@ -129,6 +134,7 @@ export const ClientModal: React.FC<ClientModalProps> = ({
     if (!formData.address.number.trim()) {
       newErrors["address.number"] = "Número é obrigatório";
     }
+
     if (!formData.address.neighborhood.trim()) {
       newErrors["address.neighborhood"] = "Bairro é obrigatório";
     }
@@ -140,6 +146,17 @@ export const ClientModal: React.FC<ClientModalProps> = ({
     }
     if (!formData.address.zipCode.trim()) {
       newErrors["address.zipCode"] = "CEP é obrigatório";
+    }
+
+    // Validações de dados bancários
+    if (!formData.bankData.bank.trim()) {
+      newErrors["bankData.bank"] = "Banco é obrigatório";
+    }
+    if (!formData.bankData.agency.trim()) {
+      newErrors["bankData.agency"] = "Agência é obrigatória";
+    }
+    if (!formData.bankData.account.trim()) {
+      newErrors["bankData.account"] = "Conta é obrigatória";
     }
 
     setErrors(newErrors);
@@ -157,10 +174,10 @@ export const ClientModal: React.FC<ClientModalProps> = ({
       setLoading(true);
 
       if (isCreating) {
-        await clientService.create(formData);
-      } else if (isEditing && client) {
-        await clientService.update({
-          id: client.id,
+        await ownerService.create(formData);
+      } else if (isEditing && owner) {
+        await ownerService.update({
+          id: owner.id,
           ...formData,
         });
       }
@@ -169,7 +186,9 @@ export const ClientModal: React.FC<ClientModalProps> = ({
     } catch (error: unknown) {
       setErrors({
         submit:
-          error instanceof Error ? error.message : "Erro ao salvar cliente",
+          error instanceof Error
+            ? error.message
+            : "Erro ao salvar proprietário",
       });
     } finally {
       setLoading(false);
@@ -178,7 +197,7 @@ export const ClientModal: React.FC<ClientModalProps> = ({
 
   const handleInputChange = (
     field: string,
-    value: string | Date | undefined
+    value: string | number | undefined
   ) => {
     if (isReadOnly) return;
 
@@ -190,6 +209,15 @@ export const ClientModal: React.FC<ClientModalProps> = ({
             ...prev,
             address: {
               ...prev.address,
+              [child]: value as string,
+            },
+          };
+        }
+        if (parent === "bankData") {
+          return {
+            ...prev,
+            bankData: {
+              ...prev.bankData,
               [child]: value as string,
             },
           };
@@ -212,18 +240,10 @@ export const ClientModal: React.FC<ClientModalProps> = ({
     }
   };
 
-  const formatDate = (date: Date) => {
-    return date.toISOString().split("T")[0];
-  };
-
-  const parseDate = (dateString: string): Date | undefined => {
-    return dateString ? new Date(dateString) : undefined;
-  };
-
   const statusOptions = [
     { value: "active", label: "Ativo" },
     { value: "inactive", label: "Inativo" },
-    { value: "prospect", label: "Prospect" },
+    { value: "suspended", label: "Suspenso" },
   ];
 
   const maritalStatusOptions = [
@@ -234,16 +254,22 @@ export const ClientModal: React.FC<ClientModalProps> = ({
     { value: "separated", label: "Separado(a)" },
   ];
 
+  const accountTypeOptions = [
+    { value: "checking", label: "Conta Corrente" },
+    { value: "savings", label: "Poupança" },
+    { value: "business", label: "Conta Empresarial" },
+  ];
+
   const getModalTitle = () => {
     switch (mode) {
       case "create":
-        return "Novo Cliente";
+        return "Novo Proprietário";
       case "edit":
-        return "Editar Cliente";
+        return "Editar Proprietário";
       case "view":
-        return "Visualizar Cliente";
+        return "Visualizar Proprietário";
       default:
-        return "Cliente";
+        return "Proprietário";
     }
   };
 
@@ -253,10 +279,10 @@ export const ClientModal: React.FC<ClientModalProps> = ({
       onClose={onClose}
       title={getModalTitle()}
       size="large"
-      className="client-modal"
+      className="owner-modal"
     >
-      <form onSubmit={handleSubmit} className="client-form">
-        {loading && <LoadingSpinner text="Salvando cliente..." />}
+      <form onSubmit={handleSubmit} className="owner-form">
+        {loading && <LoadingSpinner text="Salvando proprietário..." />}
 
         {errors.submit && <div className="error-message">{errors.submit}</div>}
 
@@ -270,7 +296,7 @@ export const ClientModal: React.FC<ClientModalProps> = ({
                   label="Status"
                   value={formData.status}
                   onChange={(value) =>
-                    handleInputChange("status", value as ClientStatus)
+                    handleInputChange("status", value as OwnerStatus)
                   }
                   options={statusOptions}
                   disabled={isReadOnly}
@@ -280,7 +306,7 @@ export const ClientModal: React.FC<ClientModalProps> = ({
               <div className="form-group">
                 <InputField
                   label="Código"
-                  value={client?.code || "Gerado automaticamente"}
+                  value={owner?.code || "Gerado automaticamente"}
                   placeholder="Código será gerado automaticamente"
                   onChange={() => {}}
                 />
@@ -311,33 +337,6 @@ export const ClientModal: React.FC<ClientModalProps> = ({
                   required
                 />
               </div>
-              <div className="form-group">
-                <InputField
-                  label="Instagram"
-                  value={formData.instagram}
-                  onChange={(value) => handleInputChange("instagram", value)}
-                  placeholder="Digite o Instagram"
-                  error={errors.instagram}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <InputField
-                  label="Data de Nascimento"
-                  type="date"
-                  value={
-                    formData.birthDate ? formatDate(formData.birthDate) : ""
-                  }
-                  onChange={(value) =>
-                    handleInputChange("birthDate", parseDate(value))
-                  }
-                  error={errors.birthDate}
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="form-row">
               <div className="form-group">
                 <InputField
                   label="Profissão"
@@ -375,19 +374,29 @@ export const ClientModal: React.FC<ClientModalProps> = ({
               </div>
               <div className="form-group">
                 <InputField
-                  label="Email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(value) => handleInputChange("email", value)}
-                  placeholder="Digite o email"
-                  error={errors.email}
+                  label="PIX"
+                  value={formData.pix}
+                  onChange={(value) => handleInputChange("pix", value)}
+                  placeholder="Digite a chave PIX"
+                  error={errors.pix}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <InputField
+                  label="Comissão (R$)"
+                  type="number"
+                  value={formData.commission.toString()}
+                  onChange={(value) =>
+                    handleInputChange("commission", parseFloat(value) || 0)
+                  }
+                  placeholder="0.00"
+                  error={errors.commission}
                   required
                 />
               </div>
             </div>
           </div>
-
-          {/* Endereço */}
           <div className="form-section">
             <h3>Endereço</h3>
             <div className="form-row">
@@ -454,7 +463,6 @@ export const ClientModal: React.FC<ClientModalProps> = ({
                 />
               </div>
             </div>
-
             <div className="form-row">
               <div className="form-group flex-2">
                 <InputField
@@ -480,6 +488,64 @@ export const ClientModal: React.FC<ClientModalProps> = ({
               </div>
             </div>
           </div>
+
+          {/* Dados Bancários */}
+          <div className="form-section">
+            <h3>Dados Bancários</h3>
+            <div className="form-row">
+              <div className="form-group">
+                <InputField
+                  label="Banco"
+                  value={formData.bankData.bank}
+                  onChange={(value) =>
+                    handleInputChange("bankData.bank", value)
+                  }
+                  placeholder="Nome do banco"
+                  error={errors["bankData.bank"]}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <InputField
+                  label="Agência"
+                  value={formData.bankData.agency}
+                  onChange={(value) =>
+                    handleInputChange("bankData.agency", value)
+                  }
+                  placeholder="0000"
+                  error={errors["bankData.agency"]}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <InputField
+                  label="Conta"
+                  value={formData.bankData.account}
+                  onChange={(value) =>
+                    handleInputChange("bankData.account", value)
+                  }
+                  placeholder="00000-0"
+                  error={errors["bankData.account"]}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <SelectField
+                  label="Tipo de Conta"
+                  value={formData.bankData.accountType}
+                  onChange={(value) =>
+                    handleInputChange(
+                      "bankData.accountType",
+                      value as AccountType
+                    )
+                  }
+                  options={accountTypeOptions}
+                  disabled={isReadOnly}
+                  error={errors["bankData.accountType"]}
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         {!isReadOnly && (
@@ -496,7 +562,7 @@ export const ClientModal: React.FC<ClientModalProps> = ({
               {loading
                 ? "Salvando..."
                 : isCreating
-                ? "Criar Cliente"
+                ? "Criar Proprietário"
                 : "Salvar Alterações"}
             </Button>
           </div>

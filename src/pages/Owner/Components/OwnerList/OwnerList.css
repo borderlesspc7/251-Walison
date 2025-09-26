@@ -1,0 +1,305 @@
+/* src/pages/Owner/components/OwnerList.css */
+.owner-list {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.owner-list-header {
+  padding: 20px;
+  border-bottom: 1px solid #e9ecef;
+  background: #f8f9fa;
+}
+
+.owner-list-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.owner-list-loading {
+  padding: 40px;
+  text-align: center;
+}
+
+.owner-list-empty {
+  padding: 40px;
+  text-align: center;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.empty-icon {
+  color: #6c757d;
+}
+
+.empty-state h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.empty-state p {
+  margin: 0;
+  color: #6c757d;
+  max-width: 400px;
+}
+
+.owner-table-container {
+  overflow-x: auto;
+}
+
+.owner-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1200px;
+}
+
+.owner-table th {
+  background: #f8f9fa;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e9ecef;
+  white-space: nowrap;
+}
+
+.owner-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: top;
+}
+
+.owner-row:hover {
+  background: #f8f9fa;
+}
+
+.sort-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  color: #333;
+  transition: color 0.2s;
+}
+
+.sort-button:hover {
+  color: #007bff;
+}
+
+.sort-button.active {
+  color: #007bff;
+}
+
+.sort-indicator {
+  font-size: 12px;
+  color: #007bff;
+}
+
+.owner-name .name-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.owner-name .name {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.owner-name .code {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.owner-contact .contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.owner-contact .phone {
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+.owner-contact .cpf {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.owner-profession .profession {
+  font-size: 14px;
+  color: #333;
+}
+
+.owner-status {
+  text-align: center;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-active {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-inactive {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.status-suspended {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-default {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.owner-location .location-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.owner-location .city {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.owner-location .state {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.owner-commission .commission-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.owner-commission .commission-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #28a745;
+}
+
+.owner-commission .commission-label {
+  font-size: 11px;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.owner-bank .bank-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.owner-bank .bank-name {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.owner-bank .account-type {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.owner-date {
+  font-size: 14px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.owner-actions {
+  text-align: center;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.action-btn {
+  padding: 6px;
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-btn:hover {
+  background: #17a2b8;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #ffc107;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #dc3545;
+  color: white;
+}
+
+.actions-column {
+  width: 120px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .owner-table-container {
+    font-size: 12px;
+  }
+
+  .owner-table th,
+  .owner-table td {
+    padding: 8px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .action-btn {
+    min-width: 28px;
+    height: 28px;
+  }
+}

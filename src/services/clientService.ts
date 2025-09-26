@@ -35,6 +35,7 @@ const convertFirestoreData = (doc: DocumentSnapshot): Client => {
     name: data.name || "",
     cpf: data.cpf || "",
     birthDate: data.birthDate?.toDate() || new Date(),
+    instagram: data.instagram || "",
     address: data.address || {
       street: "",
       number: "",
@@ -101,6 +102,7 @@ export const clientService = {
             client.email.toLowerCase().includes(searchLower) ||
             client.phone.includes(searchLower) ||
             client.cpf.includes(searchLower) ||
+            client.instagram.toLowerCase().includes(searchLower) ||
             client.profession.toLowerCase().includes(searchLower)
         );
       }

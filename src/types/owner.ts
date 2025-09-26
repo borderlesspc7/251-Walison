@@ -1,10 +1,8 @@
-export interface Client {
+export interface Owner {
   id: string;
-  code: string; // Código gerado automaticamente
+  code: string;
   name: string;
   cpf: string;
-  birthDate: Date;
-  instagram: string;
   address: {
     street: string;
     number: string;
@@ -17,13 +15,21 @@ export interface Client {
   profession: string;
   maritalStatus: MaritalStatus;
   phone: string;
-  email: string;
-  status: ClientStatus;
+  bankData: {
+    bank: string;
+    agency: string;
+    account: string;
+    accountType: AccountType;
+  };
+  pix: string;
+  commission: number;
+  status: OwnerStatus;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export type ClientStatus = "active" | "inactive" | "prospect";
+export type OwnerStatus = "active" | "inactive" | "suspended";
+export type AccountType = "checking" | "savings" | "business";
 export type MaritalStatus =
   | "single"
   | "married"
@@ -31,11 +37,9 @@ export type MaritalStatus =
   | "widowed"
   | "separated";
 
-export interface CreateClientData {
+export interface CreateOwnerData {
   name: string;
   cpf: string;
-  birthDate: Date;
-  instagram: string;
   address: {
     street: string;
     number: string;
@@ -48,23 +52,31 @@ export interface CreateClientData {
   profession: string;
   maritalStatus: MaritalStatus;
   phone: string;
-  email: string;
-  status: ClientStatus;
+  bankData: {
+    bank: string;
+    agency: string;
+    account: string;
+    accountType: AccountType;
+  };
+  pix: string;
+  commission: number;
+  status: OwnerStatus;
 }
 
-export interface UpdateClientData extends Partial<CreateClientData> {
+export interface UpdateOwnerData extends Partial<CreateOwnerData> {
   id: string;
 }
 
-export interface ClientFilters {
+export interface OwnerFilters {
   search?: string;
-  status?: ClientStatus;
+  status?: OwnerStatus;
   city?: string;
   state?: string;
   profession?: string;
   maritalStatus?: MaritalStatus;
+  bank?: string;
 }
 
-export interface ClientTableRow extends Client {
+export interface OwnerTableRow extends Owner {
   _searchText: string; // Campo para facilitar a busca
 }

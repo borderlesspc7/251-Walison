@@ -1,52 +1,52 @@
 import React from "react";
+import "./OwnerStats.css";
 import { FiUsers, FiCheckCircle, FiTarget, FiPause } from "react-icons/fi";
-import "./ClientStats.css";
 
-interface ClientStatsProps {
+interface OwnerStatsProps {
   stats: {
     total: number;
     active: number;
     inactive: number;
-    prospects: number;
+    suspended: number;
   };
 }
 
-export const ClientStats: React.FC<ClientStatsProps> = ({ stats }) => {
-  const statCards = [
+export const OwnerStats: React.FC<OwnerStatsProps> = ({ stats }) => {
+  const statsCards = [
     {
-      title: "Total de Clientes",
+      title: "Total de Proprietários",
       value: stats.total,
       icon: FiUsers,
       color: "blue",
-      description: "Total de clientes cadastrados",
+      description: "Total de proprietários cadastrados",
     },
     {
-      title: "Clientes Ativos",
+      title: "Proprietários Ativos",
       value: stats.active,
       icon: FiCheckCircle,
       color: "green",
-      description: "Clientes com status ativo",
+      description: "Total de proprietários ativos",
     },
     {
-      title: "Prospects",
-      value: stats.prospects,
+      title: "Suspensos",
+      value: stats.suspended,
       icon: FiTarget,
       color: "yellow",
-      description: "Clientes em prospecção",
+      description: "Total de proprietários suspensos",
     },
     {
       title: "Inativos",
       value: stats.inactive,
       icon: FiPause,
-      color: "gray",
-      description: "Clientes inativos",
+      color: "red",
+      description: "Total de proprietários inativos",
     },
   ];
 
   return (
-    <div className="client-stats">
+    <div className="owner-stats">
       <div className="stats-grid">
-        {statCards.map((stat) => {
+        {statsCards.map((stat) => {
           const IconComponent = stat.icon;
           return (
             <div
