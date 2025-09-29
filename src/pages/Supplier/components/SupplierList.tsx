@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import type { Supplier } from "../../../types/supplier";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner/LoadingSpinner";
 import { Button } from "../../../components/ui/Button/Button";
-import {
-  FiFileText,
-  FiEye,
-  FiEdit3,
-  FiTrash2,
-  FiDollarSign,
-} from "react-icons/fi";
+import { FiFileText, FiEye, FiEdit3, FiTrash2 } from "react-icons/fi";
 import "./SupplierList.css";
 
 interface SupplierListProps {

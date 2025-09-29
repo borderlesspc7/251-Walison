@@ -10,6 +10,7 @@ interface InputFieldProps {
   placeholder?: string;
   error?: string;
   required?: boolean;
+  disabled?: boolean;
 }
 
 export default function InputField({
@@ -20,6 +21,7 @@ export default function InputField({
   placeholder,
   error,
   required = false,
+  disabled = false,
 }: InputFieldProps) {
   return (
     <div className="input-field">
@@ -35,6 +37,7 @@ export default function InputField({
         className={`input-field__input ${
           error ? "input-field__input--error" : ""
         }`}
+        disabled={disabled}
       />
       {error && <span className="input-field__error">{error}</span>}
     </div>

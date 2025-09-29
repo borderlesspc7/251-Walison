@@ -6,6 +6,9 @@ import { RegisterPage } from "../pages/Register/Register";
 import { Layout } from "../components/Layout/Layout";
 import { ClientManagement } from "../pages/Client/ClientManagement";
 import { OwnerManagement } from "../pages/Owner/OwnerManagement";
+import { SupplierManagement } from "../pages/Supplier/SupplierManagement";
+import { EmployeeManagement } from "../pages/Employee/EmployeeManagement";
+import { HouseManagement } from "../pages/House/HouseManagment";
 
 export const AppRoutes = () => {
   function Menu() {
@@ -44,6 +47,36 @@ export const AppRoutes = () => {
             <ProtectedRoute>
               <Layout>
                 <OwnerManagement />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.suppliers}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <SupplierManagement />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.employees}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <EmployeeManagement />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.houses}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <HouseManagement />
               </Layout>
             </ProtectedRoute>
           }

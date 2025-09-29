@@ -1,0 +1,265 @@
+.house-list {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.house-list-header {
+  padding: 20px;
+  border-bottom: 1px solid #e9ecef;
+  background: #f8f9fa;
+}
+
+.house-list-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.house-list-loading {
+  padding: 40px;
+  text-align: center;
+}
+
+.house-list-empty {
+  padding: 40px;
+  text-align: center;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.empty-icon {
+  color: #6c757d;
+}
+
+.empty-state h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.empty-state p {
+  margin: 0;
+  color: #6c757d;
+  max-width: 400px;
+}
+
+.house-table-container {
+  overflow-x: auto;
+}
+
+.house-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+
+.house-table th {
+  background: #f8f9fa;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e9ecef;
+  white-space: nowrap;
+}
+
+.house-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: top;
+}
+
+.house-row:hover {
+  background: #f8f9fa;
+}
+
+.sort-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  color: #333;
+  transition: color 0.2s;
+}
+
+.sort-button:hover {
+  color: #007bff;
+}
+
+.sort-button.active {
+  color: #007bff;
+}
+
+.sort-indicator {
+  font-size: 12px;
+  color: #007bff;
+}
+
+.house-name .name-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.house-name .name {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.house-name .code {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.house-location .location-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.house-location .neighborhood {
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.house-location .city-state {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+.house-status {
+  text-align: center;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-available {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.status-occupied {
+  background: #fed7aa;
+  color: #ea580c;
+}
+
+.status-maintenance {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.status-inactive {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.status-default {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.house-pricing .pricing-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.house-pricing .main-price {
+  font-size: 14px;
+  font-weight: 600;
+  color: #28a745;
+}
+
+.house-pricing .price-label {
+  font-size: 11px;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.house-date {
+  font-size: 14px;
+  color: #333;
+  white-space: nowrap;
+}
+
+.house-actions {
+  text-align: center;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+}
+
+.action-btn {
+  padding: 6px;
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-btn:hover {
+  background: #17a2b8;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #ffc107;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #dc3545;
+  color: white;
+}
+
+.actions-column {
+  width: 120px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .house-table-container {
+    font-size: 12px;
+  }
+
+  .house-table th,
+  .house-table td {
+    padding: 8px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}

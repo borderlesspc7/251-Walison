@@ -5,4 +5,7 @@ export const paths = {
   menu: "/menu",
   clients: "/clients",
   owners: "/owners",
+  suppliers: "/suppliers",
+  employees: "/employees",
+  houses: "/houses",
 };
