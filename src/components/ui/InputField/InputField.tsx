@@ -11,6 +11,9 @@ interface InputFieldProps {
   error?: string;
   required?: boolean;
   disabled?: boolean;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 export default function InputField({
@@ -22,6 +25,9 @@ export default function InputField({
   error,
   required = false,
   disabled = false,
+  min,
+  max,
+  step,
 }: InputFieldProps) {
   return (
     <div className="input-field">
@@ -38,6 +44,9 @@ export default function InputField({
           error ? "input-field__input--error" : ""
         }`}
         disabled={disabled}
+        min={min}
+        max={max}
+        step={step}
       />
       {error && <span className="input-field__error">{error}</span>}
     </div>

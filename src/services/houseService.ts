@@ -17,7 +17,7 @@ import type {
   House,
   CreateHouseData,
   UpdateHouseData,
-  HouseFilters,
+  Filters,
 } from "../types/house";
 
 const COLLECTION_NAME = "houses";
@@ -85,7 +85,7 @@ const prepareDataForFirestore = (
 
 export const houseService = {
   // 1. BUSCAR TODAS AS CASAS
-  async getAll(filters?: HouseFilters): Promise<House[]> {
+  async getAll(filters?: Filters): Promise<House[]> {
     try {
       let q = query(collection(db, COLLECTION_NAME), orderBy("houseName"));
 

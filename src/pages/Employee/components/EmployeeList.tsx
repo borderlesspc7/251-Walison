@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import type { Employee } from "../../../types/employee";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner/LoadingSpinner";
 import { Button } from "../../../components/ui/Button/Button";
-import {
-  FiFileText,
-  FiEye,
-  FiEdit3,
-  FiTrash2,
-  FiPercent,
-} from "react-icons/fi";
+import { FiFileText, FiEye, FiEdit3, FiTrash2 } from "react-icons/fi";
 import "./EmployeeList.css";
 
 interface EmployeeListProps {
@@ -39,8 +33,8 @@ export const EmployeeList: React.FC<EmployeeListProps> = ({
   };
 
   const sortedEmployees = [...employees].sort((a, b) => {
-    let aValue: unknown = a[sortField];
-    let bValue: unknown = b[sortField];
+    const aValue: unknown = a[sortField];
+    const bValue: unknown = b[sortField];
 
     // Handle dates
     if (aValue instanceof Date && bValue instanceof Date) {
