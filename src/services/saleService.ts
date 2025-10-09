@@ -130,14 +130,6 @@ const prepareDataForFirestore = async (
 ) => {
   const prepared: Record<string, unknown> = { ...data };
 
-  // Converter datas para Timestamp do Firestore
-  if ("checkInDate" in prepared && prepared.checkInDate) {
-    prepared.checkInDate = Timestamp.fromDate(prepared.checkInDate as Date);
-  }
-  if ("checkOutDate" in prepared && prepared.checkOutDate) {
-    prepared.checkOutDate = Timestamp.fromDate(prepared.checkOutDate as Date);
-  }
-
   // Buscar dados do cliente se clientId foi fornecido
   if ("clientId" in prepared && prepared.clientId) {
     const client = await clientService.getById(prepared.clientId as string);
@@ -159,7 +151,7 @@ const prepareDataForFirestore = async (
     }
   }
 
-  // Calcular valores automaticamente
+  // Calcular valores automaticamente (ANTES de converter as datas)
   if (
     "checkInDate" in prepared &&
     "checkOutDate" in prepared &&
@@ -181,6 +173,14 @@ const prepareDataForFirestore = async (
     prepared.totalAdditionalSales = calculations.totalAdditionalSales;
     prepared.totalRevenue = calculations.totalRevenue;
     prepared.contributionMargin = calculations.contributionMargin;
+  }
+
+  // Converter datas para Timestamp do Firestore (DEPOIS dos cálculos)
+  if ("checkInDate" in prepared && prepared.checkInDate) {
+    prepared.checkInDate = Timestamp.fromDate(prepared.checkInDate as Date);
+  }
+  if ("checkOutDate" in prepared && prepared.checkOutDate) {
+    prepared.checkOutDate = Timestamp.fromDate(prepared.checkOutDate as Date);
   }
 
   // Garantir que additionalSales existe
