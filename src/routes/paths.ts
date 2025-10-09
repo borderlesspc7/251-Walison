@@ -8,4 +8,5 @@ export const paths = {
   suppliers: "/suppliers",
   employees: "/employees",
   houses: "/houses",
+  sales: "/sales",
 };

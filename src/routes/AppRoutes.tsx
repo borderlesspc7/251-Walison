@@ -9,6 +9,7 @@ import { OwnerManagement } from "../pages/Owner/OwnerManagement";
 import { SupplierManagement } from "../pages/Supplier/SupplierManagement";
 import { EmployeeManagement } from "../pages/Employee/EmployeeManagement";
 import { HouseManagement } from "../pages/House/HouseManagment";
+import { SalesManagement } from "../pages/Sales/SalesManagement";
 
 export const AppRoutes = () => {
   function Menu() {
@@ -77,6 +78,16 @@ export const AppRoutes = () => {
             <ProtectedRoute>
               <Layout>
                 <HouseManagement />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.sales}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <SalesManagement />
               </Layout>
             </ProtectedRoute>
           }

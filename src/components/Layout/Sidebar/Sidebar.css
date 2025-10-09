@@ -189,25 +189,25 @@
 
 /* Menu Item States */
 .menu-item:hover .menu-item-content {
-  background: rgba(5, 150, 105, 0.08);
+  background: rgba(5, 150, 105, 0.08) !important;
 }
 
 .menu-item:hover .menu-icon {
-  color: #059669;
+  color: #059669 !important;
 }
 
 .menu-item:hover .menu-label {
-  color: #1e293b;
+  color: #1e293b !important;
 }
 
 .menu-item.active .menu-item-content {
-  background: linear-gradient(135deg, #059669, #10b981);
+  background: linear-gradient(135deg, #059669, #10b981) !important;
   box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
 }
 
 .menu-item.active .menu-icon,
 .menu-item.active .menu-label {
-  color: white;
+  color: white !important;
 }
 
 .menu-item.active .chevron {

@@ -75,7 +75,7 @@ const defaultMenuItems: MenuItem[] = [
     id: "vendas",
     label: "Vendas",
     icon: FiShoppingCart,
-    path: "/vendas",
+    path: "/sales",
   },
   {
     id: "financeiro",
