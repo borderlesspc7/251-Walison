@@ -1,0 +1,233 @@
+.revenue-by-house-report {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.revenue-by-house-report h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.report-subtitle {
+  margin: 0 0 1.5rem 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
+.revenue-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.revenue-table thead {
+  background: #f9fafb;
+}
+
+.revenue-table th {
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.revenue-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s;
+}
+
+.revenue-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.revenue-table td {
+  padding: 0.875rem 0.75rem;
+  color: #1f2937;
+}
+
+.house-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.house-cell strong {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.house-cell small {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Cores específicas para cada tipo de receita */
+.revenue-daily {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.revenue-concierge {
+  color: #7c3aed;
+  font-weight: 600;
+}
+
+.revenue-suppliers {
+  color: #059669;
+  font-weight: 600;
+}
+
+.gross-revenue {
+  background-color: #fef3c7;
+  font-weight: 700;
+  color: #92400e;
+}
+
+.expenses {
+  background-color: #fee2e2;
+  font-weight: 600;
+  color: #991b1b;
+}
+
+.net-revenue {
+  background-color: #d1fae5;
+  font-weight: 700;
+  color: #065f46;
+}
+
+/* Linha de totais */
+.totals-row {
+  background-color: #f3f4f6 !important;
+  font-weight: 700;
+}
+
+.totals-row td {
+  padding: 1rem 0.75rem;
+  font-size: 0.9375rem;
+}
+
+/* Legenda das três fontes de receita */
+.revenue-sources-legend {
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.revenue-sources-legend h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.legend-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.legend-color {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.legend-color.daily {
+  background-color: #2563eb;
+}
+
+.legend-color.concierge {
+  background-color: #7c3aed;
+}
+
+.legend-color.suppliers {
+  background-color: #059669;
+}
+
+.legend-item strong {
+  display: block;
+  font-size: 0.875rem;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.legend-item p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Mensagem de sem dados */
+.no-data {
+  padding: 3rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+.no-data p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .revenue-table {
+    font-size: 0.8125rem;
+  }
+
+  .revenue-table th,
+  .revenue-table td {
+    padding: 0.625rem 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .revenue-by-house-report {
+    padding: 1rem;
+  }
+
+  .table-container {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+
+  .revenue-table {
+    font-size: 0.75rem;
+  }
+
+  .revenue-table th,
+  .revenue-table td {
+    padding: 0.5rem 0.375rem;
+  }
+
+  .legend-items {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,290 @@
+.tax-report {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tax-report h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.report-subtitle {
+  margin: 0 0 2rem 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Cards por Empresa */
+.companies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.company-card {
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.2s;
+}
+
+.company-card:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.company-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.company-header h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.company-period {
+  font-size: 0.8125rem;
+  color: #6b7280;
+}
+
+.company-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  margin-bottom: 1.25rem;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem;
+  background: white;
+  border-radius: 6px;
+}
+
+.metric-row.highlight {
+  background: #fef3c7;
+  font-weight: 600;
+}
+
+.metric-label {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.metric-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.metric-value.gross {
+  color: #3b82f6;
+}
+
+.metric-value.tax-rate {
+  color: #7c3aed;
+}
+
+.metric-value.tax {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.metric-value.net {
+  color: #059669;
+  font-weight: 700;
+}
+
+/* Visualização de Imposto */
+.tax-visualization {
+  margin-top: 1rem;
+}
+
+.tax-bar {
+  display: flex;
+  height: 32px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tax-portion {
+  background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%);
+  transition: width 0.3s ease;
+}
+
+.net-portion {
+  background: linear-gradient(90deg, #059669 0%, #10b981 100%);
+  transition: width 0.3s ease;
+}
+
+.tax-legend {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: #6b7280;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+.legend-color.tax-color {
+  background: #dc2626;
+}
+
+.legend-color.net-color {
+  background: #059669;
+}
+
+/* Resumo Total */
+.tax-summary {
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.tax-summary h3 {
+  margin: 0 0 1.25rem 0;
+  font-size: 1.125rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.summary-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s;
+}
+
+.summary-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.summary-icon {
+  font-size: 2rem;
+}
+
+.summary-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.summary-label {
+  font-size: 0.8125rem;
+  color: #6b7280;
+}
+
+.summary-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.summary-value.tax {
+  color: #dc2626;
+}
+
+.summary-value.net {
+  color: #059669;
+}
+
+/* Observações */
+.tax-notes {
+  padding: 1.5rem;
+  background: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  border-radius: 6px;
+}
+
+.tax-notes h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.tax-notes ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.tax-notes li {
+  margin-bottom: 0.625rem;
+  font-size: 0.875rem;
+  color: #1e40af;
+  line-height: 1.5;
+}
+
+.tax-notes li:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .tax-report {
+    padding: 1rem;
+  }
+
+  .companies-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .company-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-value {
+    font-size: 0.9375rem;
+  }
+
+  .summary-value {
+    font-size: 1.125rem;
+  }
+}

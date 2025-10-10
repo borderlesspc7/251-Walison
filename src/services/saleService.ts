@@ -22,6 +22,8 @@ import type {
 } from "../types/sale";
 import { clientService } from "./clientService";
 import { houseService } from "./houseService";
+import { employeeService } from "./employeeService";
+import { ownerService } from "./ownerService";
 
 const COLLECTION_NAME = "sales";
 
@@ -93,10 +95,16 @@ const convertFirestoreData = (doc: DocumentSnapshot): Sale => {
     clientPhone: data.clientPhone || "",
     clientEmail: data.clientEmail || "",
     clientGender: data.clientGender || "",
+    employeeId: data.employeeId || "",
+    employeeName: data.employeeName || "",
+    employeeCommission: data.employeeCommission || 0,
     saleOrigin: data.saleOrigin || "instagram",
     houseId: data.houseId || "",
     houseName: data.houseName || "",
     houseAddress: data.houseAddress || "",
+    ownerId: data.ownerId || "",
+    ownerName: data.ownerName || "",
+    ownerPhone: data.ownerPhone || "",
     checkInDate: data.checkInDate?.toDate() || new Date(),
     checkOutDate: data.checkOutDate?.toDate() || new Date(),
     numberOfNights: data.numberOfNights || 0,
@@ -142,12 +150,30 @@ const prepareDataForFirestore = async (
     }
   }
 
+  if ("employeeId" in prepared && prepared.employeeId) {
+    const employee = await employeeService.getById(
+      prepared.employeeId as string
+    );
+    if (employee) {
+      prepared.employeeName = employee.name;
+      prepared.employeeCommission = employee.rentalCommissionPercentage;
+    }
+  }
+
   // Buscar dados da casa se houseId foi fornecido
   if ("houseId" in prepared && prepared.houseId) {
     const house = await houseService.getById(prepared.houseId as string);
     if (house) {
       prepared.houseName = house.houseName;
       prepared.houseAddress = `${house.address.street}, ${house.address.number} - ${house.address.city}/${house.address.state}`;
+
+      if (house.ownerId) {
+        const owner = await ownerService.getById(house.ownerId as string);
+        if (owner) {
+          prepared.ownerName = owner.name;
+          prepared.ownerId = owner.id;
+        }
+      }
     }
   }
 

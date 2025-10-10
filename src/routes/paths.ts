@@ -9,4 +9,5 @@ export const paths = {
   employees: "/employees",
   houses: "/houses",
   sales: "/sales",
+  financial: "/financial",
 };

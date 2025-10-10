@@ -230,6 +230,11 @@ export const SaleList: React.FC<SaleListProps> = ({
                   {sortField === "clientName" &&
                     (sortDirection === "asc" ? "↑" : "↓")}
                 </th>
+                <th onClick={() => handleSort("employeeName")}>
+                  Vendedor/Colaborador{" "}
+                  {sortField === "employeeName" &&
+                    (sortDirection === "asc" ? "↑" : "↓")}
+                </th>
                 <th onClick={() => handleSort("houseName")}>
                   Casa{" "}
                   {sortField === "houseName" &&
@@ -269,6 +274,11 @@ export const SaleList: React.FC<SaleListProps> = ({
                     <div className="client-info">
                       <span className="client-name">{sale.clientName}</span>
                       <span className="client-details">{sale.clientPhone}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="employee-info">
+                      <span className="employee-name">{sale.employeeName}</span>
                     </div>
                   </td>
                   <td>

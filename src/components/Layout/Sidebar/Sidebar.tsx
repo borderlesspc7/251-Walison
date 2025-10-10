@@ -81,7 +81,7 @@ const defaultMenuItems: MenuItem[] = [
     id: "financeiro",
     label: "Financeiro",
     icon: FiCreditCard,
-    path: "/financeiro",
+    path: "/financial",
   },
   {
     id: "dashboard-processos",

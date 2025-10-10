@@ -161,6 +161,14 @@
   color: #666;
 }
 
+/* Employee Info */
+.employee-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
 /* Badges */
 .status-badge,
 .company-badge,

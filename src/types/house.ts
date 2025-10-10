@@ -2,6 +2,9 @@ export interface House {
   id: string;
   code: string;
   houseName: string;
+  ownerName?: string;
+  ownerId: string;
+  ownerPhone?: string;
   address: {
     street: string;
     number: string;
@@ -32,6 +35,8 @@ export type HouseStatus = "available" | "occupied" | "maintenance" | "inactive";
 
 export interface CreateHouseData {
   houseName: string;
+  ownerId: string;
+  ownerPhone?: string;
   address: {
     street: string;
     number: string;

@@ -13,6 +13,10 @@ export interface Sale {
   clientEmail: string;
   clientGender: string;
 
+  employeeId?: string;
+  employeeName: string;
+  employeeCommission?: number;
+
   // Origem da venda
   saleOrigin: SaleOrigin;
 
@@ -20,6 +24,10 @@ export interface Sale {
   houseId: string;
   houseName: string;
   houseAddress: string;
+
+  ownerId?: string;
+  ownerName?: string;
+  ownerPhone?: string;
 
   // Informações de estadia
   checkInDate: Date;
@@ -91,6 +99,9 @@ export interface CreateSaleData {
     coconuts?: number;
   };
   status?: SaleStatus;
+  employeeId?: string;
+  employeeCommission?: number;
+  employeeName?: string;
 }
 
 export interface UpdateSaleData extends Partial<CreateSaleData> {

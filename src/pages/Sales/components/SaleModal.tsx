@@ -20,6 +20,9 @@ import { SelectField } from "../../../components/ui/SelectField/SelectField";
 import { Button } from "../../../components/ui/Button/Button";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner/LoadingSpinner";
 import "./SaleModal.css";
+import type { Employee } from "../../../types/employee";
+import { employeeService } from "../../../services/employeeService";
+import { ownerService } from "../../../services/ownerService";
 
 interface SaleModalProps {
   isOpen: boolean;
@@ -50,6 +53,7 @@ const initialFormData: CreateSaleData = {
     coconuts: 0,
   },
   status: "pending",
+  employeeId: "",
 };
 
 export const SaleModal: React.FC<SaleModalProps> = ({
@@ -66,6 +70,10 @@ export const SaleModal: React.FC<SaleModalProps> = ({
   const [houses, setHouses] = useState<House[]>([]);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [selectedHouse, setSelectedHouse] = useState<House | null>(null);
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
+    null
+  );
 
   // Valores calculados automaticamente
   const [calculatedValues, setCalculatedValues] = useState({
@@ -85,6 +93,7 @@ export const SaleModal: React.FC<SaleModalProps> = ({
     if (isOpen) {
       loadClients();
       loadHouses();
+      loadEmployees();
     }
   }, [isOpen]);
 
@@ -94,6 +103,15 @@ export const SaleModal: React.FC<SaleModalProps> = ({
       setClients(data);
     } catch (error) {
       console.error("Erro ao carregar clientes:", error);
+    }
+  };
+
+  const loadEmployees = async () => {
+    try {
+      const data = await employeeService.getAll();
+      setEmployees(data);
+    } catch (error) {
+      console.error("Erro ao carregar funcionários:", error);
     }
   };
 
@@ -124,6 +142,7 @@ export const SaleModal: React.FC<SaleModalProps> = ({
           conciergeValue: sale.conciergeValue,
           additionalSales: sale.additionalSales,
           status: sale.status,
+          employeeId: sale.employeeId,
         });
 
         // Buscar cliente e casa selecionados
@@ -170,6 +189,15 @@ export const SaleModal: React.FC<SaleModalProps> = ({
     }
   }, [formData.clientId, clients]);
 
+  useEffect(() => {
+    if (formData.employeeId) {
+      const employee = employees.find((e) => e.id === formData.employeeId);
+      setSelectedEmployee(employee || null);
+    } else {
+      setSelectedEmployee(null);
+    }
+  }, [formData.employeeId, employees]);
+
   // Atualizar casa selecionada
   useEffect(() => {
     if (formData.houseId) {
@@ -180,11 +208,30 @@ export const SaleModal: React.FC<SaleModalProps> = ({
     }
   }, [formData.houseId, houses]);
 
+  useEffect(() => {
+    if (selectedHouse?.ownerId) {
+      ownerService.getById(selectedHouse.ownerId).then((owner) => {
+        if (owner) {
+          setFormData((prev) => ({
+            ...prev,
+            ownerId: owner.id,
+            ownerName: owner.name,
+            ownerPhone: owner.phone,
+          }));
+        }
+      });
+    }
+  }, [selectedHouse]);
+
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
 
     if (!formData.clientId) {
       newErrors.clientId = "Cliente é obrigatório";
+    }
+
+    if (!formData.employeeId) {
+      newErrors.employeeId = "Funcionário é obrigatório";
     }
 
     if (!formData.houseId) {
@@ -339,6 +386,11 @@ export const SaleModal: React.FC<SaleModalProps> = ({
     label: `${client.name} - ${client.cpf}`,
   }));
 
+  const employeeOptions = employees.map((employee) => ({
+    value: employee.id,
+    label: employee.name,
+  }));
+
   const houseOptions = houses.map((house) => ({
     value: house.id,
     label: `${house.houseName} - ${house.address.city}`,
@@ -452,6 +504,57 @@ export const SaleModal: React.FC<SaleModalProps> = ({
                     {selectedHouse.address.street},{" "}
                     {selectedHouse.address.number} -{" "}
                     {selectedHouse.address.city}/{selectedHouse.address.state}
+                  </span>
+                </div>
+
+                {selectedHouse.ownerId && (
+                  <>
+                    <div className="info-divider"></div>
+                    <div className="info-subtitle">Proprietário</div>
+                    <div className="info-row">
+                      <span className="info-label">Nome:</span>
+                      <span className="info-value">
+                        {selectedHouse.ownerName}
+                      </span>
+                    </div>
+                    <div className="info-row">
+                      <span className="info-label">Telefone:</span>
+                      <span className="info-value">
+                        {selectedHouse.ownerPhone}
+                      </span>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="form-section">
+            <h3 className="section-title">Colaborador Responsável</h3>
+
+            <SelectField
+              label="Vendedor/Colaborador"
+              value={formData.employeeId || ""}
+              onChange={(value) => handleChange("employeeId", value)}
+              options={[
+                { value: "", label: "Selecione um vendedor/colaborador" },
+                ...employeeOptions,
+              ]}
+              disabled={isReadOnly}
+              error={errors.employeeId}
+              required
+            />
+
+            {selectedEmployee && (
+              <div className="employee-info-display">
+                <div className="info-row">
+                  <span className="info-label">Nome:</span>
+                  <span className="info-value">{selectedEmployee.name}</span>
+                </div>
+                <div className="info-row">
+                  <span className="info-label">Comissão:</span>
+                  <span className="info-value">
+                    {selectedEmployee.rentalCommissionPercentage}%
                   </span>
                 </div>
               </div>

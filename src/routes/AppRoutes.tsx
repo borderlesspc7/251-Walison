@@ -10,6 +10,7 @@ import { SupplierManagement } from "../pages/Supplier/SupplierManagement";
 import { EmployeeManagement } from "../pages/Employee/EmployeeManagement";
 import { HouseManagement } from "../pages/House/HouseManagment";
 import { SalesManagement } from "../pages/Sales/SalesManagement";
+import FinancialManagement from "../pages/Financial/FinancialManagement";
 
 export const AppRoutes = () => {
   function Menu() {
@@ -88,6 +89,16 @@ export const AppRoutes = () => {
             <ProtectedRoute>
               <Layout>
                 <SalesManagement />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.financial}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <FinancialManagement />
               </Layout>
             </ProtectedRoute>
           }
