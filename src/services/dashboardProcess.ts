@@ -75,33 +75,25 @@ const groupSalesByPeriod = (
   return groups;
 };
 
-// ===== SERVICE PRINCIPAL =====
-
 export const dashboardService = {
-  // ===== INDICADORES DE TOPO =====
   async getTopIndicators(filters: DashboardFilters): Promise<TopIndicators> {
     try {
-      // Buscar todas as vendas
       const allSales = await saleService.getAll();
 
-      // Filtrar vendas por período
       let filteredSales = this.filterSalesByPeriod(allSales, filters);
 
-      // Filtrar por empresa se especificado
       if (filters.company !== "all") {
         filteredSales = filteredSales.filter(
           (sale) => sale.company === filters.company
         );
       }
 
-      // Filtrar por casa se especificado
       if (filters.houseId) {
         filteredSales = filteredSales.filter(
           (sale) => sale.houseId === filters.houseId
         );
       }
 
-      // Obter período anterior para comparação
       const currentStartDate = filters.startDate
         ? new Date(filters.startDate)
         : new Date();
@@ -120,7 +112,6 @@ export const dashboardService = {
         endDate: previousPeriod.end.toISOString(),
       });
 
-      // Calcular contratos ativos
       const activeContracts = filteredSales.filter(
         (sale) => sale.status === "confirmed" || sale.status === "pending"
       ).length;
@@ -129,7 +120,6 @@ export const dashboardService = {
         (sale) => sale.status === "confirmed" || sale.status === "pending"
       ).length;
 
-      // Calcular reservas futuras
       const futureReservations = filteredSales
         .filter(
           (sale) => sale.checkInDate > new Date() && sale.status !== "cancelled"

@@ -179,11 +179,11 @@ export interface ExportOptions {
 export interface ComparisonData {
   current: {
     period: string;
-    data: any;
+    data: unknown;
   };
   previous: {
     period: string;
-    data: any;
+    data: unknown;
   };
   variation: {
     absolute: number;
