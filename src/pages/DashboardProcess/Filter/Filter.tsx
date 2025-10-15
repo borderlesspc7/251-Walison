@@ -256,7 +256,7 @@ const DashboardFilters: React.FC<DashboardFiltersProps> = ({
             {getViewModeOptions().map((option) => (
               <button
                 key={option.value}
-                className={`view-mode-button ${
+                className={`view-mode-btn ${
                   localFilters.viewMode === option.value ? "active" : ""
                 }`}
                 onClick={() => updateFilter("viewMode", option.value)}

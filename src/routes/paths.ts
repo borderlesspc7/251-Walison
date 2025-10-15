@@ -10,4 +10,5 @@ export const paths = {
   houses: "/houses",
   sales: "/sales",
   financial: "/financial",
+  dashboardProcessos: "/dashboard-processos",
 };
