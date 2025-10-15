@@ -1,0 +1,514 @@
+.financial-block {
+  margin-bottom: 2rem;
+}
+
+.block-header {
+  margin-bottom: 2rem;
+}
+
+.block-header h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.block-subtitle {
+  margin: 0 0 1.5rem 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Seletor de Gráficos */
+.chart-selector {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.chart-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chart-btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.chart-btn.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+/* Cards Financeiros */
+.financial-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.financial-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.financial-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+.financial-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+/* Cores específicas por card */
+.total-sales::before {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+
+.total-commissions::before {
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+}
+
+.supplier-commissions::before {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.total-concierge::before {
+  background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+}
+
+.housekeeper-payments::before {
+  background: linear-gradient(90deg, #06b6d4, #0891b2);
+}
+
+.contribution-margin::before {
+  background: linear-gradient(90deg, #84cc16, #65a30d);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.card-icon {
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #f0f9ff;
+  border-radius: 8px;
+}
+
+.total-sales .card-icon {
+  color: #10b981;
+  background: #ecfdf5;
+}
+
+.total-commissions .card-icon {
+  color: #3b82f6;
+  background: #f0f9ff;
+}
+
+.supplier-commissions .card-icon {
+  color: #f59e0b;
+  background: #fffbeb;
+}
+
+.total-concierge .card-icon {
+  color: #8b5cf6;
+  background: #f3e8ff;
+}
+
+.housekeeper-payments .card-icon {
+  color: #06b6d4;
+  background: #ecfeff;
+}
+
+.contribution-margin .card-icon {
+  color: #84cc16;
+  background: #f0fdf4;
+}
+
+.card-trend {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.trend-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.trend-up {
+  color: #10b981;
+}
+
+.trend-down {
+  color: #ef4444;
+}
+
+.trend-neutral {
+  color: #6b7280;
+}
+
+.card-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: #374151;
+  font-weight: 600;
+}
+
+.card-value {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.card-description {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* Container de Gráficos */
+.chart-container {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.chart-section {
+  width: 100%;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.chart-header h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  color: #1f2937;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chart-info {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Gráfico Simples de Barras */
+.chart-content {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.simple-chart {
+  width: 100%;
+  height: 100%;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  height: 250px;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.chart-bar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  max-width: 80px;
+}
+
+.chart-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  position: relative;
+}
+
+.chart-bar {
+  width: 100%;
+  min-height: 20px;
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.chart-bar:hover {
+  transform: scaleY(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bar-value {
+  position: absolute;
+  top: -30px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #374151;
+  background: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.chart-bar:hover + .bar-value {
+  opacity: 1;
+}
+
+.bar-label {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Gráfico de Margem por Casa */
+.margin-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.margin-house {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+}
+
+.house-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.house-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.house-value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #059669;
+}
+
+.house-bar {
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+}
+
+.house-progress {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.house-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.detail-item span:first-child {
+  color: #6b7280;
+}
+
+.detail-item span:last-child {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.margin-percentage {
+  color: #059669 !important;
+  font-weight: 700 !important;
+}
+
+/* Loading States */
+.financial-card.loading {
+  pointer-events: none;
+}
+
+.card-skeleton {
+  display: flex;
+  gap: 1rem;
+}
+
+.skeleton-icon {
+  width: 40px;
+  height: 40px;
+  background: #e5e7eb;
+  border-radius: 8px;
+  animation: pulse 2s infinite;
+}
+
+.skeleton-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skeleton-title {
+  height: 16px;
+  width: 70%;
+  background: #e5e7eb;
+  border-radius: 4px;
+  animation: pulse 2s infinite;
+}
+
+.skeleton-value {
+  height: 28px;
+  width: 90%;
+  background: #e5e7eb;
+  border-radius: 4px;
+  animation: pulse 2s infinite;
+}
+
+.skeleton-button {
+  height: 40px;
+  width: 120px;
+  background: #e5e7eb;
+  border-radius: 8px;
+  animation: pulse 2s infinite;
+}
+
+.skeleton-chart {
+  height: 300px;
+  background: #e5e7eb;
+  border-radius: 8px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .financial-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .financial-card {
+    padding: 1.25rem;
+  }
+
+  .chart-selector {
+    flex-direction: column;
+  }
+
+  .chart-btn {
+    justify-content: center;
+  }
+
+  .chart-bars {
+    gap: 0.5rem;
+  }
+
+  .chart-bar-container {
+    max-width: 60px;
+  }
+
+  .bar-value {
+    font-size: 0.625rem;
+    top: -25px;
+  }
+
+  .house-details {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .card-value {
+    font-size: 1.5rem;
+  }
+
+  .chart-bars {
+    height: 200px;
+  }
+}
