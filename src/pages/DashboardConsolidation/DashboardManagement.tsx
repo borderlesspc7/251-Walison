@@ -11,7 +11,7 @@ import DashboardFilters from "./Filter/Filter";
 import TopIndicators from "./TopIndicators/TopIndicators";
 import FinancialBlock from "./FinancialBlock/FinancialBlock";
 import CommercialIntelligence from "./CommercialIntelligence/CommercialIntelligence";
-import { dashboardService } from "../../services/dashboardProcess";
+import { dashboardService } from "../../services/dashboardConsolidation";
 import type {
   DashboardFilters as DashboardFiltersType,
   TopIndicators as TopIndicatorsType,
