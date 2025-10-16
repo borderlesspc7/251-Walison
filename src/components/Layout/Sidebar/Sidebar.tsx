@@ -84,6 +84,12 @@ const defaultMenuItems: MenuItem[] = [
     path: "/financial",
   },
   {
+    id: "dashboard-consolidacao",
+    label: "Dashboard Consolidação",
+    icon: FiPower,
+    path: "/dashboard-consolidacao",
+  },
+  {
     id: "dashboard-processos",
     label: "Dashboard Processos",
     icon: FiPower,

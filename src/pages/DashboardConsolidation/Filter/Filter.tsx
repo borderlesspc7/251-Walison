@@ -11,7 +11,7 @@ import {
 } from "react-icons/fi";
 import { houseService } from "../../../services/houseService";
 import type { House } from "../../../types/house";
-import type { DashboardFilters as DashboardFiltersType } from "../../../types/dashboardProcess";
+import type { DashboardFilters as DashboardFiltersType } from "../../../types/dashboardConsolidation";
 import "./Filter.css";
 
 export interface DashboardFiltersProps {

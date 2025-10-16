@@ -105,7 +105,7 @@ export const AppRoutes = () => {
           }
         />
         <Route
-          path={paths.dashboardProcessos}
+          path={paths.dashboardConsolidacao}
           element={
             <ProtectedRoute>
               <Layout>

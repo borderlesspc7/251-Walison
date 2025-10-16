@@ -9,7 +9,7 @@ import {
   FiTrendingDown,
   FiMinus,
 } from "react-icons/fi";
-import type { TopIndicators as TopIndicatorsType } from "../../../types/dashboardProcess";
+import type { TopIndicators as TopIndicatorsType } from "../../../types/dashboardConsolidation";
 
 export interface TopIndicatorsProps {
   data: TopIndicatorsType;

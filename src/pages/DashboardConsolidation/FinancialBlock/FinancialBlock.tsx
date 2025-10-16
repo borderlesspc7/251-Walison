@@ -11,7 +11,7 @@ import {
   FiPieChart,
   FiBarChart2,
 } from "react-icons/fi";
-import type { FinancialData } from "../../../types/dashboardProcess";
+import type { FinancialData } from "../../../types/dashboardConsolidation";
 
 export interface FinancialBlockProps {
   data: FinancialData;

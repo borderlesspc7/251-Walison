@@ -16,7 +16,7 @@ import {
   FiZap,
   FiActivity,
 } from "react-icons/fi";
-import type { CommercialIntelligence as CommercialIntelligenceType } from "../../../types/dashboardProcess";
+import type { CommercialIntelligence as CommercialIntelligenceType } from "../../../types/dashboardConsolidation";
 
 export interface CommercialIntelligenceProps {
   data: CommercialIntelligenceType;

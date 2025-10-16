@@ -11,7 +11,7 @@ import type {
   ContributionMarginByHouse,
   ChartDataPoint,
   QuickStats,
-} from "../types/dashboardProcess";
+} from "../types/dashboardConsolidation";
 
 // ===== FUNÇÕES AUXILIARES =====
 

@@ -17,7 +17,7 @@ import type {
   TopIndicators as TopIndicatorsType,
   FinancialData,
   CommercialIntelligence as CommercialIntelligenceType,
-} from "../../types/dashboardProcess";
+} from "../../types/dashboardConsolidation";
 
 const DashboardManagement: React.FC = () => {
   const { user } = useAuth();
