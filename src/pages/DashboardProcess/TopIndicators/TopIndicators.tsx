@@ -13,7 +13,7 @@ import type { ProcessMetrics } from "../../../types/processDashboard";
 import "./TopIndicators.css";
 
 interface TopIndicatorsProps {
-  metrics: ProcessMetrics;
+  metrics?: ProcessMetrics;
   loading?: boolean;
 }
 
@@ -61,6 +61,28 @@ const TopIndicators: React.FC<TopIndicatorsProps> = ({
     }
     return "#6b7280"; // Cinza se não há variação
   };
+
+  if (loading || !metrics) {
+    return (
+      <div className="top-indicators">
+        <div className="indicators-grid">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="indicator-card loading">
+              <div className="card-header">
+                <div className="skeleton-icon"></div>
+                <div className="skeleton-title"></div>
+              </div>
+              <div className="card-content">
+                <div className="skeleton-value"></div>
+                <div className="skeleton-subtitle"></div>
+                <div className="skeleton-variation"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   const indicators = [
     {
@@ -124,28 +146,6 @@ const TopIndicators: React.FC<TopIndicatorsProps> = ({
       subtitle: "Geral",
     },
   ];
-
-  if (loading) {
-    return (
-      <div className="top-indicators">
-        <div className="indicators-grid">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <div key={index} className="indicator-card loading">
-              <div className="card-header">
-                <div className="skeleton-icon"></div>
-                <div className="skeleton-title"></div>
-              </div>
-              <div className="card-content">
-                <div className="skeleton-value"></div>
-                <div className="skeleton-subtitle"></div>
-                <div className="skeleton-variation"></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="top-indicators">

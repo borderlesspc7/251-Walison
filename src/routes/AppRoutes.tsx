@@ -12,6 +12,7 @@ import { HouseManagement } from "../pages/House/HouseManagment";
 import { SalesManagement } from "../pages/Sales/SalesManagement";
 import FinancialManagement from "../pages/Financial/FinancialManagement";
 import DashboardManagement from "../pages/DashboardConsolidation/DashboardManagement";
+import DashboardProcessos from "../pages/DashboardProcess/DashboardManagement";
 
 export const AppRoutes = () => {
   function Menu() {
@@ -110,6 +111,16 @@ export const AppRoutes = () => {
             <ProtectedRoute>
               <Layout>
                 <DashboardManagement />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.dashboardProcessos}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <DashboardProcessos />
               </Layout>
             </ProtectedRoute>
           }
