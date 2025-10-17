@@ -7,7 +7,6 @@ import type {
   ComparativeReport,
   TaxReport,
   FinancialSummary,
-  ExcelExportData,
 } from "../types/financial";
 
 const formatCurrency = (value: number): string => {

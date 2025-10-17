@@ -18,6 +18,7 @@ interface HouseModalProps {
 
 const initialFormData: CreateHouseData = {
   houseName: "",
+  ownerId: "",
   address: {
     street: "",
     number: "",
@@ -63,6 +64,7 @@ export const HouseModal: React.FC<HouseModalProps> = ({
       if (house && (isEditing || mode === "view")) {
         setFormData({
           houseName: house.houseName,
+          ownerId: house.ownerId || "",
           address: {
             street: house.address.street,
             number: house.address.number,

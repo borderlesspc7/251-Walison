@@ -3,7 +3,7 @@ export interface House {
   code: string;
   houseName: string;
   ownerName?: string;
-  ownerId: string;
+  ownerId?: string;
   ownerPhone?: string;
   address: {
     street: string;

@@ -432,10 +432,11 @@ export const calculateProcessMetrics = (
 
 // Gerar dados para gráficos
 export const generateChartsData = (
-  reservations: FutureReservation[],
+  _reservations: FutureReservation[],
   processes: ConciergeProcess[]
 ): ProcessChartsData => {
   // Dados de conclusão de processos
+  // reservations pode ser usado no futuro para correlacionar dados
   const processCompletion: ProcessCompletionData[] = [];
   const last30Days = new Date();
   last30Days.setDate(last30Days.getDate() - 30);
@@ -604,16 +605,13 @@ export const advanceProcessStep = async (
   try {
     const processRef = doc(db, "conciergeProcesses", processId);
 
-    const updateData: Record<string, unknown> = {
+    const updateData = {
       currentStep: step,
       updatedAt: convertToTimestamp(new Date()),
       [`steps.${step}.completed`]: true,
       [`steps.${step}.completedAt`]: convertToTimestamp(new Date()),
+      ...(notes && { [`steps.${step}.notes`]: notes }),
     };
-
-    if (notes) {
-      updateData[`steps.${step}.notes`] = notes;
-    }
 
     await updateDoc(processRef, updateData);
 
