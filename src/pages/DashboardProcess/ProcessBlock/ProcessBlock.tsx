@@ -395,16 +395,19 @@ const ProcessBlock: React.FC<ProcessBlockProps> = ({
       </div>
 
       {stepModal && (
-        <div className="modal-overlay" onClick={cancelModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
+        <div className="modal-overlay-process" onClick={cancelModal}>
+          <div
+            className="modal-content-process"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-header-process">
               <h3>Avançar Etapa</h3>
-              <button className="close-btn" onClick={cancelModal}>
+              <button className="close-btn-process" onClick={cancelModal}>
                 <FiX size={20} />
               </button>
             </div>
 
-            <div className="modal-body">
+            <div className="modal-body-process">
               <p>Confirma o avanço para a etapa: </p>
               <div className="step-highlight">
                 <FiArrowRight size={20} />
@@ -423,7 +426,7 @@ const ProcessBlock: React.FC<ProcessBlockProps> = ({
               </div>
             </div>
 
-            <div className="modal-footer">
+            <div className="modal-footer-process">
               <button
                 className="cancel-btn"
                 onClick={cancelModal}
