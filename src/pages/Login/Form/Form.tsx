@@ -31,7 +31,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (user) {
-      navigate(paths.menu);
+      navigate(paths.clients);
     }
   }, [user, navigate]);
 

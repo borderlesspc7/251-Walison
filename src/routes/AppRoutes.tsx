@@ -15,26 +15,12 @@ import DashboardManagement from "../pages/DashboardConsolidation/DashboardManage
 import DashboardProcessos from "../pages/DashboardProcess/DashboardManagement";
 
 export const AppRoutes = () => {
-  function Menu() {
-    return <div>Menu</div>;
-  }
-
   return (
     <BrowserRouter>
       <Routes>
         <Route path={paths.home} element={<LoginPage />} />
         <Route path={paths.login} element={<LoginPage />} />
         <Route path={paths.register} element={<RegisterPage />} />
-        <Route
-          path={paths.menu}
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <Menu />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
         <Route
           path={paths.clients}
           element={

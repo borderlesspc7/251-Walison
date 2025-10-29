@@ -29,12 +29,6 @@ export interface MenuItem {
 
 const defaultMenuItems: MenuItem[] = [
   {
-    id: "dashboard",
-    label: "Dashboard",
-    icon: FiHome,
-    path: "/dashboard",
-  },
-  {
     id: "cadastros",
     label: "Cadastros",
     icon: FiUsers,
