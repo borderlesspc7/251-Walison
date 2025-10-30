@@ -210,7 +210,15 @@ export const generateAnnualThermometer = async (
     const annualGoal = await getAnnualGoal(year);
 
     if (!annualGoal) {
-      throw new Error("Meta anual não encontrada");
+      // Retorna dados vazios se não houver meta cadastrada
+      return {
+        year,
+        totalGoal: 0,
+        totalAchieved: 0,
+        percentage: 0,
+        status: "below_target",
+        categories: [],
+      };
     }
 
     let totalAchieved = 0;
@@ -311,7 +319,15 @@ export const generateAnnualThermometer = async (
     };
   } catch (error) {
     console.error("Erro ao gerar termômetro anual:", error);
-    throw new Error("Falha ao gerar termômetro");
+    // Retorna dados vazios em caso de erro
+    return {
+      year,
+      totalGoal: 0,
+      totalAchieved: 0,
+      percentage: 0,
+      status: "below_target",
+      categories: [],
+    };
   }
 };
 
@@ -396,7 +412,8 @@ export const generateMonthlyGoalData = async (
     return monthlyData;
   } catch (error) {
     console.error("Erro ao gerar dados mensais:", error);
-    throw new Error("Falha ao gerar dados mensais");
+    // Retorna array vazio em caso de erro
+    return [];
   }
 };
 
@@ -476,7 +493,31 @@ export const getGoalsDashboardData = async (
     };
   } catch (error) {
     console.error("Erro ao obter dados do dashboard:", error);
-    throw new Error("Falha ao carregar dashboard de metas");
+    
+    // Retorna dados vazios em caso de erro, permitindo que o dashboard funcione
+    return {
+      annualThermometer: {
+        year,
+        totalGoal: 0,
+        totalAchieved: 0,
+        percentage: 0,
+        status: "below_target",
+        categories: [],
+      },
+      monthlyData: [],
+      chartsData: {
+        monthlyTrend: [],
+        categoryComparison: [],
+        thermometerData: {
+          percentage: 0,
+          achieved: 0,
+          goal: 0,
+          remaining: 0,
+        },
+      },
+      filters,
+      lastUpdate: new Date(),
+    };
   }
 };
 

@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./DashboardManagement.css";
-import {
-  FiDownload,
-  FiRefreshCw,
-  FiSettings,
-  FiBarChart2,
-} from "react-icons/fi";
+import { FiDownload, FiRefreshCw, FiSettings, FiBarChart2, FiCalendar } from "react-icons/fi";
 import { useAuth } from "../../hooks/useAuth";
 import DashboardFilters from "./Filter/Filter";
 import TopIndicators from "./TopIndicators/TopIndicators";
@@ -101,27 +96,24 @@ const DashboardManagement: React.FC = () => {
 
   return (
     <div className="dashboard-management">
-      {/* Header do Dashboard */}
-      <div className="dashboard-header">
-        <div className="header-content">
-          <div className="header-info">
-            <h1>
-              <FiBarChart2
-                size={28}
-                style={{ marginRight: "12px", verticalAlign: "middle" }}
-              />
-              Dashboard Consolidado
-            </h1>
-            <p className="dashboard-subtitle">
-              Visão geral completa do negócio com análises em tempo real
-            </p>
+      {/* Header moderno unificado */}
+      <div className="consolidation-dashboard-header">
+        <div className="consolidation-dashboard-header-content">
+          <div className="consolidation-dashboard-header-left">
+            <div className="consolidation-dashboard-header-icon">
+              <FiBarChart2 />
+            </div>
+            <div className="consolidation-dashboard-header-text">
+              <h1 className="consolidation-dashboard-header-title">Dashboard Consolidado</h1>
+              <p className="consolidation-dashboard-header-subtitle">Visão geral completa do negócio com análises em tempo real</p>
+            </div>
           </div>
-          <div className="header-actions">
-            <button
-              className="action-btn refresh-btn"
-              onClick={handleRefresh}
-              disabled={loading}
-            >
+          <div className="consolidation-dashboard-header-actions">
+            <div className="consolidation-dashboard-header-badge">
+              <FiCalendar className="consolidation-dashboard-header-badge-icon" />
+              <span>Visão {filters.viewMode === "consolidated" ? "Consolidada" : "Individual"}</span>
+            </div>
+            <button className="action-btn refresh-btn" onClick={handleRefresh} disabled={loading}>
               <FiRefreshCw size={16} className={loading ? "spinning" : ""} />
               Atualizar
             </button>
@@ -131,12 +123,8 @@ const DashboardManagement: React.FC = () => {
                 Exportar
               </button>
               <div className="dropdown-menu">
-                <button onClick={() => handleExport("excel")}>
-                  Exportar para Excel
-                </button>
-                <button onClick={() => handleExport("pdf")}>
-                  Exportar para PDF
-                </button>
+                <button onClick={() => handleExport("excel")}>Exportar para Excel</button>
+                <button onClick={() => handleExport("pdf")}>Exportar para PDF</button>
               </div>
             </div>
             <button className="action-btn settings-btn">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { FiRefreshCw, FiAlertCircle } from "react-icons/fi";
+import { FiRefreshCw, FiAlertCircle, FiActivity, FiCalendar } from "react-icons/fi";
 import Filter from "./Filter/Filter";
 import TopIndicators from "./TopIndicators/TopIndicators";
 import ProcessBlock from "./ProcessBlock/ProcessBlock";
@@ -84,22 +84,35 @@ const DashboardManagement: React.FC = () => {
 
   return (
     <div className="dashboard-management">
-      {/* Header */}
-      <div className="dashboard-header">
-        <div className="header-content">
-          <h1>Dashboard de Processos</h1>
-          <p className="header-subtitle">
-            Acompanhe reservas futuras e processos de concierge em tempo real
-          </p>
+      {/* Header moderno unificado */}
+      <div className="process-dashboard-header">
+        <div className="process-dashboard-header-content">
+          <div className="process-dashboard-header-left">
+            <div className="process-dashboard-header-icon">
+              <FiActivity />
+            </div>
+            <div className="process-dashboard-header-text">
+              <h1 className="process-dashboard-header-title">Dashboard de Processos</h1>
+              <p className="process-dashboard-header-subtitle">
+                Acompanhe reservas futuras e processos de concierge em tempo real
+              </p>
+            </div>
+          </div>
+          <div className="process-dashboard-header-actions">
+            <div className="process-dashboard-header-badge">
+              <FiCalendar className="process-dashboard-header-badge-icon" />
+              <span>Período atual</span>
+            </div>
+            <button
+              className="process-dashboard-refresh-btn"
+              onClick={handleRefresh}
+              disabled={refreshing}
+            >
+              <FiRefreshCw size={18} className={refreshing ? "spinning" : ""} />
+              {refreshing ? "Atualizando..." : "Atualizar"}
+            </button>
+          </div>
         </div>
-        <button
-          className="refresh-btn"
-          onClick={handleRefresh}
-          disabled={refreshing}
-        >
-          <FiRefreshCw size={18} className={refreshing ? "spinning" : ""} />
-          {refreshing ? "Atualizando..." : "Atualizar"}
-        </button>
       </div>
 
       {/* Filtros */}

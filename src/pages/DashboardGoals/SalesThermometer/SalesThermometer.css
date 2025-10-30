@@ -1,0 +1,445 @@
+.sales-thermometer {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+}
+
+/* Header */
+.thermometer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-title h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.title-icon {
+  font-size: 28px;
+  color: #3b82f6;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.status-icon {
+  font-size: 16px;
+}
+
+/* Content */
+.thermometer-content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+/* Termômetro Visual */
+.thermometer-visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.thermometer-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px;
+}
+
+.thermometer-bulb {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 4px solid #3b82f6;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.thermometer-mercury {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #3b82f6;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+.thermometer-tube {
+  position: relative;
+  width: 40px;
+  height: 350px;
+  background: #f3f4f6;
+  border: 3px solid #e5e7eb;
+  border-radius: 20px;
+  margin-top: -10px;
+  overflow: hidden;
+}
+
+.temperature-markers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 0;
+  z-index: 2;
+}
+
+.marker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.marker-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  min-width: 40px;
+  text-align: right;
+}
+
+.marker-line {
+  width: 8px;
+  height: 2px;
+  background: #9ca3af;
+}
+
+.thermometer-fill-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+}
+
+.thermometer-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #3b82f6;
+  transition: height 1s ease-out, background-color 0.5s ease;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+}
+
+.fill-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Percentual Display */
+.percentage-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.percentage-value {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.percentage-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Estatísticas */
+.thermometer-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stat-card {
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+.stat-card.achieved {
+  border-left: 4px solid #10b981;
+}
+
+.stat-card.target {
+  border-left: 4px solid #3b82f6;
+}
+
+.stat-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stat-icon {
+  font-size: 20px;
+  color: #6b7280;
+}
+
+.stat-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.stat-detail {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.stat-detail strong {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.success-text {
+  color: #10b981;
+  font-weight: 600;
+}
+
+/* Barra de Progresso Linear */
+.progress-bar-container {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 32px;
+  background: #f3f4f6;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress-fill {
+  height: 100%;
+  background: #3b82f6;
+  border-radius: 16px;
+  transition: width 1s ease-out, background-color 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: progress-shimmer 2s infinite;
+}
+
+@keyframes progress-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.progress-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  z-index: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+/* Loading Skeleton */
+.thermometer-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.skeleton-header,
+.skeleton-thermometer,
+.skeleton-stats {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 8px;
+}
+
+.skeleton-header {
+  height: 40px;
+  width: 60%;
+}
+
+.skeleton-thermometer {
+  height: 400px;
+}
+
+.skeleton-stats {
+  height: 150px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .thermometer-content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .thermometer-visual {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .thermometer-container {
+    width: 60px;
+  }
+
+  .thermometer-tube {
+    height: 250px;
+    width: 35px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sales-thermometer {
+    padding: 16px;
+  }
+
+  .thermometer-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .header-title h3 {
+    font-size: 18px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+  }
+
+  .percentage-value {
+    font-size: 36px;
+  }
+}

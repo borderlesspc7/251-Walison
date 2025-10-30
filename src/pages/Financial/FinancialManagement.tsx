@@ -293,18 +293,17 @@ const FinancialManagement: React.FC = () => {
 
   return (
     <div className="financial-management">
-      <div className="financial-header">
-        <div>
-          <h1>
-            <FiDollarSign
-              size={36}
-              style={{ verticalAlign: "middle", marginRight: "0.5rem" }}
-            />
-            Financeiro e Relatórios
-          </h1>
-          <p className="page-subtitle">
-            Análise completa de receitas, despesas e relatórios gerenciais
-          </p>
+      <div className="financial-header-modern">
+        <div className="financial-header-content">
+          <div className="financial-header-left">
+            <div className="financial-header-icon">
+              <FiDollarSign />
+            </div>
+            <div className="financial-header-text">
+              <h1 className="financial-header-title">Financeiro e Relatórios</h1>
+              <p className="financial-header-subtitle">Análise completa de receitas, despesas e relatórios gerenciais</p>
+            </div>
+          </div>
         </div>
       </div>
 

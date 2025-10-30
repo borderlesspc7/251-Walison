@@ -4,23 +4,14 @@
   margin: 0 auto;
 }
 
-.sales-management-header {
-  margin-bottom: 2rem;
-}
-
-.sales-management-header .header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.sales-management-header h1 {
-  font-size: 2rem;
-  color: #1a1a1a;
-  margin: 0;
-}
+/* Header moderno unificado (classes únicas) */
+.sales-header { margin-bottom: 2rem; }
+.sales-header-content { display:flex; align-items:center; justify-content:space-between; background:#fff; padding:16px 20px; border-radius:12px; border-left:4px solid #3b82f6; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+.sales-header-left { display:flex; align-items:center; gap:16px; }
+.sales-header-icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3b82f6 0%, #8b5cf6 100%); color:#fff; font-size:22px; box-shadow:0 4px 12px rgba(59,130,246,.25); }
+.sales-header-text { display:flex; flex-direction:column; gap:4px; }
+.sales-header-title { margin:0; font-size:22px; font-weight:700; color:#1a1a1a; }
+.sales-header-subtitle { margin:0; font-size:14px; color:#6b7280; }
 
 .create-sale-btn {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

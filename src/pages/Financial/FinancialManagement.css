@@ -4,25 +4,14 @@
   margin: 0 auto;
 }
 
-.financial-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 2rem;
-}
-
-.financial-header h1 {
-  margin: 0 0 0.5rem 0;
-  font-size: 2rem;
-  color: #1f2937;
-  font-weight: 700;
-}
-
-.page-subtitle {
-  margin: 0;
-  font-size: 1rem;
-  color: #6b7280;
-}
+/* Header moderno unificado (classes únicas) */
+.financial-header-modern { margin-bottom: 2rem; }
+.financial-header-content { display:flex; align-items:center; justify-content:space-between; background:#fff; padding:16px 20px; border-radius:12px; border-left:4px solid #3b82f6; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+.financial-header-left { display:flex; align-items:center; gap:16px; }
+.financial-header-icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3b82f6 0%, #8b5cf6 100%); color:#fff; font-size:22px; box-shadow:0 4px 12px rgba(59,130,246,.25); }
+.financial-header-text { display:flex; flex-direction:column; gap:4px; }
+.financial-header-title { margin:0; font-size:22px; font-weight:700; color:#1f2937; }
+.financial-header-subtitle { margin:0; font-size:14px; color:#6b7280; }
 
 .financial-content {
   margin-top: 2rem;

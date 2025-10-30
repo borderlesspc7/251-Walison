@@ -13,6 +13,7 @@ import { SalesManagement } from "../pages/Sales/SalesManagement";
 import FinancialManagement from "../pages/Financial/FinancialManagement";
 import DashboardManagement from "../pages/DashboardConsolidation/DashboardManagement";
 import DashboardProcessos from "../pages/DashboardProcess/DashboardManagement";
+import { DashboardGoals } from "../pages/DashboardGoals/DashboardGoals";
 
 export const AppRoutes = () => {
   return (
@@ -107,6 +108,16 @@ export const AppRoutes = () => {
             <ProtectedRoute>
               <Layout>
                 <DashboardProcessos />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.dashboardGoals}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <DashboardGoals />
               </Layout>
             </ProtectedRoute>
           }

@@ -6,6 +6,7 @@ import { SaleModal } from "./components/SaleModal";
 import { SaleStats } from "./components/SaleStats";
 import { LoadingSpinner } from "../../components/ui/LoadingSpinner/LoadingSpinner";
 import { Button } from "../../components/ui/Button/Button";
+import { FiShoppingCart } from "react-icons/fi";
 import { ErrorMessage } from "../../components/ui/ErrorMessage/ErrorMessage";
 import "./SalesManagement.css";
 
@@ -167,9 +168,17 @@ export const SalesManagement: React.FC = () => {
 
   return (
     <div className="sales-management">
-      <div className="sales-management-header">
-        <div className="header-content">
-          <h1>Gestão de Vendas e Contratos</h1>
+      <div className="sales-header">
+        <div className="sales-header-content">
+          <div className="sales-header-left">
+            <div className="sales-header-icon">
+              <FiShoppingCart />
+            </div>
+            <div className="sales-header-text">
+              <h1 className="sales-header-title">Gestão de Vendas e Contratos</h1>
+              <p className="sales-header-subtitle">Gerencie vendas, contratos e desempenho comercial</p>
+            </div>
+          </div>
           <Button onClick={handleCreateSale} className="create-sale-btn">
             + Nova Venda
           </Button>
