@@ -7,13 +7,12 @@ import { SupplierFiltersComponent } from "./components/SupplierFilters";
 import { SupplierStats } from "./components/SupplierStats";
 import { LoadingSpinner } from "../../components/ui/LoadingSpinner/LoadingSpinner";
 import { Button } from "../../components/ui/Button/Button";
-import { ErrorMessage } from "../../components/ui/ErrorMessage/ErrorMessage";
+import { useToast } from "../../hooks/useToast";
 import "./SupplierManagement.css";
 
 export const SupplierManagement: React.FC = () => {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(
     null
@@ -28,18 +27,18 @@ export const SupplierManagement: React.FC = () => {
     inactive: 0,
     suspended: 0,
   });
+  const { showError, showSuccess, showWarning } = useToast();
 
   // Carregar fornecedores
   const loadSuppliers = async () => {
     try {
       setLoading(true);
-      setError(null);
       const data = await supplierService.getAll(filters);
       setSuppliers(data);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Erro ao carregar fornecedores"
-      );
+      const message =
+        err instanceof Error ? err.message : "Erro ao carregar fornecedores";
+      showError("Erro ao carregar fornecedores", message);
     } finally {
       setLoading(false);
     }
@@ -51,7 +50,9 @@ export const SupplierManagement: React.FC = () => {
       const statsData = await supplierService.getStats();
       setStats(statsData);
     } catch (err) {
-      console.error("Erro ao carregar estatísticas:", err);
+      const message =
+        err instanceof Error ? err.message : "Erro ao carregar estatísticas";
+      showWarning("Estatísticas indisponíveis", message);
     }
   };
 
@@ -132,10 +133,14 @@ export const SupplierManagement: React.FC = () => {
       await supplierService.delete(id);
       setSuppliers(suppliers.filter((supplier) => supplier.id !== id));
       loadStats();
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Erro ao excluir fornecedor"
+      showSuccess(
+        "Fornecedor excluído",
+        "O fornecedor foi excluído com sucesso."
       );
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Erro ao excluir fornecedor";
+      showError("Erro ao excluir fornecedor", message);
     }
   };
 
@@ -144,10 +149,16 @@ export const SupplierManagement: React.FC = () => {
     setSelectedSupplier(null);
   };
 
-  const handleSupplierSaved = () => {
+  const handleSupplierSaved = (action: "create" | "edit") => {
     loadSuppliers();
     loadStats();
     handleModalClose();
+    showSuccess(
+      action === "create" ? "Fornecedor criado" : "Fornecedor atualizado",
+      action === "create"
+        ? "O fornecedor foi cadastrado com sucesso."
+        : "As informações do fornecedor foram atualizadas."
+    );
   };
 
   const handleFiltersChange = (newFilters: SupplierFilters) => {
@@ -175,8 +186,6 @@ export const SupplierManagement: React.FC = () => {
           </Button>
         </div>
       </div>
-
-      {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
 
       <SupplierStats stats={stats} />
 

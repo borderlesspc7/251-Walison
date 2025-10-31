@@ -10,12 +10,13 @@ import InputField from "../../../components/ui/InputField/InputField";
 import { SelectField } from "../../../components/ui/SelectField/SelectField";
 import { Button } from "../../../components/ui/Button/Button";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner/LoadingSpinner";
+import { useToast } from "../../../hooks/useToast";
 import "./EmployeeModal.css";
 
 interface EmployeeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: () => void;
+  onSave: (action: "create" | "edit") => void;
   employee?: Employee | null;
   mode: "create" | "edit" | "view";
 }
@@ -37,6 +38,7 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
   const [formData, setFormData] = useState<CreateEmployeeData>(initialFormData);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { showError } = useToast();
 
   const isReadOnly = mode === "view";
   const isEditing = mode === "edit";
@@ -101,21 +103,26 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
     try {
       setLoading(true);
 
+      let action: "create" | "edit" = "create";
       if (isCreating) {
         await employeeService.create(formData);
+        action = "create";
       } else if (isEditing && employee) {
         await employeeService.update({
           id: employee.id,
           ...formData,
         });
+        action = "edit";
       }
 
-      onSave();
+      onSave(action);
     } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Erro ao salvar colaborador";
       setErrors({
-        submit:
-          error instanceof Error ? error.message : "Erro ao salvar colaborador",
+        submit: message,
       });
+      showError("Erro ao salvar colaborador", message);
     } finally {
       setLoading(false);
     }

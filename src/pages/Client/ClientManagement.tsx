@@ -7,13 +7,12 @@ import { ClientFiltersComponent } from "./components/ClientFilters";
 import { ClientStats } from "./components/ClientStats";
 import { LoadingSpinner } from "../../components/ui/LoadingSpinner/LoadingSpinner";
 import { Button } from "../../components/ui/Button/Button";
-import { ErrorMessage } from "../../components/ui/ErrorMessage/ErrorMessage";
+import { useToast } from "../../hooks/useToast";
 import "./ClientManagement.css";
 
 export const ClientManagement: React.FC = () => {
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [modalMode, setModalMode] = useState<"create" | "edit" | "view">(
@@ -26,18 +25,18 @@ export const ClientManagement: React.FC = () => {
     inactive: 0,
     prospects: 0,
   });
+  const { showError, showSuccess, showWarning } = useToast();
 
   // Carregar clientes
   const loadClients = async () => {
     try {
       setLoading(true);
-      setError(null);
       const data = await clientService.getAll(filters);
       setClients(data);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Erro ao carregar clientes"
-      );
+      const message =
+        err instanceof Error ? err.message : "Erro ao carregar clientes";
+      showError("Erro ao carregar clientes", message);
     } finally {
       setLoading(false);
     }
@@ -49,7 +48,9 @@ export const ClientManagement: React.FC = () => {
       const statsData = await clientService.getStats();
       setStats(statsData);
     } catch (err) {
-      console.error("Erro ao carregar estatísticas:", err);
+      const message =
+        err instanceof Error ? err.message : "Erro ao carregar estatísticas";
+      showWarning("Estatísticas indisponíveis", message);
     }
   };
 
@@ -144,8 +145,14 @@ export const ClientManagement: React.FC = () => {
       await clientService.delete(id);
       setClients(clients.filter((client) => client.id !== id));
       loadStats();
+      showSuccess(
+        "Cliente excluído",
+        "O cliente foi excluído com sucesso."
+      );
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao excluir cliente");
+      const message =
+        err instanceof Error ? err.message : "Erro ao excluir cliente";
+      showError("Erro ao excluir cliente", message);
     }
   };
 
@@ -154,10 +161,16 @@ export const ClientManagement: React.FC = () => {
     setSelectedClient(null);
   };
 
-  const handleClientSaved = () => {
+  const handleClientSaved = (action: "create" | "edit") => {
     loadClients();
     loadStats();
     handleModalClose();
+    showSuccess(
+      action === "create" ? "Cliente criado" : "Cliente atualizado",
+      action === "create"
+        ? "O cliente foi cadastrado com sucesso."
+        : "As informações do cliente foram atualizadas."
+    );
   };
 
   const handleFiltersChange = (newFilters: ClientFilters) => {
@@ -182,8 +195,6 @@ export const ClientManagement: React.FC = () => {
           </Button>
         </div>
       </div>
-
-      {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
 
       <ClientStats stats={stats} />
 

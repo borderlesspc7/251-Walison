@@ -9,6 +9,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { paths } from "../../../routes/paths";
 import "./Form.css";
+import { useToast } from "../../../hooks/useToast";
 
 type FormData = {
   displayName: string;
@@ -34,6 +35,7 @@ export const UserRegisterForm: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string>("");
+  const { showError, showSuccess } = useToast();
 
   const formatCPF = (value: string) => {
     // Remove all non-numeric characters
@@ -133,6 +135,11 @@ export const UserRegisterForm: React.FC = () => {
         phone: "",
       });
 
+      showSuccess(
+        "Usuário cadastrado",
+        "Cadastro concluído com sucesso. Redirecionando para login."
+      );
+
       // Redirecionar para login após registro bem-sucedido
       setTimeout(() => {
         navigate(paths.login);
@@ -140,8 +147,13 @@ export const UserRegisterForm: React.FC = () => {
     } catch (error) {
       if (error instanceof Error) {
         setSubmitError(error.message);
+        showError("Falha no cadastro", error.message);
       } else {
         setSubmitError("Erro inesperado ao registrar usuário");
+        showError(
+          "Falha no cadastro",
+          "Erro inesperado ao registrar usuário"
+        );
       }
     } finally {
       setIsSubmitting(false);

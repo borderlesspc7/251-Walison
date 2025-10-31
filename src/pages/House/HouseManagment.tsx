@@ -7,13 +7,12 @@ import { HouseFilters } from "./components/HouseFilters";
 import { HouseStats } from "./components/HouseStats";
 import { LoadingSpinner } from "../../components/ui/LoadingSpinner/LoadingSpinner";
 import { Button } from "../../components/ui/Button/Button";
-import { ErrorMessage } from "../../components/ui/ErrorMessage/ErrorMessage";
+import { useToast } from "../../hooks/useToast";
 import "./HouseManagment.css";
 
 export const HouseManagement: React.FC = () => {
   const [houses, setHouses] = useState<House[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"create" | "edit" | "view">(
     "create"
@@ -27,15 +26,17 @@ export const HouseManagement: React.FC = () => {
     maintenance: 0,
     inactive: 0,
   });
+  const { showError, showSuccess, showWarning } = useToast();
 
   const loadHouses = async () => {
     try {
       setLoading(true);
-      setError(null);
       const data = await houseService.getAll(filters);
       setHouses(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao carregar casas");
+      const message =
+        err instanceof Error ? err.message : "Erro ao carregar casas";
+      showError("Erro ao carregar casas", message);
     } finally {
       setLoading(false);
     }
@@ -46,10 +47,9 @@ export const HouseManagement: React.FC = () => {
       const statsData = await houseService.getStats();
       setStats(statsData);
     } catch (err) {
-      console.error("Erro ao carregar estatísticas:", err);
-      setError(
-        err instanceof Error ? err.message : "Erro ao carregar estatísticas"
-      );
+      const message =
+        err instanceof Error ? err.message : "Erro ao carregar estatísticas";
+      showWarning("Estatísticas indisponíveis", message);
     }
   };
 
@@ -133,8 +133,11 @@ export const HouseManagement: React.FC = () => {
       await houseService.delete(id);
       setHouses(houses.filter((house) => house.id !== id));
       loadStats();
+      showSuccess("Casa excluída", "A casa foi excluída com sucesso.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao excluir casa");
+      const message =
+        err instanceof Error ? err.message : "Erro ao excluir casa";
+      showError("Erro ao excluir casa", message);
     }
   };
 
@@ -143,10 +146,16 @@ export const HouseManagement: React.FC = () => {
     setSelectedHouse(null);
   };
 
-  const handleHouseSaved = () => {
+  const handleHouseSaved = (action: "create" | "edit") => {
     loadHouses();
     loadStats();
     handleModalClose();
+    showSuccess(
+      action === "create" ? "Casa criada" : "Casa atualizada",
+      action === "create"
+        ? "A casa foi cadastrada com sucesso."
+        : "As informações da casa foram atualizadas."
+    );
   };
 
   const handleFiltersChange = (newFilters: Filters) => {
@@ -171,8 +180,6 @@ export const HouseManagement: React.FC = () => {
           </Button>
         </div>
       </div>
-
-      {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
 
       <HouseStats stats={stats} />
 

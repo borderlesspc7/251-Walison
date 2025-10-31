@@ -7,13 +7,12 @@ import { EmployeeFiltersComponent } from "./components/EmployeeFilters";
 import { EmployeeStats } from "./components/EmployeeStats";
 import { LoadingSpinner } from "../../components/ui/LoadingSpinner/LoadingSpinner";
 import { Button } from "../../components/ui/Button/Button";
-import { ErrorMessage } from "../../components/ui/ErrorMessage/ErrorMessage";
+import { useToast } from "../../hooks/useToast";
 import "./EmployeeManagement.css";
 
 export const EmployeeManagement: React.FC = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
     null
@@ -28,18 +27,20 @@ export const EmployeeManagement: React.FC = () => {
     inactive: 0,
     suspended: 0,
   });
+  const { showError, showSuccess, showWarning } = useToast();
 
   // Carregar colaboradores
   const loadEmployees = async () => {
     try {
       setLoading(true);
-      setError(null);
       const data = await employeeService.getAll(filters);
       setEmployees(data);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Erro ao carregar colaboradores"
-      );
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Erro ao carregar colaboradores";
+      showError("Erro ao carregar colaboradores", message);
     } finally {
       setLoading(false);
     }
@@ -51,7 +52,9 @@ export const EmployeeManagement: React.FC = () => {
       const statsData = await employeeService.getStats();
       setStats(statsData);
     } catch (err) {
-      console.error("Erro ao carregar estatísticas:", err);
+      const message =
+        err instanceof Error ? err.message : "Erro ao carregar estatísticas";
+      showWarning("Estatísticas indisponíveis", message);
     }
   };
 
@@ -115,10 +118,14 @@ export const EmployeeManagement: React.FC = () => {
       await employeeService.delete(id);
       setEmployees(employees.filter((employee) => employee.id !== id));
       loadStats();
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Erro ao excluir colaborador"
+      showSuccess(
+        "Colaborador excluído",
+        "O colaborador foi excluído com sucesso."
       );
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Erro ao excluir colaborador";
+      showError("Erro ao excluir colaborador", message);
     }
   };
 
@@ -127,10 +134,16 @@ export const EmployeeManagement: React.FC = () => {
     setSelectedEmployee(null);
   };
 
-  const handleEmployeeSaved = () => {
+  const handleEmployeeSaved = (action: "create" | "edit") => {
     loadEmployees();
     loadStats();
     handleModalClose();
+    showSuccess(
+      action === "create" ? "Colaborador criado" : "Colaborador atualizado",
+      action === "create"
+        ? "O colaborador foi cadastrado com sucesso."
+        : "As informações do colaborador foram atualizadas."
+    );
   };
 
   const handleFiltersChange = (newFilters: EmployeeFilters) => {
@@ -158,8 +171,6 @@ export const EmployeeManagement: React.FC = () => {
           </Button>
         </div>
       </div>
-
-      {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
 
       <EmployeeStats stats={stats} />
 

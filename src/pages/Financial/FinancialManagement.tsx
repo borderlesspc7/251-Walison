@@ -12,7 +12,6 @@ import DemographicReport from "./components/DemographicReport";
 import ComparativeReport from "./components/ComparativeReport";
 import TaxReport from "./components/TaxReport";
 import { LoadingSpinner } from "../../components/ui/LoadingSpinner/LoadingSpinner";
-import { ErrorMessage } from "../../components/ui/ErrorMessage/ErrorMessage";
 import { financialService } from "../../services/financialService";
 import { excelExportService } from "../../services/excelExportService";
 import type {
@@ -24,6 +23,7 @@ import type {
   ComparativeReport as ComparativeReportType,
   TaxReport as TaxReportType,
 } from "../../types/financial";
+import { useToast } from "../../hooks/useToast";
 
 const FinancialManagement: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -55,6 +55,7 @@ const FinancialManagement: React.FC = () => {
   const [comparativeData, setComparativeData] =
     useState<ComparativeReportType | null>(null);
   const [taxData, setTaxData] = useState<TaxReportType[]>([]);
+  const { showError, showWarning, showSuccess } = useToast();
 
   useEffect(() => {
     loadData();
@@ -142,9 +143,10 @@ const FinancialManagement: React.FC = () => {
             );
             setComparativeData(comparative);
           } else {
-            setError(
-              "Por favor, selecione um período (data início e fim) para o relatório comparativo."
-            );
+            const message =
+              "Por favor, selecione um período (data início e fim) para o relatório comparativo.";
+            setError(message);
+            showWarning("Período necessário", message);
           }
           break;
         }
@@ -160,11 +162,12 @@ const FinancialManagement: React.FC = () => {
       }
     } catch (err) {
       console.error("Erro ao carregar dados financeiros:", err);
-      setError(
+      const message =
         err instanceof Error
           ? err.message
-          : "Erro ao carregar dados financeiros"
-      );
+          : "Erro ao carregar dados financeiros";
+      setError(message);
+      showError("Erro financeiro", message);
     } finally {
       setLoading(false);
     }
@@ -178,30 +181,47 @@ const FinancialManagement: React.FC = () => {
         case "summary":
           if (summaryData) {
             excelExportService.exportFinancialSummary(summaryData);
+            showSuccess("Exportação concluída", "Resumo financeiro exportado.");
           }
           break;
 
         case "revenue-by-house":
           if (revenueByHouseData.length > 0) {
             excelExportService.exportRevenueByHouse(revenueByHouseData);
+            showSuccess(
+              "Exportação concluída",
+              "Relatório de receita por casa exportado."
+            );
           }
           break;
 
         case "cash-flow":
           if (cashFlowData.length > 0) {
             excelExportService.exportCashFlow(cashFlowData);
+            showSuccess(
+              "Exportação concluída",
+              "Relatório de fluxo de caixa exportado."
+            );
           }
           break;
 
         case "contracts":
           if (contractsData) {
             excelExportService.exportContractsReport(contractsData);
+            showSuccess(
+              "Exportação concluída",
+              "Relatório de contratos exportado."
+            );
           }
           break;
 
         case "breakdown":
           if (summaryData) {
             excelExportService.exportFinancialSummary(summaryData);
+            showSuccess(
+              "Exportação concluída",
+              "Resumo financeiro exportado."
+            );
           }
           break;
 
@@ -211,18 +231,30 @@ const FinancialManagement: React.FC = () => {
               demographicData,
               filters.demographicType
             );
+            showSuccess(
+              "Exportação concluída",
+              "Relatório demográfico exportado."
+            );
           }
           break;
 
         case "comparative":
           if (comparativeData) {
             excelExportService.exportComparativeReport(comparativeData);
+            showSuccess(
+              "Exportação concluída",
+              "Relatório comparativo exportado."
+            );
           }
           break;
 
         case "tax":
           if (taxData.length > 0) {
             excelExportService.exportTaxReport(taxData);
+            showSuccess(
+              "Exportação concluída",
+              "Relatório fiscal exportado."
+            );
           }
           break;
 
@@ -231,7 +263,12 @@ const FinancialManagement: React.FC = () => {
       }
     } catch (err) {
       console.error("Erro ao exportar relatório:", err);
-      setError("Erro ao exportar relatório para Excel");
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Erro ao exportar relatório para Excel";
+      setError(message);
+      showError("Erro na exportação", message);
     }
   };
 
@@ -241,7 +278,7 @@ const FinancialManagement: React.FC = () => {
     }
 
     if (error) {
-      return <ErrorMessage message={error} />;
+      return <div className="no-data error-state">{error}</div>;
     }
 
     switch (filters.reportType) {

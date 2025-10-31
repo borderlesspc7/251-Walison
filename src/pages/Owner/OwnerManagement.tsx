@@ -8,13 +8,12 @@ import { OwnerFiltersComponent } from "./Components/OwnerFiltersComponent/OwnerF
 import { OwnerStats } from "./Components/OwnerStats/OwnerStats";
 import { LoadingSpinner } from "../../components/ui/LoadingSpinner/LoadingSpinner";
 import { Button } from "../../components/ui/Button/Button";
-import { ErrorMessage } from "../../components/ui/ErrorMessage/ErrorMessage";
+import { useToast } from "../../hooks/useToast";
 import "./OwnerManagement.css";
 
 export const OwnerManagement: React.FC = () => {
   const [owners, setOwners] = useState<Owner[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedOwner, setSelectedOwner] = useState<Owner | null>(null);
   const [modalMode, setModalMode] = useState<"create" | "edit" | "view">(
@@ -27,18 +26,18 @@ export const OwnerManagement: React.FC = () => {
     inactive: 0,
     suspended: 0,
   });
+  const { showError, showSuccess, showWarning } = useToast();
 
   // Carregar proprietários
   const loadOwners = async () => {
     try {
       setLoading(true);
-      setError(null);
       const data = await ownerService.getAll(filters);
       setOwners(data);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Erro ao carregar proprietários"
-      );
+      const message =
+        err instanceof Error ? err.message : "Erro ao carregar proprietários";
+      showError("Erro ao carregar proprietários", message);
     } finally {
       setLoading(false);
     }
@@ -50,7 +49,9 @@ export const OwnerManagement: React.FC = () => {
       const statsData = await ownerService.getStats();
       setStats(statsData);
     } catch (err) {
-      console.error("Erro ao carregar estatísticas:", err);
+      const message =
+        err instanceof Error ? err.message : "Erro ao carregar estatísticas";
+      showWarning("Estatísticas indisponíveis", message);
     }
   };
 
@@ -149,10 +150,14 @@ export const OwnerManagement: React.FC = () => {
       await ownerService.delete(id);
       setOwners(owners.filter((owner) => owner.id !== id));
       loadStats();
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Erro ao excluir proprietário"
+      showSuccess(
+        "Proprietário excluído",
+        "O proprietário foi excluído com sucesso."
       );
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Erro ao excluir proprietário";
+      showError("Erro ao excluir proprietário", message);
     }
   };
 
@@ -161,10 +166,16 @@ export const OwnerManagement: React.FC = () => {
     setSelectedOwner(null);
   };
 
-  const handleOwnerSaved = () => {
+  const handleOwnerSaved = (action: "create" | "edit") => {
     loadOwners();
     loadStats();
     handleModalClose();
+    showSuccess(
+      action === "create" ? "Proprietário criado" : "Proprietário atualizado",
+      action === "create"
+        ? "O proprietário foi cadastrado com sucesso."
+        : "As informações do proprietário foram atualizadas."
+    );
   };
 
   const handleFiltersChange = (newFilters: OwnerFilters) => {
@@ -189,8 +200,6 @@ export const OwnerManagement: React.FC = () => {
           </Button>
         </div>
       </div>
-
-      {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
 
       <OwnerStats stats={stats} />
 

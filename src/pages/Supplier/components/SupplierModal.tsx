@@ -11,12 +11,13 @@ import InputField from "../../../components/ui/InputField/InputField";
 import { SelectField } from "../../../components/ui/SelectField/SelectField";
 import { Button } from "../../../components/ui/Button/Button";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner/LoadingSpinner";
+import { useToast } from "../../../hooks/useToast";
 import "./SupplierModal.css";
 
 interface SupplierModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: () => void;
+  onSave: (action: "create" | "edit") => void;
   supplier?: Supplier | null;
   mode: "create" | "edit" | "view";
 }
@@ -45,6 +46,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
   const [formData, setFormData] = useState<CreateSupplierData>(initialFormData);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { showError } = useToast();
 
   const isReadOnly = mode === "view";
   const isEditing = mode === "edit";
@@ -125,21 +127,26 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
     try {
       setLoading(true);
 
+      let action: "create" | "edit" = "create";
       if (isCreating) {
         await supplierService.create(formData);
+        action = "create";
       } else if (isEditing && supplier) {
         await supplierService.update({
           id: supplier.id,
           ...formData,
         });
+        action = "edit";
       }
 
-      onSave();
+      onSave(action);
     } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Erro ao salvar fornecedor";
       setErrors({
-        submit:
-          error instanceof Error ? error.message : "Erro ao salvar fornecedor",
+        submit: message,
       });
+      showError("Erro ao salvar fornecedor", message);
     } finally {
       setLoading(false);
     }

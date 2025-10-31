@@ -11,12 +11,13 @@ import InputField from "../../../components/ui/InputField/InputField";
 import { SelectField } from "../../../components/ui/SelectField/SelectField";
 import { Button } from "../../../components/ui/Button/Button";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner/LoadingSpinner";
+import { useToast } from "../../../hooks/useToast";
 import "./ClientModal.css";
 
 interface ClientModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: () => void;
+  onSave: (action: "create" | "edit") => void;
   client?: Client | null;
   mode: "create" | "edit" | "view";
 }
@@ -52,6 +53,7 @@ export const ClientModal: React.FC<ClientModalProps> = ({
   const [formData, setFormData] = useState<CreateClientData>(initialFormData);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { showError } = useToast();
 
   const isReadOnly = mode === "view";
   const isEditing = mode === "edit";
@@ -156,21 +158,26 @@ export const ClientModal: React.FC<ClientModalProps> = ({
     try {
       setLoading(true);
 
+      let action: "create" | "edit" = "create";
       if (isCreating) {
         await clientService.create(formData);
+        action = "create";
       } else if (isEditing && client) {
         await clientService.update({
           id: client.id,
           ...formData,
         });
+        action = "edit";
       }
 
-      onSave();
+      onSave(action);
     } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Erro ao salvar cliente";
       setErrors({
-        submit:
-          error instanceof Error ? error.message : "Erro ao salvar cliente",
+        submit: message,
       });
+      showError("Erro ao salvar cliente", message);
     } finally {
       setLoading(false);
     }

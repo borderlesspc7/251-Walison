@@ -7,13 +7,12 @@ import { SaleStats } from "./components/SaleStats";
 import { LoadingSpinner } from "../../components/ui/LoadingSpinner/LoadingSpinner";
 import { Button } from "../../components/ui/Button/Button";
 import { FiShoppingCart } from "react-icons/fi";
-import { ErrorMessage } from "../../components/ui/ErrorMessage/ErrorMessage";
+import { useToast } from "../../hooks/useToast";
 import "./SalesManagement.css";
 
 export const SalesManagement: React.FC = () => {
   const [sales, setSales] = useState<Sale[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedSale, setSelectedSale] = useState<Sale | null>(null);
   const [modalMode, setModalMode] = useState<"create" | "edit" | "view">(
@@ -31,16 +30,18 @@ export const SalesManagement: React.FC = () => {
     totalCommissions: 0,
     totalMargin: 0,
   });
+  const { showError, showSuccess, showWarning } = useToast();
 
   // Carregar vendas
   const loadSales = async () => {
     try {
       setLoading(true);
-      setError(null);
       const data = await saleService.getAll(filters);
       setSales(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao carregar vendas");
+      const message =
+        err instanceof Error ? err.message : "Erro ao carregar vendas";
+      showError("Erro ao carregar vendas", message);
     } finally {
       setLoading(false);
     }
@@ -52,7 +53,9 @@ export const SalesManagement: React.FC = () => {
       const statsData = await saleService.getStats();
       setStats(statsData);
     } catch (err) {
-      console.error("Erro ao carregar estatísticas:", err);
+      const message =
+        err instanceof Error ? err.message : "Erro ao carregar estatísticas";
+      showWarning("Estatísticas indisponíveis", message);
     }
   };
 
@@ -138,8 +141,11 @@ export const SalesManagement: React.FC = () => {
       await saleService.delete(id);
       setSales(sales.filter((sale) => sale.id !== id));
       loadStats();
+      showSuccess("Venda excluída", "A venda foi excluída com sucesso.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao excluir venda");
+      const message =
+        err instanceof Error ? err.message : "Erro ao excluir venda";
+      showError("Erro ao excluir venda", message);
     }
   };
 
@@ -148,10 +154,16 @@ export const SalesManagement: React.FC = () => {
     setSelectedSale(null);
   };
 
-  const handleSaleSaved = () => {
+  const handleSaleSaved = (action: "create" | "edit") => {
     loadSales();
     loadStats();
     handleModalClose();
+    showSuccess(
+      action === "create" ? "Venda criada" : "Venda atualizada",
+      action === "create"
+        ? "A venda foi registrada com sucesso."
+        : "As informações da venda foram atualizadas."
+    );
   };
 
   const handleFiltersChange = (newFilters: SaleFilters) => {
@@ -184,8 +196,6 @@ export const SalesManagement: React.FC = () => {
           </Button>
         </div>
       </div>
-
-      {error && <ErrorMessage message={error} onClose={() => setError(null)} />}
 
       <SaleStats stats={stats} />
 

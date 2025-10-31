@@ -12,13 +12,14 @@ import InputField from "../../../../components/ui/InputField/InputField";
 import { SelectField } from "../../../../components/ui/SelectField/SelectField";
 import { Button } from "../../../../components/ui/Button/Button";
 import { LoadingSpinner } from "../../../../components/ui/LoadingSpinner/LoadingSpinner";
+import { useToast } from "../../../../hooks/useToast";
 import "./OwnerModal.css";
 
 interface OwnerModalProps {
   isOpen: boolean;
   onClose: () => void;
   onDelete: () => void;
-  onSave: () => void;
+  onSave: (action: "create" | "edit") => void;
   owner?: Owner;
   mode: "create" | "edit" | "view";
 }
@@ -59,6 +60,7 @@ export const OwnerModal: React.FC<OwnerModalProps> = ({
   const [formData, setFormData] = useState<CreateOwnerData>(initialFormData);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { showError } = useToast();
 
   const isReadOnly = mode === "view";
   const isEditing = mode === "edit";
@@ -173,23 +175,28 @@ export const OwnerModal: React.FC<OwnerModalProps> = ({
     try {
       setLoading(true);
 
+      let action: "create" | "edit" = "create";
       if (isCreating) {
         await ownerService.create(formData);
+        action = "create";
       } else if (isEditing && owner) {
         await ownerService.update({
           id: owner.id,
           ...formData,
         });
+        action = "edit";
       }
 
-      onSave();
+      onSave(action);
     } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Erro ao salvar proprietário";
       setErrors({
-        submit:
-          error instanceof Error
-            ? error.message
-            : "Erro ao salvar proprietário",
+        submit: message,
       });
+      showError("Erro ao salvar proprietário", message);
     } finally {
       setLoading(false);
     }

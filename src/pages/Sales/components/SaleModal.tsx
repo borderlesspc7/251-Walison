@@ -19,6 +19,7 @@ import InputField from "../../../components/ui/InputField/InputField";
 import { SelectField } from "../../../components/ui/SelectField/SelectField";
 import { Button } from "../../../components/ui/Button/Button";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner/LoadingSpinner";
+import { useToast } from "../../../hooks/useToast";
 import "./SaleModal.css";
 import type { Employee } from "../../../types/employee";
 import { employeeService } from "../../../services/employeeService";
@@ -27,7 +28,7 @@ import { ownerService } from "../../../services/ownerService";
 interface SaleModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: () => void;
+  onSave: (action: "create" | "edit") => void;
   sale?: Sale | null;
   mode: "create" | "edit" | "view";
 }
@@ -74,6 +75,7 @@ export const SaleModal: React.FC<SaleModalProps> = ({
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
     null
   );
+  const { showError, showWarning } = useToast();
 
   // Valores calculados automaticamente
   const [calculatedValues, setCalculatedValues] = useState({
@@ -102,7 +104,9 @@ export const SaleModal: React.FC<SaleModalProps> = ({
       const data = await clientService.getAll();
       setClients(data);
     } catch (error) {
-      console.error("Erro ao carregar clientes:", error);
+      const message =
+        error instanceof Error ? error.message : "Erro ao carregar clientes";
+      showError("Erro ao carregar clientes", message);
     }
   };
 
@@ -111,7 +115,11 @@ export const SaleModal: React.FC<SaleModalProps> = ({
       const data = await employeeService.getAll();
       setEmployees(data);
     } catch (error) {
-      console.error("Erro ao carregar funcionários:", error);
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Erro ao carregar colaboradores";
+      showError("Erro ao carregar colaboradores", message);
     }
   };
 
@@ -120,7 +128,9 @@ export const SaleModal: React.FC<SaleModalProps> = ({
       const data = await houseService.getAll();
       setHouses(data);
     } catch (error) {
-      console.error("Erro ao carregar casas:", error);
+      const message =
+        error instanceof Error ? error.message : "Erro ao carregar casas";
+      showError("Erro ao carregar casas", message);
     }
   };
 
@@ -278,25 +288,30 @@ export const SaleModal: React.FC<SaleModalProps> = ({
       );
 
       if (!isAvailable) {
-        alert("Esta casa já possui uma reserva para as datas selecionadas!");
+        showWarning(
+          "Casa indisponível",
+          "Esta casa já possui uma reserva para as datas selecionadas."
+        );
         return;
       }
 
+      let action: "create" | "edit" = "create";
       if (isEditing && sale) {
         await saleService.update({ id: sale.id, ...formData });
+        action = "edit";
       } else {
         await saleService.create(formData);
+        action = "create";
       }
 
-      onSave();
+      onSave(action);
       onClose();
     } catch (error) {
-      console.error("Erro ao salvar venda:", error);
-      alert(
+      const message =
         error instanceof Error
           ? error.message
-          : "Erro ao salvar venda. Tente novamente."
-      );
+          : "Erro ao salvar venda. Tente novamente.";
+      showError("Erro ao salvar venda", message);
     } finally {
       setLoading(false);
     }

@@ -7,6 +7,7 @@ import "./Form.css";
 import { useAuth } from "../../../hooks/useAuth";
 import { paths } from "../../../routes/paths";
 import { useNavigate, Link } from "react-router-dom";
+import { useToast } from "../../../hooks/useToast";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const { user, login, error, clearError } = useAuth();
   const navigate = useNavigate();
+  const { showError, showSuccess } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,9 +33,19 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (user) {
+      showSuccess(
+        "Login realizado",
+        user.displayName ? `Bem-vindo(a), ${user.displayName}!` : "Bem-vindo(a)!"
+      );
       navigate(paths.clients);
     }
-  }, [user, navigate]);
+  }, [user, navigate, showSuccess]);
+
+  useEffect(() => {
+    if (error) {
+      showError("Falha no login", error);
+    }
+  }, [error, showError]);
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
@@ -73,12 +85,6 @@ export default function LoginForm() {
           placeholder="Digite sua senha"
           required
         />
-
-        {error && (
-          <div className="login-form__error">
-            <p>{error}</p>
-          </div>
-        )}
 
         <Button
           type="submit"

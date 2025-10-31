@@ -6,12 +6,13 @@ import InputField from "../../../components/ui/InputField/InputField";
 import { SelectField } from "../../../components/ui/SelectField/SelectField";
 import { Button } from "../../../components/ui/Button/Button";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner/LoadingSpinner";
+import { useToast } from "../../../hooks/useToast";
 import "./HouseModal.css";
 
 interface HouseModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: () => void;
+  onSave: (action: "create" | "edit") => void;
   house?: House | null;
   mode: "create" | "edit" | "view";
 }
@@ -53,6 +54,7 @@ export const HouseModal: React.FC<HouseModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [photoUrls, setPhotoUrls] = useState<string[]>([]);
+  const { showError } = useToast();
 
   const isReadOnly = mode === "view";
   const isEditing = mode === "edit";
@@ -174,20 +176,26 @@ export const HouseModal: React.FC<HouseModalProps> = ({
         photos: photoUrls,
       };
 
+      let action: "create" | "edit" = "create";
       if (isCreating) {
         await houseService.create(dataWithPhotos);
+        action = "create";
       } else if (isEditing && house) {
         await houseService.update({
           id: house.id,
           ...dataWithPhotos,
         });
+        action = "edit";
       }
 
-      onSave();
+      onSave(action);
     } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Erro ao salvar casa";
       setErrors({
-        submit: error instanceof Error ? error.message : "Erro ao salvar casa",
+        submit: message,
       });
+      showError("Erro ao salvar casa", message);
     } finally {
       setLoading(false);
     }
