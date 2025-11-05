@@ -12,4 +12,5 @@ export const paths = {
   dashboardConsolidacao: "/dashboard-consolidacao",
   dashboardProcessos: "/dashboard-processos",
   dashboardGoals: "/dashboard-metas",
+  dashboardEstatisticas: "/dashboard-estatisticas",
 };

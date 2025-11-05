@@ -14,6 +14,7 @@ import FinancialManagement from "../pages/Financial/FinancialManagement";
 import DashboardManagement from "../pages/DashboardConsolidation/DashboardManagement";
 import DashboardProcessos from "../pages/DashboardProcess/DashboardManagement";
 import { DashboardGoals } from "../pages/DashboardGoals/DashboardGoals";
+import DashboardStatistics from "../pages/DashboardStatistics/DashboardStatistics";
 
 export const AppRoutes = () => {
   return (
@@ -118,6 +119,16 @@ export const AppRoutes = () => {
             <ProtectedRoute>
               <Layout>
                 <DashboardGoals />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.dashboardEstatisticas}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <DashboardStatistics />
               </Layout>
             </ProtectedRoute>
           }
