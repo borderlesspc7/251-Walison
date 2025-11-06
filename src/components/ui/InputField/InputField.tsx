@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import "./InputField.css";
 import type { MaskType } from "../../../utils/masks";
-import { applyMask, removeMask, maskedToNumber } from "../../../utils/masks";
+import { applyMask, removeMask } from "../../../utils/masks";
 
 interface InputFieldProps {
   label: string;

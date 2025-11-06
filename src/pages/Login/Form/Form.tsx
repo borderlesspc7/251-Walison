@@ -35,7 +35,7 @@ export default function LoginForm() {
     if (user) {
       showSuccess(
         "Login realizado",
-        user.displayName ? `Bem-vindo(a), ${user.displayName}!` : "Bem-vindo(a)!"
+        user?.email ? `Bem-vindo(a), ${user.email}!` : "Bem-vindo(a)!"
       );
       navigate(paths.clients);
     }

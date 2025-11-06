@@ -493,11 +493,12 @@ export const getGoalsDashboardData = async (
     };
   } catch (error) {
     console.error("Erro ao obter dados do dashboard:", error);
-    
+
     // Retorna dados vazios em caso de erro, permitindo que o dashboard funcione
+    const currentYear = new Date().getFullYear();
     return {
       annualThermometer: {
-        year,
+        year: filters?.year || currentYear,
         totalGoal: 0,
         totalAchieved: 0,
         percentage: 0,

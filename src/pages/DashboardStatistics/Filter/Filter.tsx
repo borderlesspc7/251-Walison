@@ -10,7 +10,7 @@ export interface StatisticsFiltersProps {
   loading?: boolean;
 }
 
-const StatisticsFilters: React.FC<StatisticsFiltersProps> = ({
+const StatisticsFiltersComponent: React.FC<StatisticsFiltersProps> = ({
   filters,
   onFiltersChange,
   onClearFilters,
@@ -22,7 +22,10 @@ const StatisticsFilters: React.FC<StatisticsFiltersProps> = ({
     setLocalFilters(filters);
   }, [filters]);
 
-  const updateFilter = (key: keyof StatisticsFilters, value: string | undefined) => {
+  const updateFilter = (
+    key: keyof StatisticsFilters,
+    value: string | undefined
+  ) => {
     const newFilters = { ...localFilters, [key]: value };
     setLocalFilters(newFilters);
     onFiltersChange(newFilters);
@@ -42,7 +45,6 @@ const StatisticsFilters: React.FC<StatisticsFiltersProps> = ({
   const getPeriodOptions = () => {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth();
 
     return [
       {
@@ -124,7 +126,9 @@ const StatisticsFilters: React.FC<StatisticsFiltersProps> = ({
               <input
                 type="date"
                 value={localFilters.startDate || ""}
-                onChange={(e) => updateFilter("startDate", e.target.value || undefined)}
+                onChange={(e) =>
+                  updateFilter("startDate", e.target.value || undefined)
+                }
                 className="filter-input"
                 disabled={loading}
               />
@@ -138,7 +142,9 @@ const StatisticsFilters: React.FC<StatisticsFiltersProps> = ({
               <input
                 type="date"
                 value={localFilters.endDate || ""}
-                onChange={(e) => updateFilter("endDate", e.target.value || undefined)}
+                onChange={(e) =>
+                  updateFilter("endDate", e.target.value || undefined)
+                }
                 className="filter-input"
                 disabled={loading}
               />
@@ -181,5 +187,4 @@ const StatisticsFilters: React.FC<StatisticsFiltersProps> = ({
   );
 };
 
-export default StatisticsFilters;
-
+export default StatisticsFiltersComponent;

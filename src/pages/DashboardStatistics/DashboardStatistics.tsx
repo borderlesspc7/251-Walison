@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./DashboardStatistics.css";
-import { FiDownload, FiRefreshCw, FiSettings, FiBarChart2, FiCalendar } from "react-icons/fi";
+import {
+  FiDownload,
+  FiRefreshCw,
+  FiSettings,
+  FiBarChart2,
+  FiCalendar,
+} from "react-icons/fi";
 import { useAuth } from "../../hooks/useAuth";
-import StatisticsFilters from "./Filter/Filter";
+import StatisticsFiltersComponent from "./Filter/Filter";
 import JetpackStatsBlock from "./JetpackStatsBlock/JetpackStatsBlock";
 import InstagramStatsBlock from "./InstagramStatsBlock/InstagramStatsBlock";
 import { dashboardStatisticsService } from "../../services/dashboardStatistics";
@@ -23,7 +29,9 @@ const DashboardStatistics: React.FC = () => {
 
   // Estados dos dados
   const [jetpackStats, setJetpackStats] = useState<JetpackStats | null>(null);
-  const [instagramStats, setInstagramStats] = useState<InstagramStats | null>(null);
+  const [instagramStats, setInstagramStats] = useState<InstagramStats | null>(
+    null
+  );
 
   // Carregar dados do dashboard
   const loadDashboardData = async () => {
@@ -89,9 +97,12 @@ const DashboardStatistics: React.FC = () => {
               <FiBarChart2 />
             </div>
             <div className="statistics-dashboard-header-text">
-              <h1 className="statistics-dashboard-header-title">Sprint Dashboard - Estatísticas</h1>
+              <h1 className="statistics-dashboard-header-title">
+                Sprint Dashboard - Estatísticas
+              </h1>
               <p className="statistics-dashboard-header-subtitle">
-                Integração com Jetpack Stats e Instagram - Análise de performance e tráfego pago
+                Integração com Jetpack Stats e Instagram - Análise de
+                performance e tráfego pago
               </p>
             </div>
           </div>
@@ -99,10 +110,19 @@ const DashboardStatistics: React.FC = () => {
             <div className="statistics-dashboard-header-badge">
               <FiCalendar className="statistics-dashboard-header-badge-icon" />
               <span>
-                Período: {filters.period === "month" ? "Mensal" : filters.period === "year" ? "Anual" : "Personalizado"}
+                Período:{" "}
+                {filters.period === "month"
+                  ? "Mensal"
+                  : filters.period === "year"
+                  ? "Anual"
+                  : "Personalizado"}
               </span>
             </div>
-            <button className="action-btn refresh-btn" onClick={handleRefresh} disabled={loading}>
+            <button
+              className="action-btn refresh-btn"
+              onClick={handleRefresh}
+              disabled={loading}
+            >
               <FiRefreshCw size={16} className={loading ? "spinning" : ""} />
               Atualizar
             </button>
@@ -112,8 +132,12 @@ const DashboardStatistics: React.FC = () => {
                 Exportar
               </button>
               <div className="dropdown-menu">
-                <button onClick={() => handleExport("excel")}>Exportar para Excel</button>
-                <button onClick={() => handleExport("pdf")}>Exportar para PDF</button>
+                <button onClick={() => handleExport("excel")}>
+                  Exportar para Excel
+                </button>
+                <button onClick={() => handleExport("pdf")}>
+                  Exportar para PDF
+                </button>
               </div>
             </div>
             <button className="action-btn settings-btn">
@@ -126,7 +150,7 @@ const DashboardStatistics: React.FC = () => {
 
       {/* Filtros */}
       <div className="dashboard-filters-wrapper">
-        <StatisticsFilters
+        <StatisticsFiltersComponent
           filters={filters}
           onFiltersChange={handleFiltersChange}
           onClearFilters={() =>
@@ -197,4 +221,3 @@ const DashboardStatistics: React.FC = () => {
 };
 
 export default DashboardStatistics;
-
