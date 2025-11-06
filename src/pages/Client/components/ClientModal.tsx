@@ -316,6 +316,7 @@ export const ClientModal: React.FC<ClientModalProps> = ({
                   placeholder="000.000.000-00"
                   error={errors.cpf}
                   required
+                  mask="cpf"
                 />
               </div>
               <div className="form-group">
@@ -375,9 +376,10 @@ export const ClientModal: React.FC<ClientModalProps> = ({
                   label="Telefone"
                   value={formData.phone}
                   onChange={(value) => handleInputChange("phone", value)}
-                  placeholder="Digite o telefone"
+                  placeholder="(00) 00000-0000"
                   error={errors.phone}
                   required
+                  mask="phone"
                 />
               </div>
               <div className="form-group">
@@ -408,6 +410,7 @@ export const ClientModal: React.FC<ClientModalProps> = ({
                   placeholder="00000-000"
                   error={errors["address.zipCode"]}
                   required
+                  mask="cep"
                 />
               </div>
               <div className="form-group flex-2">

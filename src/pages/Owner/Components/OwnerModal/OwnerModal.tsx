@@ -13,6 +13,7 @@ import { SelectField } from "../../../../components/ui/SelectField/SelectField";
 import { Button } from "../../../../components/ui/Button/Button";
 import { LoadingSpinner } from "../../../../components/ui/LoadingSpinner/LoadingSpinner";
 import { useToast } from "../../../../hooks/useToast";
+import { maskedToNumber } from "../../../../utils/masks";
 import "./OwnerModal.css";
 
 interface OwnerModalProps {
@@ -342,6 +343,7 @@ export const OwnerModal: React.FC<OwnerModalProps> = ({
                   placeholder="000.000.000-00"
                   error={errors.cpf}
                   required
+                  mask="cpf"
                 />
               </div>
               <div className="form-group">
@@ -374,9 +376,10 @@ export const OwnerModal: React.FC<OwnerModalProps> = ({
                   label="Telefone"
                   value={formData.phone}
                   onChange={(value) => handleInputChange("phone", value)}
-                  placeholder="Digite o telefone"
+                  placeholder="(00) 00000-0000"
                   error={errors.phone}
                   required
+                  mask="phone"
                 />
               </div>
               <div className="form-group">
@@ -392,14 +395,16 @@ export const OwnerModal: React.FC<OwnerModalProps> = ({
               <div className="form-group">
                 <InputField
                   label="Comissão (R$)"
-                  type="number"
-                  value={formData.commission.toString()}
-                  onChange={(value) =>
-                    handleInputChange("commission", parseFloat(value) || 0)
-                  }
-                  placeholder="0.00"
+                  value={String(Math.round(formData.commission * 100))}
+                  onChange={(value) => {
+                    const numValue = maskedToNumber(value, "currency");
+                    handleInputChange("commission", numValue);
+                  }}
+                  placeholder="R$ 0,00"
                   error={errors.commission}
                   required
+                  mask="currency"
+                  returnUnmasked={true}
                 />
               </div>
             </div>
@@ -417,6 +422,7 @@ export const OwnerModal: React.FC<OwnerModalProps> = ({
                   placeholder="00000-000"
                   error={errors["address.zipCode"]}
                   required
+                  mask="cep"
                 />
               </div>
               <div className="form-group flex-2">
@@ -522,6 +528,7 @@ export const OwnerModal: React.FC<OwnerModalProps> = ({
                   placeholder="0000"
                   error={errors["bankData.agency"]}
                   required
+                  mask="bankAgency"
                 />
               </div>
               <div className="form-group">
@@ -534,6 +541,7 @@ export const OwnerModal: React.FC<OwnerModalProps> = ({
                   placeholder="00000-0"
                   error={errors["bankData.account"]}
                   required
+                  mask="bankAccount"
                 />
               </div>
               <div className="form-group">

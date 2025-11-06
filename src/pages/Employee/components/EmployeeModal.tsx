@@ -11,6 +11,7 @@ import { SelectField } from "../../../components/ui/SelectField/SelectField";
 import { Button } from "../../../components/ui/Button/Button";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner/LoadingSpinner";
 import { useToast } from "../../../hooks/useToast";
+import { maskedToNumber } from "../../../utils/masks";
 import "./EmployeeModal.css";
 
 interface EmployeeModalProps {
@@ -228,20 +229,16 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
               <div className="form-group">
                 <InputField
                   label="Comissão Locações (%)"
-                  type="number"
-                  value={formData.rentalCommissionPercentage.toString()}
-                  onChange={(value) =>
-                    handleInputChange(
-                      "rentalCommissionPercentage",
-                      parseFloat(value) || 0
-                    )
-                  }
-                  placeholder="10.00"
-                  min={0}
-                  max={100}
-                  step={0.01}
+                  value={String(Math.round(formData.rentalCommissionPercentage * 100))}
+                  onChange={(value) => {
+                    const numValue = maskedToNumber(value, "percentage");
+                    handleInputChange("rentalCommissionPercentage", numValue);
+                  }}
+                  placeholder="10,00%"
                   error={errors.rentalCommissionPercentage}
                   required
+                  mask="percentage"
+                  returnUnmasked={true}
                 />
                 <div className="field-description">
                   <small>10% do líquido (Faturamento - Despesas)</small>
@@ -251,20 +248,16 @@ export const EmployeeModal: React.FC<EmployeeModalProps> = ({
               <div className="form-group">
                 <InputField
                   label="Comissão Fornecedores (%)"
-                  type="number"
-                  value={formData.supplierCommissionPercentage.toString()}
-                  onChange={(value) =>
-                    handleInputChange(
-                      "supplierCommissionPercentage",
-                      parseFloat(value) || 0
-                    )
-                  }
-                  placeholder="10.00"
-                  min={0}
-                  max={100}
-                  step={0.01}
+                  value={String(Math.round(formData.supplierCommissionPercentage * 100))}
+                  onChange={(value) => {
+                    const numValue = maskedToNumber(value, "percentage");
+                    handleInputChange("supplierCommissionPercentage", numValue);
+                  }}
+                  placeholder="10,00%"
                   error={errors.supplierCommissionPercentage}
                   required
+                  mask="percentage"
+                  returnUnmasked={true}
                 />
                 <div className="field-description">
                   <small>10% do líquido (Faturamento - Impostos)</small>

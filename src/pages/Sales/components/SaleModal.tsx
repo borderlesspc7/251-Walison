@@ -24,6 +24,7 @@ import "./SaleModal.css";
 import type { Employee } from "../../../types/employee";
 import { employeeService } from "../../../services/employeeService";
 import { ownerService } from "../../../services/ownerService";
+import { maskedToNumber } from "../../../utils/masks";
 
 interface SaleModalProps {
   isOpen: boolean;
@@ -629,23 +630,29 @@ export const SaleModal: React.FC<SaleModalProps> = ({
 
             <InputField
               label="Valor do Contrato"
-              type="number"
-              value={String(formData.contractValue)}
-              onChange={(value) =>
-                handleChange("contractValue", parseFloat(value) || 0)
-              }
+              value={String(Math.round(formData.contractValue * 100))}
+              onChange={(value) => {
+                const numValue = maskedToNumber(value, "currency");
+                handleChange("contractValue", numValue);
+              }}
+              placeholder="R$ 0,00"
               disabled={isReadOnly}
               error={errors.contractValue}
+              mask="currency"
+              returnUnmasked={true}
             />
 
             <InputField
               label="Desconto"
-              type="number"
-              value={String(formData.discount || 0)}
-              onChange={(value) =>
-                handleChange("discount", parseFloat(value) || 0)
-              }
+              value={String(Math.round((formData.discount || 0) * 100))}
+              onChange={(value) => {
+                const numValue = maskedToNumber(value, "currency");
+                handleChange("discount", numValue);
+              }}
+              placeholder="R$ 0,00"
               disabled={isReadOnly}
+              mask="currency"
+              returnUnmasked={true}
             />
 
             <div className="calculated-value">
@@ -664,22 +671,28 @@ export const SaleModal: React.FC<SaleModalProps> = ({
 
             <InputField
               label="Valor da Governanta"
-              type="number"
-              value={String(formData.housekeeperValue || 0)}
-              onChange={(value) =>
-                handleChange("housekeeperValue", parseFloat(value) || 0)
-              }
+              value={String(Math.round((formData.housekeeperValue || 0) * 100))}
+              onChange={(value) => {
+                const numValue = maskedToNumber(value, "currency");
+                handleChange("housekeeperValue", numValue);
+              }}
+              placeholder="R$ 0,00"
               disabled={isReadOnly}
+              mask="currency"
+              returnUnmasked={true}
             />
 
             <InputField
               label="Valor do Concierge"
-              type="number"
-              value={String(formData.conciergeValue || 0)}
-              onChange={(value) =>
-                handleChange("conciergeValue", parseFloat(value) || 0)
-              }
+              value={String(Math.round((formData.conciergeValue || 0) * 100))}
+              onChange={(value) => {
+                const numValue = maskedToNumber(value, "currency");
+                handleChange("conciergeValue", numValue);
+              }}
+              placeholder="R$ 0,00"
               disabled={isReadOnly}
+              mask="currency"
+              returnUnmasked={true}
             />
           </div>
 
@@ -692,71 +705,80 @@ export const SaleModal: React.FC<SaleModalProps> = ({
             <div className="additional-sales-grid">
               <InputField
                 label="Supermercado"
-                type="number"
-                value={String(formData.additionalSales?.supermarket || 0)}
-                onChange={(value) =>
-                  handleAdditionalSaleChange(
-                    "supermarket",
-                    parseFloat(value) || 0
-                  )
-                }
+                value={String(Math.round((formData.additionalSales?.supermarket || 0) * 100))}
+                onChange={(value) => {
+                  const numValue = maskedToNumber(value, "currency");
+                  handleAdditionalSaleChange("supermarket", numValue);
+                }}
+                placeholder="R$ 0,00"
                 disabled={isReadOnly}
+                mask="currency"
+                returnUnmasked={true}
               />
 
               <InputField
                 label="Pescados"
-                type="number"
-                value={String(formData.additionalSales?.seafood || 0)}
-                onChange={(value) =>
-                  handleAdditionalSaleChange("seafood", parseFloat(value) || 0)
-                }
+                value={String(Math.round((formData.additionalSales?.seafood || 0) * 100))}
+                onChange={(value) => {
+                  const numValue = maskedToNumber(value, "currency");
+                  handleAdditionalSaleChange("seafood", numValue);
+                }}
+                placeholder="R$ 0,00"
                 disabled={isReadOnly}
+                mask="currency"
+                returnUnmasked={true}
               />
 
               <InputField
                 label="Pescados/Carne"
-                type="number"
-                value={String(formData.additionalSales?.seafoodMeat || 0)}
-                onChange={(value) =>
-                  handleAdditionalSaleChange(
-                    "seafoodMeat",
-                    parseFloat(value) || 0
-                  )
-                }
+                value={String(Math.round((formData.additionalSales?.seafoodMeat || 0) * 100))}
+                onChange={(value) => {
+                  const numValue = maskedToNumber(value, "currency");
+                  handleAdditionalSaleChange("seafoodMeat", numValue);
+                }}
+                placeholder="R$ 0,00"
                 disabled={isReadOnly}
+                mask="currency"
+                returnUnmasked={true}
               />
 
               <InputField
                 label="Transfer"
-                type="number"
-                value={String(formData.additionalSales?.transfer || 0)}
-                onChange={(value) =>
-                  handleAdditionalSaleChange("transfer", parseFloat(value) || 0)
-                }
+                value={String(Math.round((formData.additionalSales?.transfer || 0) * 100))}
+                onChange={(value) => {
+                  const numValue = maskedToNumber(value, "currency");
+                  handleAdditionalSaleChange("transfer", numValue);
+                }}
+                placeholder="R$ 0,00"
                 disabled={isReadOnly}
+                mask="currency"
+                returnUnmasked={true}
               />
 
               <InputField
                 label="Hortaliças"
-                type="number"
-                value={String(formData.additionalSales?.vegetables || 0)}
-                onChange={(value) =>
-                  handleAdditionalSaleChange(
-                    "vegetables",
-                    parseFloat(value) || 0
-                  )
-                }
+                value={String(Math.round((formData.additionalSales?.vegetables || 0) * 100))}
+                onChange={(value) => {
+                  const numValue = maskedToNumber(value, "currency");
+                  handleAdditionalSaleChange("vegetables", numValue);
+                }}
+                placeholder="R$ 0,00"
                 disabled={isReadOnly}
+                mask="currency"
+                returnUnmasked={true}
               />
 
               <InputField
                 label="Cocos"
-                type="number"
-                value={String(formData.additionalSales?.coconuts || 0)}
-                onChange={(value) =>
-                  handleAdditionalSaleChange("coconuts", parseFloat(value) || 0)
-                }
+                value={String(Math.round((formData.additionalSales?.coconuts || 0) * 100))}
+                onChange={(value) => {
+                  const numValue = maskedToNumber(value, "currency");
+                  handleAdditionalSaleChange("coconuts", numValue);
+                }}
+                placeholder="R$ 0,00"
                 disabled={isReadOnly}
+                mask="currency"
+                returnUnmasked={true}
               />
             </div>
 

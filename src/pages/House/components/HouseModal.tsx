@@ -7,6 +7,7 @@ import { SelectField } from "../../../components/ui/SelectField/SelectField";
 import { Button } from "../../../components/ui/Button/Button";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner/LoadingSpinner";
 import { useToast } from "../../../hooks/useToast";
+import { maskedToNumber } from "../../../utils/masks";
 import "./HouseModal.css";
 
 interface HouseModalProps {
@@ -364,6 +365,7 @@ export const HouseModal: React.FC<HouseModalProps> = ({
                   placeholder="00000-000"
                   error={errors["address.zipCode"]}
                   required
+                  mask="cep"
                 />
               </div>
               <div className="form-group flex-2">
@@ -451,49 +453,46 @@ export const HouseModal: React.FC<HouseModalProps> = ({
               <div className="form-group">
                 <InputField
                   label="Baixa Temporada (R$)"
-                  type="number"
-                  value={formData.pricing.lowSeason.toString()}
-                  onChange={(value) =>
-                    handleInputChange(
-                      "pricing.lowSeason",
-                      parseFloat(value) || 0
-                    )
-                  }
-                  placeholder="0.00"
+                  value={String(Math.round(formData.pricing.lowSeason * 100))}
+                  onChange={(value) => {
+                    const numValue = maskedToNumber(value, "currency");
+                    handleInputChange("pricing.lowSeason", numValue);
+                  }}
+                  placeholder="R$ 0,00"
                   error={errors["pricing.lowSeason"]}
                   required
+                  mask="currency"
+                  returnUnmasked={true}
                 />
               </div>
               <div className="form-group">
                 <InputField
                   label="Média Temporada (R$)"
-                  type="number"
-                  value={formData.pricing.midSeason.toString()}
-                  onChange={(value) =>
-                    handleInputChange(
-                      "pricing.midSeason",
-                      parseFloat(value) || 0
-                    )
-                  }
-                  placeholder="0.00"
+                  value={String(Math.round(formData.pricing.midSeason * 100))}
+                  onChange={(value) => {
+                    const numValue = maskedToNumber(value, "currency");
+                    handleInputChange("pricing.midSeason", numValue);
+                  }}
+                  placeholder="R$ 0,00"
                   error={errors["pricing.midSeason"]}
                   required
+                  mask="currency"
+                  returnUnmasked={true}
                 />
               </div>
               <div className="form-group">
                 <InputField
                   label="Alta Temporada (R$)"
-                  type="number"
-                  value={formData.pricing.highSeason.toString()}
-                  onChange={(value) =>
-                    handleInputChange(
-                      "pricing.highSeason",
-                      parseFloat(value) || 0
-                    )
-                  }
-                  placeholder="0.00"
+                  value={String(Math.round(formData.pricing.highSeason * 100))}
+                  onChange={(value) => {
+                    const numValue = maskedToNumber(value, "currency");
+                    handleInputChange("pricing.highSeason", numValue);
+                  }}
+                  placeholder="R$ 0,00"
                   error={errors["pricing.highSeason"]}
                   required
+                  mask="currency"
+                  returnUnmasked={true}
                 />
               </div>
             </div>
@@ -501,33 +500,31 @@ export const HouseModal: React.FC<HouseModalProps> = ({
               <div className="form-group">
                 <InputField
                   label="Pacote de Carnaval (R$)"
-                  type="number"
-                  value={formData.pricing.carnivalPackage.toString()}
-                  onChange={(value) =>
-                    handleInputChange(
-                      "pricing.carnivalPackage",
-                      parseFloat(value) || 0
-                    )
-                  }
-                  placeholder="0.00"
+                  value={String(Math.round(formData.pricing.carnivalPackage * 100))}
+                  onChange={(value) => {
+                    const numValue = maskedToNumber(value, "currency");
+                    handleInputChange("pricing.carnivalPackage", numValue);
+                  }}
+                  placeholder="R$ 0,00"
                   error={errors["pricing.carnivalPackage"]}
                   required
+                  mask="currency"
+                  returnUnmasked={true}
                 />
               </div>
               <div className="form-group">
                 <InputField
                   label="Pacote de Réveillon (R$)"
-                  type="number"
-                  value={formData.pricing.newYearPackage.toString()}
-                  onChange={(value) =>
-                    handleInputChange(
-                      "pricing.newYearPackage",
-                      parseFloat(value) || 0
-                    )
-                  }
-                  placeholder="0.00"
+                  value={String(Math.round(formData.pricing.newYearPackage * 100))}
+                  onChange={(value) => {
+                    const numValue = maskedToNumber(value, "currency");
+                    handleInputChange("pricing.newYearPackage", numValue);
+                  }}
+                  placeholder="R$ 0,00"
                   error={errors["pricing.newYearPackage"]}
                   required
+                  mask="currency"
+                  returnUnmasked={true}
                 />
               </div>
             </div>

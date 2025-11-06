@@ -12,6 +12,7 @@ import { SelectField } from "../../../components/ui/SelectField/SelectField";
 import { Button } from "../../../components/ui/Button/Button";
 import { LoadingSpinner } from "../../../components/ui/LoadingSpinner/LoadingSpinner";
 import { useToast } from "../../../hooks/useToast";
+import { maskedToNumber } from "../../../utils/masks";
 import "./SupplierModal.css";
 
 interface SupplierModalProps {
@@ -305,20 +306,18 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
               <div className="form-group">
                 <InputField
                   label="Percentual de Comissão (%)"
-                  type="number"
-                  value={formData.commissionPercentage.toString()}
-                  onChange={(value) =>
-                    handleInputChange(
-                      "commissionPercentage",
-                      parseFloat(value) || 0
-                    )
-                  }
-                  placeholder="0.00"
-                  min={0}
-                  max={100}
-                  step={0.01}
+                  value={String(
+                    Math.round(formData.commissionPercentage * 100)
+                  )}
+                  onChange={(value) => {
+                    const numValue = maskedToNumber(value, "percentage");
+                    handleInputChange("commissionPercentage", numValue);
+                  }}
+                  placeholder="0,00%"
                   error={errors.commissionPercentage}
                   required
+                  mask="percentage"
+                  returnUnmasked={true}
                 />
               </div>
             </div>
@@ -350,6 +349,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
                   placeholder="0000"
                   error={errors["bankData.agency"]}
                   required
+                  mask="bankAgency"
                 />
               </div>
               <div className="form-group">
@@ -362,6 +362,7 @@ export const SupplierModal: React.FC<SupplierModalProps> = ({
                   placeholder="00000-0"
                   error={errors["bankData.account"]}
                   required
+                  mask="bankAccount"
                 />
               </div>
               <div className="form-group">
