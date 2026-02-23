@@ -19,6 +19,8 @@ interface InputFieldProps {
   step?: number;
   mask?: MaskType;
   returnUnmasked?: boolean; // Se true, onChange retorna valor sem máscara
+  maxLength?: number;
+  pattern?: string;
 }
 
 export default function InputField({
@@ -35,6 +37,8 @@ export default function InputField({
   step,
   mask,
   returnUnmasked = false,
+  maxLength,
+  pattern,
 }: InputFieldProps) {
   const [displayValue, setDisplayValue] = useState(value);
 
@@ -95,6 +99,8 @@ export default function InputField({
         min={min}
         max={max}
         step={step}
+        maxLength={maxLength}
+        pattern={pattern}
       />
       {error && <span className="input-field__error">{error}</span>}
     </div>

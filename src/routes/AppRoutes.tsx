@@ -4,6 +4,8 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import LoginPage from "../pages/Login/Login";
 import { RegisterPage } from "../pages/Register/Register";
 import { Layout } from "../components/Layout/Layout";
+import { ProfileManagement } from "../pages/Profile/ProfileManagement";
+import { SettingsManagement } from "../pages/Settings/SettingsManagement";
 import { ClientManagement } from "../pages/Client/ClientManagement";
 import { OwnerManagement } from "../pages/Owner/OwnerManagement";
 import { SupplierManagement } from "../pages/Supplier/SupplierManagement";
@@ -11,6 +13,7 @@ import { EmployeeManagement } from "../pages/Employee/EmployeeManagement";
 import { HouseManagement } from "../pages/House/HouseManagment";
 import { SalesManagement } from "../pages/Sales/SalesManagement";
 import FinancialManagement from "../pages/Financial/FinancialManagement";
+import { NotificationsManagement } from "../pages/Notifications/NotificationsManagement";
 import DashboardManagement from "../pages/DashboardConsolidation/DashboardManagement";
 import DashboardProcessos from "../pages/DashboardProcess/DashboardManagement";
 import { DashboardGoals } from "../pages/DashboardGoals/DashboardGoals";
@@ -23,6 +26,26 @@ export const AppRoutes = () => {
         <Route path={paths.home} element={<LoginPage />} />
         <Route path={paths.login} element={<LoginPage />} />
         <Route path={paths.register} element={<RegisterPage />} />
+        <Route
+          path={paths.profile}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ProfileManagement />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.settings}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <SettingsManagement />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path={paths.clients}
           element={
@@ -89,6 +112,16 @@ export const AppRoutes = () => {
             <ProtectedRoute>
               <Layout>
                 <FinancialManagement />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.notifications}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <NotificationsManagement />
               </Layout>
             </ProtectedRoute>
           }

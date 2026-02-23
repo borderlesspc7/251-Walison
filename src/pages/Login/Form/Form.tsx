@@ -92,7 +92,7 @@ export default function LoginForm() {
           disabled={isLoading}
           className="login-form__submit-btn"
         >
-          x{isLoading ? "Entrando..." : "Entrar"}
+          {isLoading ? "Entrando..." : "Entrar"}
         </Button>
 
         <a href="#" className="login-form__forgot-password">

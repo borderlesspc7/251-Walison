@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { paths } from "../../../routes/paths";
 import "./Form.css";
 import { useToast } from "../../../hooks/useToast";
+import { maskCPF, maskPhone } from "../../../utils/masks";
 
 type FormData = {
   displayName: string;
@@ -37,23 +38,6 @@ export const UserRegisterForm: React.FC = () => {
   const [submitError, setSubmitError] = useState<string>("");
   const { showError, showSuccess } = useToast();
 
-  const formatCPF = (value: string) => {
-    // Remove all non-numeric characters
-    const numbers = value.replace(/\D/g, "");
-
-    // Apply CPF mask: XXX.XXX.XXX-XX
-    if (numbers.length <= 11) {
-      return numbers
-        .replace(/(\d{3})(\d)/, "$1.$2")
-        .replace(/(\d{3})(\d)/, "$1.$2")
-        .replace(/(\d{3})(\d{1,2})/, "$1-$2");
-    }
-
-    return numbers
-      .slice(0, 11)
-      .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-  };
-
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
@@ -65,11 +49,15 @@ export const UserRegisterForm: React.FC = () => {
     }
 
     // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!formData.email.trim()) {
       newErrors.email = "Email é obrigatório";
+    } else if (!formData.email.includes('@')) {
+      newErrors.email = "Email deve conter @";
+    } else if (formData.email.length < 5) {
+      newErrors.email = "Email deve ter pelo menos 5 caracteres";
     } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Email inválido";
+      newErrors.email = "Email inválido. Use o formato exemplo@dominio.com";
     }
 
     // Password validation
@@ -87,13 +75,24 @@ export const UserRegisterForm: React.FC = () => {
       newErrors.cpf = "CPF deve ter 11 dígitos";
     }
 
+    // Phone validation (optional field, but validate if filled)
+    if (formData.phone.trim()) {
+      const phoneNumbers = formData.phone.replace(/\D/g, "");
+      if (phoneNumbers.length < 10 || phoneNumbers.length > 11) {
+        newErrors.phone = "Telefone deve ter 10 ou 11 dígitos";
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleInputChange = (field: keyof FormData) => (value: string) => {
+    // Apply masks based on field type
     if (field === "cpf") {
-      value = formatCPF(value);
+      value = maskCPF(value);
+    } else if (field === "phone") {
+      value = maskPhone(value);
     }
 
     setFormData((prevData) => ({
@@ -189,9 +188,11 @@ export const UserRegisterForm: React.FC = () => {
             type="email"
             value={formData.email}
             onChange={handleInputChange("email")}
-            placeholder="Digite o email"
+            placeholder="exemplo@dominio.com"
             error={errors.email}
             required
+            maxLength={100}
+            pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
           />
 
           <InputField
@@ -202,6 +203,7 @@ export const UserRegisterForm: React.FC = () => {
             placeholder="Digite a senha"
             error={errors.password}
             required
+            maxLength={50}
           />
 
           <InputField
@@ -212,6 +214,7 @@ export const UserRegisterForm: React.FC = () => {
             placeholder="000.000.000-00"
             error={errors.cpf}
             required
+            maxLength={14}
           />
 
           <InputField
@@ -220,6 +223,8 @@ export const UserRegisterForm: React.FC = () => {
             value={formData.phone}
             onChange={handleInputChange("phone")}
             placeholder="(00) 00000-0000"
+            error={errors.phone}
+            maxLength={15}
           />
         </div>
 

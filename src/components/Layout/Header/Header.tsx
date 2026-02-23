@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "../../ui/Button/Button";
 import { useAuth } from "../../../hooks/useAuth";
 import {
@@ -11,6 +11,7 @@ import {
 } from "react-icons/fi";
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
+import { paths } from "../../../routes/paths";
 
 interface HeaderProps {
   onToggleSidebar: () => void;
@@ -21,6 +22,27 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   const { user, logout } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const navigate = useNavigate();
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  // Fechar menu ao clicar fora dele
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setShowUserMenu(false);
+      }
+    };
+
+    if (showUserMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showUserMenu]);
 
   const handleLogout = async () => {
     try {
@@ -44,12 +66,16 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
       </div>
 
       <div className="header-right">
-        <Button variant="ghost" className="notification-btn">
+        <Button 
+          variant="ghost" 
+          className="notification-btn"
+          onClick={() => navigate(paths.notifications)}
+        >
           <FiBell size={18} />
           <span className="notification-badge">9+</span>
         </Button>
 
-        <div className="user-menu-container">
+        <div className="user-menu-container" ref={userMenuRef}>
           <Button
             variant="ghost"
             className="user-menu-trigger"
@@ -86,11 +112,23 @@ export const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
               <div className="dropdown-divider"></div>
 
               <div className="dropdown-items">
-                <button className="dropdown-item">
+                <button 
+                  className="dropdown-item"
+                  onClick={() => {
+                    navigate(paths.profile);
+                    setShowUserMenu(false);
+                  }}
+                >
                   <FiUser size={16} />
                   <span>Meu Perfil</span>
                 </button>
-                <button className="dropdown-item">
+                <button 
+                  className="dropdown-item"
+                  onClick={() => {
+                    navigate(paths.settings);
+                    setShowUserMenu(false);
+                  }}
+                >
                   <FiSettings size={16} />
                   <span>Configurações</span>
                 </button>

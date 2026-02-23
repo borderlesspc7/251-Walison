@@ -1,0 +1,259 @@
+.profile-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header */
+.profile-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.profile-header__title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-header__title h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.profile-header__title svg {
+  color: var(--primary-color);
+}
+
+/* Content */
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Profile Card */
+.profile-card {
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.profile-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--background-secondary);
+}
+
+.profile-card__header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.profile-card__actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.profile-card__body {
+  padding: 1.5rem;
+}
+
+/* Profile Info Grid */
+.profile-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.profile-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profile-info-item label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.profile-info-value {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--text-primary);
+  min-height: 48px;
+}
+
+.profile-info-value svg {
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.profile-info-value.disabled {
+  background: var(--background-secondary);
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.info-badge {
+  margin-left: auto;
+  padding: 0.25rem 0.5rem;
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Password Change Form */
+.password-change-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 500px;
+}
+
+.password-change-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+/* Avatar Section */
+.profile-avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.profile-avatar-large {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--background-secondary);
+  border: 3px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-avatar-large svg {
+  color: var(--text-tertiary);
+}
+
+.profile-avatar-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-avatar-info p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+/* Loading State */
+.profile-page .loading-spinner {
+  margin: 4rem auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 1rem;
+  }
+
+  .profile-header__title h1 {
+    font-size: 1.5rem;
+  }
+
+  .profile-info-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .profile-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .profile-card__actions {
+    width: 100%;
+  }
+
+  .profile-card__actions button {
+    flex: 1;
+  }
+
+  .password-change-form {
+    max-width: 100%;
+  }
+
+  .password-change-actions {
+    flex-direction: column;
+  }
+
+  .password-change-actions button {
+    width: 100%;
+  }
+
+  .profile-avatar-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-avatar-info {
+    align-items: center;
+  }
+}
+
+/* Animations */
+.profile-card {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Input Field Override for Profile Page */
+.profile-info-item .input-field {
+  margin: 0;
+}
+
+.profile-info-item .input-field__label {
+  display: none;
+}
+
+.profile-info-item .input-field__input {
+  min-height: 48px;
+}
