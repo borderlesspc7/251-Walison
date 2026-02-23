@@ -14,6 +14,7 @@ import { HouseManagement } from "../pages/House/HouseManagment";
 import { SalesManagement } from "../pages/Sales/SalesManagement";
 import FinancialManagement from "../pages/Financial/FinancialManagement";
 import { NotificationsManagement } from "../pages/Notifications/NotificationsManagement";
+import NFeManagement from "../pages/NFe/NFeManagement";
 import DashboardManagement from "../pages/DashboardConsolidation/DashboardManagement";
 import DashboardProcessos from "../pages/DashboardProcess/DashboardManagement";
 import { DashboardGoals } from "../pages/DashboardGoals/DashboardGoals";
@@ -122,6 +123,16 @@ export const AppRoutes = () => {
             <ProtectedRoute>
               <Layout>
                 <NotificationsManagement />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path={paths.nfe}
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <NFeManagement />
               </Layout>
             </ProtectedRoute>
           }

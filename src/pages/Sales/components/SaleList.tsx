@@ -10,6 +10,7 @@ import {
   FiX,
   FiCalendar,
   FiHome,
+  FiFileText,
 } from "react-icons/fi";
 import { SelectField } from "../../../components/ui/SelectField/SelectField";
 import InputField from "../../../components/ui/InputField/InputField";
@@ -21,6 +22,7 @@ interface SaleListProps {
   onEdit: (sale: Sale) => void;
   onView: (sale: Sale) => void;
   onDelete: (id: string) => void;
+  onCreateNFe?: (sale: Sale) => void;
   filters: SaleFilters;
   onFiltersChange: (filters: SaleFilters) => void;
   onClearFilters: () => void;
@@ -32,6 +34,7 @@ export const SaleList: React.FC<SaleListProps> = ({
   onEdit,
   onView,
   onDelete,
+  onCreateNFe,
   filters,
   onFiltersChange,
   onClearFilters,
@@ -320,6 +323,15 @@ export const SaleList: React.FC<SaleListProps> = ({
                       >
                         <FiEdit3 size={16} />
                       </button>
+                      {onCreateNFe && (
+                        <button
+                          className="action-btn nfe-btn"
+                          onClick={() => onCreateNFe(sale)}
+                          title="Criar NFe"
+                        >
+                          <FiFileText size={16} />
+                        </button>
+                      )}
                       <button
                         className="action-btn delete-btn"
                         onClick={() => onDelete(sale.id)}

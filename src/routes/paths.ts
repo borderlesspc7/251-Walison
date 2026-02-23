@@ -12,6 +12,7 @@ export const paths = {
   sales: "/sales",
   financial: "/financial",
   notifications: "/notifications",
+  nfe: "/nfe",
   dashboardConsolidacao: "/dashboard-consolidacao",
   dashboardProcessos: "/dashboard-processos",
   dashboardGoals: "/dashboard-metas",

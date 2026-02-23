@@ -262,6 +262,14 @@
   background: #fef3c7;
 }
 
+.nfe-btn {
+  color: #10b981;
+}
+
+.nfe-btn:hover {
+  background: #d1fae5;
+}
+
 .delete-btn {
   color: #ef4444;
 }

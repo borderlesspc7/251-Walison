@@ -9,6 +9,7 @@ import {
   FiChevronRight,
   FiArrowUpCircle,
   FiPower,
+  FiFileText,
 } from "react-icons/fi";
 import "./Sidebar.css";
 import logo from "../../../images/logo.png";
@@ -76,6 +77,12 @@ const defaultMenuItems: MenuItem[] = [
     label: "Financeiro",
     icon: FiCreditCard,
     path: "/financial",
+  },
+  {
+    id: "nfe",
+    label: "Notas Fiscais (NFe)",
+    icon: FiFileText,
+    path: "/nfe",
   },
   {
     id: "dashboard-consolidacao",

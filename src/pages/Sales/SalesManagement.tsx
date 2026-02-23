@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import type { Sale, SaleFilters } from "../../types/sale";
 import { saleService } from "../../services/saleService";
+import { nfeService } from "../../services/nfeService";
 import { SaleList } from "./components/SaleList";
 import { SaleModal } from "./components/SaleModal";
 import { SaleStats } from "./components/SaleStats";
@@ -174,6 +175,26 @@ export const SalesManagement: React.FC = () => {
     setFilters({});
   };
 
+  const handleCreateNFe = async (sale: Sale) => {
+    try {
+      setLoading(true);
+      await nfeService.createNFe({
+        saleId: sale.id,
+        company: sale.company,
+      });
+      showSuccess(
+        "NF-e criada",
+        `NF-e criada com sucesso para a venda ${sale.code}. Verifique no módulo de NFe.`
+      );
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Erro ao criar NF-e";
+      showError("Erro ao criar NF-e", message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading && sales.length === 0) {
     return <LoadingSpinner text="Carregando vendas..." fullScreen />;
   }
@@ -206,6 +227,7 @@ export const SalesManagement: React.FC = () => {
           onEdit={handleEditSale}
           onView={handleViewSale}
           onDelete={handleDeleteSale}
+          onCreateNFe={handleCreateNFe}
           filters={filters}
           onFiltersChange={handleFiltersChange}
           onClearFilters={handleClearFilters}
