@@ -44,6 +44,40 @@
 .process-dashboard-refresh-btn:hover:not(:disabled){ transform: translateY(-1px); box-shadow:0 4px 10px rgba(59,130,246,.25); }
 .process-dashboard-refresh-btn:disabled{ opacity:.7; cursor:not-allowed; }
 
+/* Export button */
+.export-dropdown {
+  position: relative;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.export-btn {
+  background: #10b981;
+  color: white;
+}
+
+.export-btn:hover:not(:disabled) {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+}
+
+.export-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .refresh-btn svg.spinning {
   animation: spin 1s linear infinite;
 }

@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { FiRefreshCw, FiAlertCircle, FiActivity, FiCalendar } from "react-icons/fi";
+import { FiRefreshCw, FiAlertCircle, FiActivity, FiCalendar, FiDownload } from "react-icons/fi";
+import { useToast } from "../../hooks/useToast";
 import Filter from "./Filter/Filter";
 import TopIndicators from "./TopIndicators/TopIndicators";
 import ProcessBlock from "./ProcessBlock/ProcessBlock";
 import * as processDashboardService from "../../services/processDashboardService";
+import { excelExportService } from "../../services/excelExportService";
 import type {
   ProcessDashboardData,
   ProcessFilters,
@@ -11,6 +13,7 @@ import type {
 import "./DashboardManagement.css";
 
 const DashboardManagement: React.FC = () => {
+  const { showSuccess, showError, showInfo } = useToast();
   const [filters, setFilters] = useState<ProcessFilters>({
     dateRange: {
       start: new Date(new Date().setDate(1)), // Primeiro dia do mês
@@ -82,6 +85,41 @@ const DashboardManagement: React.FC = () => {
     fetchDashboardData();
   };
 
+  // Função para exportar
+  const handleExport = async (format: "excel" | "pdf") => {
+    try {
+      if (format === "excel") {
+        // Verificar se há dados para exportar
+        if (!dashboardData) {
+          showError("Erro ao exportar", "Não há dados disponíveis para exportação");
+          return;
+        }
+
+        // Gerar nome do arquivo com data
+        const dateStr = new Date().toISOString().split("T")[0];
+        const filename = `dashboard-processos-${dateStr}.xlsx`;
+
+        // Exportar
+        excelExportService.exportDashboardProcesses(
+          dashboardData,
+          filters,
+          filename
+        );
+
+        showSuccess("Exportação concluída", "Relatório exportado com sucesso!");
+      } else {
+        // PDF ainda não implementado
+        showInfo(
+          "Em desenvolvimento",
+          "Exportação em PDF será implementada em breve"
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao exportar dados:", error);
+      showError("Erro ao exportar", "Não foi possível exportar o relatório");
+    }
+  };
+
   return (
     <div className="dashboard-management">
       {/* Header moderno unificado */}
@@ -111,6 +149,16 @@ const DashboardManagement: React.FC = () => {
               <FiRefreshCw size={18} className={refreshing ? "spinning" : ""} />
               {refreshing ? "Atualizando..." : "Atualizar"}
             </button>
+            <div className="export-dropdown">
+              <button
+                className="action-btn export-btn"
+                onClick={() => handleExport("excel")}
+                disabled={loading || !dashboardData}
+              >
+                <FiDownload size={16} />
+                Exportar
+              </button>
+            </div>
           </div>
         </div>
       </div>

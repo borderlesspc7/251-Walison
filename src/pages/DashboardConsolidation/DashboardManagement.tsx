@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./DashboardManagement.css";
 import { FiDownload, FiRefreshCw, FiSettings, FiBarChart2, FiCalendar } from "react-icons/fi";
 import { useAuth } from "../../hooks/useAuth";
+import { useToast } from "../../hooks/useToast";
 import DashboardFilters from "./Filter/Filter";
 import TopIndicators from "./TopIndicators/TopIndicators";
 import FinancialBlock from "./FinancialBlock/FinancialBlock";
 import CommercialIntelligence from "./CommercialIntelligence/CommercialIntelligence";
 import { dashboardService } from "../../services/dashboardConsolidation";
+import { excelExportService } from "../../services/excelExportService";
 import type {
   DashboardFilters as DashboardFiltersType,
   TopIndicators as TopIndicatorsType,
@@ -16,6 +18,7 @@ import type {
 
 const DashboardManagement: React.FC = () => {
   const { user } = useAuth();
+  const { showSuccess, showError, showInfo } = useToast();
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<DashboardFiltersType>({
     period: "month",
@@ -77,15 +80,40 @@ const DashboardManagement: React.FC = () => {
   // Exportar dados
   const handleExport = async (format: "excel" | "pdf") => {
     try {
-      // TODO: Implementar exportação
-      console.log(`Exportando dados em formato ${format}`, {
-        filters,
-        topIndicators,
-        financialData,
-        commercialData,
-      });
+      if (format === "excel") {
+        // Verificar se há dados para exportar
+        if (!topIndicators || !financialData || !commercialData) {
+          showError("Erro ao exportar", "Não há dados disponíveis para exportação");
+          return;
+        }
+
+        // Gerar nome do arquivo com data
+        const dateStr = new Date().toISOString().split("T")[0];
+        const periodStr = filters.period === "month" ? "mensal" : "anual";
+        const companyStr =
+          filters.company === "all" ? "todas" : filters.company;
+        const filename = `dashboard-consolidacao-${periodStr}-${companyStr}-${dateStr}.xlsx`;
+
+        // Exportar
+        excelExportService.exportDashboardConsolidation(
+          topIndicators,
+          financialData,
+          commercialData,
+          filters,
+          filename
+        );
+
+        showSuccess("Exportação concluída", "Relatório exportado com sucesso!");
+      } else {
+        // PDF ainda não implementado
+        showInfo(
+          "Em desenvolvimento",
+          "Exportação em PDF será implementada em breve"
+        );
+      }
     } catch (error) {
       console.error("Erro ao exportar dados:", error);
+      showError("Erro ao exportar", "Não foi possível exportar o relatório");
     }
   };
 

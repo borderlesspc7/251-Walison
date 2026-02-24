@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { FiAlertCircle, FiTarget, FiCalendar } from "react-icons/fi";
+import { FiAlertCircle, FiTarget, FiCalendar, FiDownload } from "react-icons/fi";
 import { GoalsFilters } from "./GoalsFilters/GoalsFilters";
 import { SalesThermometer } from "./SalesThermometer/SalesThermometer";
 import { MonthlyGoalsChart } from "./MonthlyGoalsChart/MonthlyGoalsChart";
@@ -10,6 +10,8 @@ import type {
   GoalCategory,
 } from "../../types/dashboardGoals";
 import * as goalsDashboardService from "../../services/goalsDashboardService";
+import { useToast } from "../../hooks/useToast";
+import { excelExportService } from "../../services/excelExportService";
 import "./DashboardGoals.css";
 
 export const DashboardGoals: React.FC = () => {
@@ -32,6 +34,7 @@ export const DashboardGoals: React.FC = () => {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { showSuccess, showError } = useToast();
 
   const loadDashboardData = useCallback(async () => {
     try {
@@ -60,6 +63,33 @@ export const DashboardGoals: React.FC = () => {
 
   const handleRefresh = () => {
     loadDashboardData();
+  };
+
+  const handleExport = async () => {
+    if (!dashboardData) {
+      showError("Exportação", "Não há dados disponíveis para exportar.");
+      return;
+    }
+
+    try {
+      const now = new Date();
+      const dateStr = now.toLocaleDateString("pt-BR").replace(/\//g, "-");
+      const filename = `dashboard-metas-${filters.year}-${dateStr}.xlsx`;
+
+      excelExportService.exportDashboardGoals(
+        dashboardData,
+        filters,
+        filename
+      );
+
+      showSuccess("Exportação Concluída", "Dashboard exportado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao exportar dashboard:", error);
+      showError(
+        "Erro na Exportação",
+        "Não foi possível exportar o dashboard. Tente novamente."
+      );
+    }
   };
 
   const getFilteredMonthlyData = () => {
@@ -134,9 +164,20 @@ export const DashboardGoals: React.FC = () => {
               </p>
             </div>
           </div>
-          <div className="goals-dashboard-header-badge">
-            <FiCalendar className="goals-dashboard-header-badge-icon" />
-            <span>Ano {filters.year}</span>
+          <div className="goals-dashboard-header-right">
+            <button
+              className="export-btn"
+              onClick={handleExport}
+              disabled={isLoading || !dashboardData}
+              title="Exportar para Excel"
+            >
+              <FiDownload />
+              <span>Exportar</span>
+            </button>
+            <div className="goals-dashboard-header-badge">
+              <FiCalendar className="goals-dashboard-header-badge-icon" />
+              <span>Ano {filters.year}</span>
+            </div>
           </div>
         </div>
       </div>

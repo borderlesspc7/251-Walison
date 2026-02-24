@@ -8,10 +8,12 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 import { useAuth } from "../../hooks/useAuth";
+import { useToast } from "../../hooks/useToast";
 import StatisticsFiltersComponent from "./Filter/Filter";
 import JetpackStatsBlock from "./JetpackStatsBlock/JetpackStatsBlock";
 import InstagramStatsBlock from "./InstagramStatsBlock/InstagramStatsBlock";
 import { dashboardStatisticsService } from "../../services/dashboardStatistics";
+import { excelExportService } from "../../services/excelExportService";
 import type {
   StatisticsFilters as StatisticsFiltersType,
   JetpackStats,
@@ -20,6 +22,7 @@ import type {
 
 const DashboardStatistics: React.FC = () => {
   const { user } = useAuth();
+  const { showSuccess, showError, showInfo } = useToast();
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<StatisticsFiltersType>({
     period: "month",
@@ -71,14 +74,42 @@ const DashboardStatistics: React.FC = () => {
   // Exportar dados
   const handleExport = async (format: "excel" | "pdf") => {
     try {
-      // TODO: Implementar exportação
-      console.log(`Exportando dados em formato ${format}`, {
-        filters,
-        jetpackStats,
-        instagramStats,
-      });
+      if (format === "excel") {
+        // Verificar se há dados para exportar
+        if (!jetpackStats || !instagramStats) {
+          showError("Erro ao exportar", "Não há dados disponíveis para exportação");
+          return;
+        }
+
+        // Gerar nome do arquivo com data
+        const dateStr = new Date().toISOString().split("T")[0];
+        const periodStr =
+          filters.period === "month"
+            ? "mensal"
+            : filters.period === "year"
+            ? "anual"
+            : "personalizado";
+        const filename = `dashboard-estatisticas-${periodStr}-${dateStr}.xlsx`;
+
+        // Exportar
+        excelExportService.exportDashboardStatistics(
+          jetpackStats,
+          instagramStats,
+          filters,
+          filename
+        );
+
+        showSuccess("Exportação concluída", "Relatório exportado com sucesso!");
+      } else {
+        // PDF ainda não implementado
+        showInfo(
+          "Em desenvolvimento",
+          "Exportação em PDF será implementada em breve"
+        );
+      }
     } catch (error) {
       console.error("Erro ao exportar dados:", error);
+      showError("Erro ao exportar", "Não foi possível exportar o relatório");
     }
   };
 
