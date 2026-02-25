@@ -21,6 +21,7 @@ interface HouseModalProps {
 const initialFormData: CreateHouseData = {
   houseName: "",
   ownerId: "",
+  staff: [],
   address: {
     street: "",
     number: "",
@@ -68,6 +69,7 @@ export const HouseModal: React.FC<HouseModalProps> = ({
         setFormData({
           houseName: house.houseName,
           ownerId: house.ownerId || "",
+          staff: house.staff || [],
           address: {
             street: house.address.street,
             number: house.address.number,
@@ -156,6 +158,17 @@ export const HouseModal: React.FC<HouseModalProps> = ({
       newErrors["pricing.newYearPackage"] =
         "Preço do pacote de réveillon deve ser maior que zero";
     }
+
+    formData.staff.forEach((member, index) => {
+      if (member.name.trim() || member.role.trim() || member.phone?.trim()) {
+        if (!member.name.trim()) {
+          newErrors[`staff.${index}.name`] = "Nome do staff é obrigatório";
+        }
+        if (!member.role.trim()) {
+          newErrors[`staff.${index}.role`] = "Função do staff é obrigatória";
+        }
+      }
+    });
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -260,6 +273,65 @@ export const HouseModal: React.FC<HouseModalProps> = ({
   const removePhotoUrl = (index: number) => {
     const newUrls = photoUrls.filter((_, i) => i !== index);
     setPhotoUrls(newUrls);
+  };
+
+  const handleStaffChange = (
+    index: number,
+    field: "name" | "role" | "phone" | "notes",
+    value: string
+  ) => {
+    if (isReadOnly) return;
+
+    setFormData((prev) => {
+      const staff = [...prev.staff];
+      const current = staff[index] || {
+        name: "",
+        role: "",
+        phone: "",
+        notes: "",
+      };
+      staff[index] = {
+        ...current,
+        [field]: value,
+      };
+      return {
+        ...prev,
+        staff,
+      };
+    });
+
+    const errorKey = `staff.${index}.${field}`;
+    if (errors[errorKey]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[errorKey];
+        return newErrors;
+      });
+    }
+  };
+
+  const addStaffMember = () => {
+    if (isReadOnly) return;
+    setFormData((prev) => ({
+      ...prev,
+      staff: [
+        ...prev.staff,
+        {
+          name: "",
+          role: "",
+          phone: "",
+          notes: "",
+        },
+      ],
+    }));
+  };
+
+  const removeStaffMember = (index: number) => {
+    if (isReadOnly) return;
+    setFormData((prev) => ({
+      ...prev,
+      staff: prev.staff.filter((_, i) => i !== index),
+    }));
   };
 
   const statusOptions = [
@@ -564,6 +636,92 @@ export const HouseModal: React.FC<HouseModalProps> = ({
                   className="add-photo-btn"
                 >
                   + Adicionar Foto
+                </Button>
+              )}
+            </div>
+          </div>
+
+          {/* Staff */}
+          <div className="form-section">
+            <h3>Equipe (Staff)</h3>
+            <div className="staff-container">
+              {formData.staff.length === 0 && (
+                <p className="staff-empty">Nenhum membro adicionado.</p>
+              )}
+              {formData.staff.map((member, index) => (
+                <div key={index} className="staff-row">
+                  <div className="form-row">
+                    <div className="form-group">
+                      <InputField
+                        label="Nome"
+                        value={member.name}
+                        onChange={(value) =>
+                          handleStaffChange(index, "name", value)
+                        }
+                        placeholder="Nome do colaborador"
+                        disabled={isReadOnly}
+                        error={errors[`staff.${index}.name`]}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <InputField
+                        label="Função"
+                        value={member.role}
+                        onChange={(value) =>
+                          handleStaffChange(index, "role", value)
+                        }
+                        placeholder="Ex: Governanta, Manutenção"
+                        disabled={isReadOnly}
+                        error={errors[`staff.${index}.role`]}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <InputField
+                        label="Telefone"
+                        value={member.phone || ""}
+                        onChange={(value) =>
+                          handleStaffChange(index, "phone", value)
+                        }
+                        placeholder="(00) 00000-0000"
+                        disabled={isReadOnly}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group full-width">
+                      <InputField
+                        label="Observações"
+                        value={member.notes || ""}
+                        onChange={(value) =>
+                          handleStaffChange(index, "notes", value)
+                        }
+                        placeholder="Observações (opcional)"
+                        disabled={isReadOnly}
+                      />
+                    </div>
+                    {!isReadOnly && (
+                      <div className="staff-actions">
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          size="small"
+                          onClick={() => removeStaffMember(index)}
+                        >
+                          Remover
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+              {!isReadOnly && (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={addStaffMember}
+                  className="add-staff-btn"
+                >
+                  + Adicionar Staff
                 </Button>
               )}
             </div>

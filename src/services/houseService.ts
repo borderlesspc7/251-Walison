@@ -33,6 +33,7 @@ const convertFirestoreData = (doc: DocumentSnapshot): House => {
     id: doc.id,
     code: data.code || "",
     houseName: data.houseName || "",
+    staff: Array.isArray(data.staff) ? data.staff : [],
     address: data.address || {
       street: "",
       number: "",
@@ -65,6 +66,10 @@ const prepareDataForFirestore = (
   data: CreateHouseData | Omit<UpdateHouseData, "id">
 ) => {
   const prepared = { ...data };
+
+  if (!Array.isArray((prepared as CreateHouseData).staff)) {
+    (prepared as Record<string, unknown>).staff = [];
+  }
 
   if ("occupiedDates" in prepared && prepared.occupiedDates) {
     // Verificar se occupiedDates existe e é um array

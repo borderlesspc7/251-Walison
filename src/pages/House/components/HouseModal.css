@@ -81,6 +81,35 @@
   gap: 16px;
 }
 
+.staff-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.staff-row {
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.staff-actions {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 8px;
+}
+
+.staff-empty {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.add-staff-btn {
+  align-self: flex-start;
+}
+
 .photo-input-group {
   display: flex;
   align-items: end;

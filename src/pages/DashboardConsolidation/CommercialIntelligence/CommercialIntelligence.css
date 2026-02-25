@@ -377,6 +377,82 @@
   justify-content: center;
 }
 
+/* Insights Operacionais */
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.insight-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.insight-card h4 {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+.insight-values {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+.insights-lists {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.insights-list {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.insights-list h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+.empty-text {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+.origin-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.origin-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
 /* Gráfico de Mídia */
 .media-chart {
   display: grid;

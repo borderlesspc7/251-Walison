@@ -28,7 +28,7 @@ const CommercialIntelligence: React.FC<CommercialIntelligenceProps> = ({
   loading = false,
 }) => {
   const [selectedView, setSelectedView] = useState<
-    "media" | "gender" | "occupancy"
+    "media" | "gender" | "occupancy" | "insights"
   >("media");
 
   // Formatar porcentagem
@@ -42,6 +42,10 @@ const CommercialIntelligence: React.FC<CommercialIntelligenceProps> = ({
       style: "currency",
       currency: "BRL",
     }).format(value);
+  };
+
+  const formatNumber = (value: number): string => {
+    return new Intl.NumberFormat("pt-BR").format(value);
   };
 
   // Obter ícone da mídia
@@ -169,6 +173,13 @@ const CommercialIntelligence: React.FC<CommercialIntelligenceProps> = ({
             <FiTrendingUp size={16} />
             Taxa de Ocupação
           </button>
+          <button
+            className={`view-btn ${selectedView === "insights" ? "active" : ""}`}
+            onClick={() => setSelectedView("insights")}
+          >
+            <FiActivity size={16} />
+            Insights Operacionais
+          </button>
         </div>
       </div>
 
@@ -271,10 +282,12 @@ const CommercialIntelligence: React.FC<CommercialIntelligenceProps> = ({
                   <span className="average-label">Média Geral:</span>
                   <span className="average-value">
                     {formatPercentage(
-                      data.occupancyRate.reduce(
-                        (acc, curr) => acc + curr.rate,
-                        0
-                      ) / data.occupancyRate.length
+                      data.occupancyRate.length > 0
+                        ? data.occupancyRate.reduce(
+                            (acc, curr) => acc + curr.rate,
+                            0
+                          ) / data.occupancyRate.length
+                        : 0
                     )}
                   </span>
                 </div>
@@ -441,6 +454,164 @@ const CommercialIntelligence: React.FC<CommercialIntelligenceProps> = ({
                         </div>
                       </div>
                     ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {selectedView === "insights" && (
+            <div className="chart-section insights-section">
+              <div className="chart-header">
+                <h3>
+                  <FiActivity size={20} />
+                  Insights Operacionais
+                </h3>
+                <div className="chart-info">
+                  <span>Indicadores complementares de performance</span>
+                </div>
+              </div>
+              <div className="chart-content">
+                <div className="insights-grid">
+                  <div className="insight-card">
+                    <h4>Receita Bruta x Líquida</h4>
+                    <div className="insight-values">
+                      <span>
+                        Bruta: {formatCurrency(data.insights.revenueComparison.grossRevenue)}
+                      </span>
+                      <span>
+                        Líquida: {formatCurrency(data.insights.revenueComparison.netRevenue)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="insight-card">
+                    <h4>Novos x Recorrentes</h4>
+                    <div className="insight-values">
+                      <span>Novos: {formatNumber(data.insights.clientReturn.newClients)}</span>
+                      <span>Recorrentes: {formatNumber(data.insights.clientReturn.recurringClients)}</span>
+                      <span>Taxa: {formatPercentage(data.insights.clientReturn.recurringRate)}</span>
+                    </div>
+                  </div>
+
+                  <div className="insight-card">
+                    <h4>Convidados e Compras</h4>
+                    <div className="insight-values">
+                      <span>
+                        Média de hóspedes: {data.insights.guestStats.averageGuestsPerStay.toFixed(1)}
+                      </span>
+                      <span>
+                        Total hóspedes: {formatNumber(data.insights.guestStats.totalGuests)}
+                      </span>
+                      <span>
+                        Compras por pessoa: {formatCurrency(data.insights.supplierSpendPerGuest.averagePerGuest)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="insight-card">
+                    <h4>Ticket Médio (Top)</h4>
+                    <div className="insight-values">
+                      <span>Casas: {data.insights.averageTicketBy.houses.length}</span>
+                      <span>Clientes: {data.insights.averageTicketBy.clients.length}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="insights-lists">
+                  <div className="insights-list">
+                    <h4>Casas mais alugadas</h4>
+                    {data.insights.houseRanking.mostRented.length === 0 ? (
+                      <span className="empty-text">Sem dados no período</span>
+                    ) : (
+                      data.insights.houseRanking.mostRented.map((house) => (
+                        <div key={house.houseId} className="list-item">
+                          <span>{house.houseName}</span>
+                          <span>{house.totalNights} pernoites</span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  <div className="insights-list">
+                    <h4>Casas menos alugadas</h4>
+                    {data.insights.houseRanking.leastRented.length === 0 ? (
+                      <span className="empty-text">Sem dados no período</span>
+                    ) : (
+                      data.insights.houseRanking.leastRented.map((house) => (
+                        <div key={house.houseId} className="list-item">
+                          <span>{house.houseName}</span>
+                          <span>{house.totalNights} pernoites</span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  <div className="insights-list">
+                    <h4>Origem dos clientes</h4>
+                    <div className="origin-group">
+                      <span className="origin-title">Cidades</span>
+                      {data.insights.clientOrigins.cities.map((origin) => (
+                        <div key={`city-${origin.label}`} className="list-item">
+                          <span>{origin.label}</span>
+                          <span>{formatPercentage(origin.percentage)}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="origin-group">
+                      <span className="origin-title">Estados</span>
+                      {data.insights.clientOrigins.states.map((origin) => (
+                        <div key={`state-${origin.label}`} className="list-item">
+                          <span>{origin.label}</span>
+                          <span>{formatPercentage(origin.percentage)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="insights-list">
+                    <h4>Sazonalidade (noites)</h4>
+                    {data.insights.seasonality.length === 0 ? (
+                      <span className="empty-text">Sem dados no período</span>
+                    ) : (
+                      [...data.insights.seasonality]
+                        .sort((a, b) => b.totalNights - a.totalNights)
+                        .slice(0, 4)
+                        .map((month) => (
+                          <div key={`${month.year}-${month.monthNumber}`} className="list-item">
+                            <span>{month.month}</span>
+                            <span>{month.totalNights} noites</span>
+                          </div>
+                        ))
+                    )}
+                  </div>
+
+                  <div className="insights-list">
+                    <h4>Ticket Médio por Casa</h4>
+                    {data.insights.averageTicketBy.houses.length === 0 ? (
+                      <span className="empty-text">Sem dados no período</span>
+                    ) : (
+                      data.insights.averageTicketBy.houses.map((house) => (
+                        <div key={`ticket-house-${house.houseId}`} className="list-item">
+                          <span>{house.houseName}</span>
+                          <span>{formatCurrency(house.averageTicket)}</span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  <div className="insights-list">
+                    <h4>Ticket Médio por Cliente</h4>
+                    {data.insights.averageTicketBy.clients.length === 0 ? (
+                      <span className="empty-text">Sem dados no período</span>
+                    ) : (
+                      data.insights.averageTicketBy.clients.map((client) => (
+                        <div key={`ticket-client-${client.clientId}`} className="list-item">
+                          <span>{client.clientName}</span>
+                          <span>{formatCurrency(client.averageTicket)}</span>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
               </div>

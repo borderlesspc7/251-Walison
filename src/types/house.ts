@@ -5,6 +5,7 @@ export interface House {
   ownerName?: string;
   ownerId?: string;
   ownerPhone?: string;
+  staff: HouseStaffMember[];
   address: {
     street: string;
     number: string;
@@ -31,12 +32,20 @@ export interface House {
   updatedAt: Date;
 }
 
+export interface HouseStaffMember {
+  name: string;
+  role: string;
+  phone?: string;
+  notes?: string;
+}
+
 export type HouseStatus = "available" | "occupied" | "maintenance" | "inactive";
 
 export interface CreateHouseData {
   houseName: string;
   ownerId: string;
   ownerPhone?: string;
+  staff: HouseStaffMember[];
   address: {
     street: string;
     number: string;

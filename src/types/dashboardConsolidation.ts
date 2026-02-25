@@ -1,5 +1,5 @@
 export interface DashboardFilters {
-  period: "month" | "year";
+  period: "month" | "quarter" | "year";
   company: "all" | "exclusive" | "giogio" | "direta";
   houseId?: string;
   viewMode: "consolidated" | "individual";
@@ -107,6 +107,27 @@ export interface CommercialIntelligence {
   salesByMedia: MediaAnalysis[];
   salesByGender: GenderAnalysis[];
   occupancyRate: OccupancyRateData[];
+  insights: {
+    nightsByHouse: HouseRentalStat[];
+    houseRanking: {
+      mostRented: HouseRentalStat[];
+      leastRented: HouseRentalStat[];
+    };
+    seasonality: SeasonalityStat[];
+    clientOrigins: {
+      cities: ClientOriginStat[];
+      states: ClientOriginStat[];
+      countries: ClientOriginStat[];
+    };
+    clientReturn: ClientReturnStats;
+    guestStats: GuestStats;
+    supplierSpendPerGuest: SupplierSpendPerGuest;
+    averageTicketBy: {
+      houses: AverageTicketByHouse[];
+      clients: AverageTicketByClient[];
+    };
+    revenueComparison: RevenueComparison;
+  };
 }
 
 export interface MediaAnalysis {
@@ -140,6 +161,64 @@ export interface OccupancyRateData {
   occupiedDays: number;
   rate: number; // porcentagem
   revenue: number;
+}
+
+export interface HouseRentalStat {
+  houseId: string;
+  houseName: string;
+  totalSales: number;
+  totalNights: number;
+  totalRevenue: number;
+}
+
+export interface SeasonalityStat {
+  month: string;
+  monthNumber: number;
+  year: number;
+  totalNights: number;
+  totalRevenue: number;
+}
+
+export interface ClientOriginStat {
+  label: string;
+  count: number;
+  percentage: number;
+}
+
+export interface ClientReturnStats {
+  newClients: number;
+  recurringClients: number;
+  recurringRate: number;
+}
+
+export interface GuestStats {
+  totalGuests: number;
+  totalStays: number;
+  averageGuestsPerStay: number;
+}
+
+export interface SupplierSpendPerGuest {
+  totalAdditionalSales: number;
+  averagePerGuest: number;
+}
+
+export interface AverageTicketByHouse {
+  houseId: string;
+  houseName: string;
+  averageTicket: number;
+  totalSales: number;
+}
+
+export interface AverageTicketByClient {
+  clientId: string;
+  clientName: string;
+  averageTicket: number;
+  totalSales: number;
+}
+
+export interface RevenueComparison {
+  grossRevenue: number;
+  netRevenue: number;
 }
 
 // ===== GRÁFICOS =====
